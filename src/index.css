@@ -6,7 +6,6 @@
 All colors MUST be HSL.
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -21,22 +20,32 @@ All colors MUST be HSL.
     --popover-foreground: 20 14% 4%;
 
     /* Brand Colors - Elegant Beige & Neutral Theme */
-    --primary: 25 18% 75%;         /* Main beige color from your reference */
-    --primary-foreground: 25 15% 15%;
-    --primary-light: 25 20% 85%;   /* Lighter beige */
-    --primary-glow: 25 15% 92%;    /* Very light beige */
+    /* --primary: 25 18% 75%; */
+    --primary:15 41% 77%;
+    /* --primary:44 15% 72%; */
+    /*main*/
 
-    --rose-gold: 30 25% 70%;       /* Complementary warm gold */
-    --rose-gold-light: 30 20% 82%; /* Light champagne */
-    --rose-gold-dark: 30 30% 60%;  /* Deeper gold accent */
+    /* Main beige color from your reference */
+    --primary-foreground: 25 15% 15%;
+    --primary-light: 25 20% 85%;
+    /* Lighter beige */
+    --primary-glow: 25 15% 92%;
+    /* Very light beige */
+
+    --rose-gold: 30 25% 70%;
+    /* Complementary warm gold */
+    --rose-gold-light: 30 20% 82%;
+    /* Light champagne */
+    --rose-gold-dark: 30 30% 60%;
+    /* Deeper gold accent */
 
     --secondary: 25 12% 96%;
     --secondary-foreground: 25 15% 15%;
 
     --muted: 25 10% 94%;
+    /*secondary*/
     --muted-foreground: 25 8% 45%;
 
-    --accent: 25 15% 90%;
     --accent-foreground: 25 15% 20%;
 
     --destructive: 0 84% 60%;
@@ -48,17 +57,17 @@ All colors MUST be HSL.
 
     /* Design System Variables */
     --radius: 0.75rem;
-    
+
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--rose-gold)), hsl(var(--primary)));
     --gradient-hero: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--rose-gold) / 0.05));
     --gradient-card: linear-gradient(145deg, hsl(var(--background)), hsl(var(--primary) / 0.03));
-    
+
     /* Shadows */
     --shadow-elegant: 0 10px 40px -10px hsl(var(--primary) / 0.2);
     --shadow-glow: 0 0 30px hsl(var(--rose-gold) / 0.25);
     --shadow-card: 0 4px 20px -2px hsl(var(--primary) / 0.1);
-    
+
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -121,7 +130,7 @@ All colors MUST be HSL.
     --gradient-primary: linear-gradient(135deg, hsl(var(--rose-gold)), hsl(var(--primary)));
     --gradient-hero: linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--rose-gold) / 0.08));
     --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--primary) / 0.05));
-    
+
     --shadow-elegant: 0 10px 40px -10px hsl(var(--primary) / 0.3);
     --shadow-glow: 0 0 30px hsl(var(--rose-gold) / 0.35);
     --shadow-card: 0 4px 20px -2px hsl(var(--primary) / 0.2);
@@ -138,7 +147,12 @@ All colors MUST be HSL.
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-inter font-medium;
   }
 

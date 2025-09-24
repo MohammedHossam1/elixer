@@ -32,9 +32,9 @@ const Footer = () => {
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4">
         {/* Main Footer Content */}
-        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="py-16 grid grid-cols-12 gap-5 xl:gap-10 ">
           {/* Brand Section */}
-          <div className="space-y-6">
+          <div className="space-y-6 col-span-12 lg:col-span-4 ">
             <div>
               <h3 className="font-script text-4xl text-primary font-bold mb-2">
                 ELIXIR
@@ -62,24 +62,26 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Footer Links */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title} className="space-y-4">
-              <h4 className="font-semibold text-lg text-foreground">{title}</h4>
-              <ul className="space-y-3">
-                {links.map((link) => (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-muted-foreground hover:text-primary transition-colors duration-200"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div className="grid grid-cols-2 sm:grid-cols-3 w-full  gap-x-2 gap-y-6  col-span-12 lg:col-span-8  ">
+            {/* Footer Links */}
+            {Object.entries(footerLinks).map(([title, links]) => (
+              <div key={title} className="">
+                <h4 className="font-semibold text-lg text-foreground">{title}</h4>
+                <ul className="space-y-3">
+                  {links.map((link) => (
+                    <li key={link.name}>
+                      <a
+                        href={link.href}
+                        className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Newsletter Section */}

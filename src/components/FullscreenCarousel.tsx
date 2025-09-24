@@ -52,7 +52,7 @@ const FullscreenCarousel = () => {
   };
 
   return (
-    <section className="relative w-full h-[calc(100dvh-80px)] overflow-hidden">
+    <section className="relative w-full h-[50vh] sm:h-[60vh] lg:h-[calc(100dvh-80px)] overflow-hidden">
       {/* Image Container */}
       <div className="relative w-full h-full">
         {carouselImages.map((image, index) => (
@@ -106,7 +106,7 @@ const FullscreenCarousel = () => {
       <Button
         variant="ghost"
         size="icon"
-        className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 w-12 h-12 z-20"
+        className="absolute left-4  lg:left-8 max-lg:bottom-0 lg:top-1/2 -translate-y-1/2 text-white hover:bg-white/20 w-12 h-12 z-20"
         onClick={goToPrevious}
       >
         <ChevronLeft className="w-6 h-6" />
@@ -115,7 +115,7 @@ const FullscreenCarousel = () => {
       <Button
         variant="ghost"
         size="icon"
-        className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 w-12 h-12 z-20"
+        className="absolute right-4 lg:right-8 max-lg:bottom-0 lg:top-1/2 -translate-y-1/2 text-white hover:bg-white/20 w-12 h-12 z-20"
         onClick={goToNext}
       >
         <ChevronRight className="w-6 h-6" />
@@ -136,13 +136,7 @@ const FullscreenCarousel = () => {
         ))}
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-6 right-6 text-white/70 text-sm animate-pulse z-20">
-        <div className="flex items-center gap-2">
-          <span>Scroll to explore</span>
-          <div className="w-1 h-6 bg-white/50 rounded animate-bounce"></div>
-        </div>
-      </div>
+ 
     </section>
   );
 };

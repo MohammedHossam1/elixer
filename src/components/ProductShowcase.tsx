@@ -7,6 +7,7 @@ import productLipstick from "@/assets/product-lipstick.jpg";
 import productFoundation from "@/assets/product-foundation.jpg";
 import productKajal from "@/assets/product-kajal.jpg";
 import productMoisturizer from "@/assets/product-moisturizer.jpg";
+import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
 
 const ProductShowcase = () => {
   const products = [
@@ -24,7 +25,7 @@ const ProductShowcase = () => {
       inStock: true,
     },
     {
-      id: "2", 
+      id: "2",
       name: "Vitamin C Brightening Serum",
       category: "Serum",
       price: 34.99,
@@ -38,7 +39,7 @@ const ProductShowcase = () => {
     {
       id: "3",
       name: "Broad Spectrum Sunscreen SPF 50",
-      category: "Sunscreen", 
+      category: "Sunscreen",
       price: 22.99,
       originalPrice: 28.99,
       image: productMoisturizer,
@@ -115,17 +116,27 @@ const ProductShowcase = () => {
 
         {/* Product Tabs */}
         <Tabs defaultValue="all" className="w-full">
-          <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-2 sm:grid-cols-3 md:grid-cols-5 mb-12 bg-muted/50 h-auto">
-            {categories.map((category) => (
-              <TabsTrigger
-                key={category.id}
-                value={category.id}
-                className="text-xs sm:text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-2 py-3 sm:px-4"
-              >
-                <span className="truncate">{category.name}</span>
-                <span className="ml-1 text-xs hidden sm:inline">({category.count})</span>
-              </TabsTrigger>
-            ))}
+          <TabsList className="  bg-muted/50 h-auto block max-w-4xl mx-auto sm:w-fit">
+            <Carousel opts={{ align: "start"}} >
+              <CarouselContent className="">
+
+                {categories.map((category) => (
+                  <CarouselItem
+                    key={category.id}
+                    className="basis-auto"
+                  >
+                    <TabsTrigger
+
+                      value={category.id}
+                      className="text-xs sm:text-sm border  font-medium data-[state=active]:bg-primary data-[state=active]:text-white  px-2 py-3 sm:px-4"
+                    >
+                      <span className="">{category.name}</span>
+                      <span className="ml-1 text-xs hidden sm:inline">({category.count})</span>
+                    </TabsTrigger>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
           </TabsList>
 
           {categories.map((category) => (

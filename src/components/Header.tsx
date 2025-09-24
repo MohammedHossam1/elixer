@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, ShoppingBag, User, Menu, X } from "lucide-react";
+import { Search, ShoppingBag, User, Menu, X, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,12 +16,12 @@ const Header = () => {
   const [cartCount, setCartCount] = useState(2);
 
   const navigationItems = [
-    { name: "HOME", href: "#"},
-    { name: "CLEANSERS", href: "#cleansers"},
-    { name: "SERUMS", href: "#serums"},
-    { name: "SUNSCREEN", href: "#sunscreen"},
-    { name: "MOISTURIZERS", href: "#moisturizers"},
-    { name: "MORE", href: "#more"},
+    { name: "HOME", href: "#" },
+    { name: "CLEANSERS", href: "#cleansers" },
+    { name: "SERUMS", href: "#serums" },
+    { name: "SUNSCREEN", href: "#sunscreen" },
+    { name: "MOISTURIZERS", href: "#moisturizers" },
+    { name: "MORE", href: "#more" },
   ];
 
   return (
@@ -48,7 +48,7 @@ const Header = () => {
                     className="relative flex items-center gap-3 text-lg font-medium hover:text-primary transition-colors"
                   >
                     {item.name}
-                   
+
                   </a>
                 ))}
               </nav>
@@ -64,17 +64,17 @@ const Header = () => {
                 className="relative flex items-center gap-3 text-sm font-semibold text-foreground hover:text-primary transition-all duration-300 group tracking-wide"
               >
                 {item.name}
-              
+
                 <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300"></span>
               </a>
             ))}
           </nav>
 
           {/* Logo */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 lg:static lg:transform-none">
-              <h1 className="font-script text-4xl lg:text-5xl text-primary font-bold tracking-wider">
-                ELIXIR
-              </h1>
+          <div className="">
+            <h1 className="font-script text-4xl lg:text-5xl text-primary font-bold tracking-wider">
+              ELIXIR
+            </h1>
           </div>
 
           {/* Right Actions */}
@@ -107,7 +107,10 @@ const Header = () => {
                 </Button>
               )}
             </div>
-
+            {/* favorite */}
+            <Button variant="ghost" size="icon" className="hover:bg-accent">
+              <Heart className="h-5 w-5 text-foreground/70 hover:text-primary transition-colors" />
+            </Button>
             {/* User Account */}
             <Button variant="ghost" size="icon" className="hover:bg-accent">
               <User className="h-5 w-5 text-foreground/70 hover:text-primary transition-colors" />

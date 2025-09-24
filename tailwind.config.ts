@@ -14,7 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        'script': ['Dancing Script', 'cursive'],
+        // 'script': ['Dancing Script', 'cursive'],
+        'script': ['"Caveat"', 'cursive'], // خليه Caveat
         'inter': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       colors: {

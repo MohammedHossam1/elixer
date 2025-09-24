@@ -93,7 +93,7 @@ const Testimonials = () => {
             
             {/* Customer Photos Grid */}
             <div className="order-2 lg:order-1">
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-4">
+              <div className="grid grid-cols-4 sm:grid-cols-4 gap-2 sm:gap-4">
                 {customerImages.map((image, index) => (
                   <div 
                     key={index}
