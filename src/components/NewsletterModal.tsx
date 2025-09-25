@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -76,18 +75,18 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
               <div className="absolute -top-4 -right-4 w-16 h-16 bg-rose-gold/20 rounded-full blur-xl animate-pulse"></div>
               <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-white/20 rounded-full blur-xl animate-pulse delay-1000"></div>
             </div>
-          </div>
+          </div>  
 
           {/* Content Section */}
           <div className="p-8 relative">
-            <Button
+            {/* <Button
               variant="ghost"
               size="icon"
               onClick={handleClose}
               className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
             >
               <X className="h-4 w-4" />
-            </Button>
+            </Button> */}
 
             <DialogHeader className="mb-6">
               <DialogTitle className="text-3xl font-bold text-center mb-2">

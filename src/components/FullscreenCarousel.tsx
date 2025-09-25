@@ -52,7 +52,7 @@ const FullscreenCarousel = () => {
   };
 
   return (
-    <section className="relative w-full h-[50vh] sm:h-[60vh] lg:h-[calc(100dvh-80px)] overflow-hidden">
+    <section className="relative w-full h-[60vh] sm:h-[60vh] lg:h-[calc(100dvh-80px)] overflow-hidden">
       {/* Image Container */}
       <div className="relative w-full h-full">
         {carouselImages.map((image, index) => (
@@ -84,17 +84,17 @@ const FullscreenCarousel = () => {
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-white/90 max-w-2xl mx-auto px-4">
             {carouselImages[currentIndex].subtitle}
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+          <div className="flex  gap-3 sm:gap-4 justify-center px-4">
             <Button 
               size="lg" 
-              className="btn-gradient text-white font-semibold px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg hover-scale"
+              className="btn-gradient text-white font-semibold px-6 sm:px-8 py-4 sm:py-6  text-base sm:text-lg "
             >
               Shop Collection
             </Button>
             <Button 
               variant="outline" 
               size="lg" 
-              className="border-2 border-white text-black hover:bg-white hover:text-primary px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg hover-scale"
+              className="border-2 border-white text-black  px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg "
             >
               Learn More
             </Button>
@@ -103,23 +103,19 @@ const FullscreenCarousel = () => {
       </div>
 
       {/* Navigation Arrows */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute left-4  lg:left-8 max-lg:bottom-0 lg:top-1/2 -translate-y-1/2 text-white hover:bg-white/20 w-12 h-12 z-20"
+      <button
+        className="absolute left-4  lg:left-8 max-lg:bottom-0 lg:top-1/2 -translate-y-1/2 text-white hover:bg-white/20 w-8 h-8 z-20 rounded-lg flex items-center justify-center"
         onClick={goToPrevious}
       >
-        <ChevronLeft className="w-6 h-6" />
-      </Button>
+        <ChevronLeft className="w-4 h-4" />
+      </button>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute right-4 lg:right-8 max-lg:bottom-0 lg:top-1/2 -translate-y-1/2 text-white hover:bg-white/20 w-12 h-12 z-20"
+      <button
+        className="absolute right-4 lg:right-8 max-lg:bottom-0 lg:top-1/2 -translate-y-1/2 text-white hover:bg-white/20 w-8 h-8 z-20 rounded-lg flex items-center justify-center"
         onClick={goToNext}
       >
-        <ChevronRight className="w-6 h-6" />
-      </Button>
+        <ChevronRight className="w-4 h-4" />
+      </button>
 
       {/* Dots Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">

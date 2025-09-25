@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Heart, ShoppingBag, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/contexts/CartContext";
 
 interface ProductCardProps {
   id: string;
@@ -33,10 +35,18 @@ const ProductCard = ({
 }: ProductCardProps) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const { addItem } = useCart();
   const { toast } = useToast();
 
   const handleAddToCart = () => {
     if (!inStock) return;
+    
+    addItem({
+      id,
+      name,
+      price,
+      image
+    });
     
     toast({
       title: "Added to cart",
@@ -61,10 +71,10 @@ const ProductCard = ({
       {/* Badges */}
       <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
         {isNew && (
-          <Badge className="bg-rose-gold text-white font-semibold">NEW</Badge>
+          <Badge className="bg-rose-gold text-white font-semibold w-fit">NEW</Badge>
         )}
         {isOnSale && (
-          <Badge className="bg-primary text-primary-foreground font-semibold">
+          <Badge className="bg-primary text-primary-foreground font-semibold w-fit" >
             SALE
           </Badge>
         )}
@@ -92,7 +102,7 @@ const ProductCard = ({
       </Button>
 
       {/* Product Image */}
-      <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-muted/20 to-muted/5">
+      <Link to={`/product/${id}`} className="block relative aspect-square overflow-hidden bg-gradient-to-br from-muted/20 to-muted/5">
         <img
           src={image}
           alt={name}
@@ -103,7 +113,7 @@ const ProductCard = ({
         <div className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ${
           isHovered ? "opacity-100" : "opacity-0"
         }`}></div>
-      </div>
+      </Link>
 
       {/* Product Info */}
       <div className="p-4 space-y-3">

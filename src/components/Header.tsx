@@ -10,13 +10,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useCart } from "@/contexts/CartContext";
+import CartDrawer from "./CartDrawer";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(2);
-
+  const { totalItems } = useCart();
   const navigationItems = [
-    { name: "HOME", href: "#" },
+    { name: "HOME", href: "/" },
     { name: "CLEANSERS", href: "#cleansers" },
     { name: "SERUMS", href: "#serums" },
     { name: "SUNSCREEN", href: "#sunscreen" },
@@ -71,11 +73,11 @@ const Header = () => {
           </nav>
 
           {/* Logo */}
-          <div className="">
+          <Link to="/" className="">
             <h1 className="font-script text-4xl lg:text-5xl text-primary font-bold tracking-wider">
               ELIXIR
             </h1>
-          </div>
+          </Link>
 
           {/* Right Actions */}
           <div className="flex items-center gap-0 lg:gap-5">
@@ -117,14 +119,16 @@ const Header = () => {
             </Button>
 
             {/* Shopping Cart */}
-            <Button variant="ghost" size="icon" className="relative hover:bg-accent">
-              <ShoppingBag className="h-5 w-5 text-foreground/70 hover:text-primary transition-colors" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 h-5 w-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-bold shadow-sm">
-                  {cartCount}
-                </span>
-              )}
-            </Button>
+            <CartDrawer>
+              <Button variant="ghost" size="icon" className="relative hover:bg-accent">
+                <ShoppingBag className="h-5 w-5 text-foreground/70 hover:text-primary transition-colors" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 h-5 w-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-bold shadow-sm">
+                    {totalItems}
+                  </span>
+                )}
+              </Button>
+            </CartDrawer>
           </div>
         </div>
       </div>

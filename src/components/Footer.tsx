@@ -2,31 +2,10 @@ import { Heart, Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
+import { footerLinks } from "@/data/Index";
 
 const Footer = () => {
-  const footerLinks = {
-    "Customer Care": [
-      { name: "Contact Us", href: "#" },
-      { name: "FAQ", href: "#" },
-      { name: "Shipping & Returns", href: "#" },
-      { name: "Size Guide", href: "#" },
-      { name: "Track Your Order", href: "#" },
-    ],
-    "About Shades": [
-      { name: "Our Story", href: "#" },
-      { name: "Sustainability", href: "#" },
-      { name: "Press", href: "#" },
-      { name: "Careers", href: "#" },
-      { name: "Reviews", href: "#" },
-    ],
-    "Quick Links": [
-      { name: "New Arrivals", href: "#" },
-      { name: "Best Sellers", href: "#" },
-      { name: "Sale", href: "#" },
-      { name: "Gift Cards", href: "#" },
-      { name: "Loyalty Program", href: "#" },
-    ],
-  };
+
 
   return (
     <footer className="bg-card border-t border-border">

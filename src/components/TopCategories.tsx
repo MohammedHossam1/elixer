@@ -1,15 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  type CarouselApi,
+  type CarouselApi
 } from "@/components/ui/carousel";
+import { useState } from "react";
 
 import p1 from "@/assets/p1.png";
 
