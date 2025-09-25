@@ -1,9 +1,9 @@
-import { Suspense, lazy } from "react";
-import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CartProvider } from "./contexts/CartContext";
 
 // 👇 Lazy imports for pages
@@ -24,7 +24,7 @@ const App = () => (
 
         <BrowserRouter>
           {/* Suspense fallback loader */}
-          <Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}>
+          {/* <Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}> */}
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/product/:id" element={<ProductDetail />} />
@@ -32,7 +32,7 @@ const App = () => (
               {/* catch-all route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </Suspense>
+          {/* </Suspense> */}
         </BrowserRouter>
       </CartProvider>
     </TooltipProvider>
