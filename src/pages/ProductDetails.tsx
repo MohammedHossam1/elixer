@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import Header from "@/components/Header";
+import Header from "@/components/Header/Index";
 import Footer from "@/components/Footer";
 import { products } from "@/data/Index";
 // Mock product data - in real app this would come from API
