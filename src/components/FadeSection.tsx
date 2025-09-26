@@ -2,12 +2,11 @@ import { motion, cubicBezier } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const fancyVariants = {
-  hidden: { opacity: 0, y: 60, scale: 0.9, rotate: -2 },
+  hidden: { opacity: 0, y: 60, scale: 0.9 },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
-    rotate: 0,
     transition: {
       duration: 1.2,
       ease: cubicBezier(0.25, 1, 0.5, 1),

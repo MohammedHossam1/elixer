@@ -24,7 +24,7 @@ const Index = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div className="min-h-screesn bg-background ">
    
       <Suspense fallback={<Loader />}>
         <main>

@@ -5,7 +5,7 @@ import transformationImage2 from "@/assets/before.png";
 
 const BeforeAfterComparison = () => {
   return (
-    <section className="py-16 lg:py-24 bg-gradient-subtle">
+    <section className="py-16 lg:py-24 bg-gradient-subtle overflow-x-hidden">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12 lg:mb-16">
