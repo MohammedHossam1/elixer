@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 const SearchComponent = () => {
     const searchRef = useRef<HTMLDivElement>(null);
     const isMobile = useIsMobile();
-    const [isSearchOpen, setIsSearchOpen] = useState(!isMobile);
+    const [isSearchOpen, setIsSearchOpen] = useState(isMobile);
 
     // Always open search on mobile, otherwise use toggle logic
     useEffect(() => {
