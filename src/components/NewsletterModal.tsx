@@ -79,7 +79,7 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
           className="grid md:grid-cols-2"
         >
           {/* Image Section */}
-          <div className="relative bg-gradient-primary p-8 flex items-center justify-center">
+          <div className="relative bg-gradient-primary p-8 flex items-center justify-center max-md:hidden">
             <div className="relative w-full max-w-sm">
               <img
                 src={newsletterModel}

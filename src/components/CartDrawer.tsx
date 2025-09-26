@@ -41,9 +41,9 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
           </SheetTitle>
         </SheetHeader>
         
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col justify-between  h-full">
           {/* Cart Items */}
-          <div className="flex-1 overflow-y-auto px-6">
+          <div className=" overflow-y-auto px-6">
             {items.length === 0 ? (
               <div className="text-center py-12">
                 <ShoppingBag className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
@@ -115,7 +115,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
 
           {/* Cart Footer */}
           {items.length > 0 && (
-            <div className="border-t bg-background/95 backdrop-blur p-6 space-y-4">
+            <div className="border-t  mb-16 backdrop-blur p-6 space-y-4">
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span>Subtotal</span>

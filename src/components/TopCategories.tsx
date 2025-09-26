@@ -79,7 +79,7 @@ const TopCategories = () => {
                 <div className="group text-center cursor-pointer transition-all duration-300 hover:scale-105">
                   {/* Circle Image */}
                   <div className="relative mb-6">
-                    <div className="w-40 h-40 sm:w-60 sm:h-60 md:w-72 md:h-72 lg:w-80 lg:h-80 mx-auto rounded-full bg-gradient-to-br from-muted/30 to-muted/60 p-6 sm:p-8 transition-all duration-300 group-hover:shadow-elegant">
+                    <div className="w-40 h-40 sm:w-60 sm:h-60 lg:w-80 lg:h-80 mx-auto rounded-full bg-gradient-to-br from-muted/30 to-muted/60 p-6 sm:p-8 transition-all duration-300 group-hover:shadow-elegant">
                       <div className="w-full h-full flex items-center justify-center">
                         <img
                           src={category.image}

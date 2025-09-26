@@ -52,7 +52,7 @@ const FullscreenCarousel = () => {
   };
 
   return (
-    <section className="relative w-full  h-[70vh] lg:h-[calc(100dvh-80px)] overflow-hidden">
+    <section className="relative w-full  h-[60vh] lg:h-[calc(100dvh-80px)] overflow-hidden">
       {/* Image Container */}
       <div className="relative w-full h-full">
         {carouselImages.map((image, index) => (
