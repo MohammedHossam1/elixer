@@ -8,8 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 const Checkout = () => {
   const { toast } = useToast();
@@ -49,7 +47,6 @@ const Checkout = () => {
   if (orderComplete) {
     return (
       <div className="min-h-screen bg-background">
-        <Header />
         <main className="container mx-auto px-4 py-16">
           <div className="max-w-md mx-auto text-center space-y-6">
             <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
@@ -69,14 +66,12 @@ const Checkout = () => {
             </div>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       
       <main className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
@@ -273,7 +268,6 @@ const Checkout = () => {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 };

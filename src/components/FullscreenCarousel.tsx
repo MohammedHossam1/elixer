@@ -52,7 +52,7 @@ const FullscreenCarousel = () => {
   };
 
   return (
-    <section className="relative w-full h-[60vh] sm:h-[60vh] lg:h-[calc(100dvh-80px)] overflow-hidden">
+    <section className="relative w-full  h-[70vh] lg:h-[calc(100dvh-80px)] overflow-hidden">
       {/* Image Container */}
       <div className="relative w-full h-full">
         {carouselImages.map((image, index) => (
@@ -104,14 +104,14 @@ const FullscreenCarousel = () => {
 
       {/* Navigation Arrows */}
       <button
-        className="absolute left-4  lg:left-8 max-lg:bottom-0 lg:top-1/2 -translate-y-1/2 text-white hover:bg-white/20 w-8 h-8 z-20 rounded-lg flex items-center justify-center"
+        className="absolute left-4  lg:left-8 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 w-8 h-8 z-20 rounded-lg flex items-center justify-center"
         onClick={goToPrevious}
       >
         <ChevronLeft className="w-4 h-4" />
       </button>
 
       <button
-        className="absolute right-4 lg:right-8 max-lg:bottom-0 lg:top-1/2 -translate-y-1/2 text-white hover:bg-white/20 w-8 h-8 z-20 rounded-lg flex items-center justify-center"
+        className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 w-8 h-8 z-20 rounded-lg flex items-center justify-center"
         onClick={goToNext}
       >
         <ChevronRight className="w-4 h-4" />
