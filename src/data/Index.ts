@@ -154,8 +154,8 @@ export const categories = [
 ];
 export const footerLinks = {
     "Customer Care": [
-        { name: "Contact Us", href: "#" },
-        { name: "FAQ", href: "#" },
+        { name: "Contact Us", href: "/contact" },
+        { name: "FAQ", href: "/faq" },
         { name: "Shipping & Returns", href: "#" },
         { name: "Size Guide", href: "#" },
         { name: "Track Your Order", href: "#" },

@@ -21,6 +21,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
     toast({
       title: "Item removed",
       description: `${name} has been removed from your cart.`,
+      variant: "destructive",
     });
   };
 
@@ -56,7 +57,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                 </Button>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-4 py-2">
                 {items.map((item) => (
                   <div key={item.id} className="flex gap-4 p-4 bg-muted/30 rounded-lg">
                     <img

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 export interface CartItem {
   id: string;
@@ -28,23 +28,34 @@ export const useCart = () => {
   return context;
 };
 
-export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [items, setItems] = useState<CartItem[]>([
-    {
-      id: "1",
-      name: "Radiant Foundation",
-      price: 45.99,
-      quantity: 2,
-      image: "/src/assets/product-foundation.jpg"
-    },
-    {
-      id: "2",
-      name: "Moisturizing Cream", 
-      price: 32.99,
-      quantity: 1,
-      image: "/src/assets/product-moisturizer.jpg"
+const CART_STORAGE_KEY = 'cart_items';
+
+function getInitialCartItems(): CartItem[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    if (stored) {
+      return JSON.parse(stored);
     }
-  ]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (e) {
+    // ignore
+  }
+  return [];
+}
+
+export const CartProvider = ({ children }: { children: ReactNode }) => {
+  const [items, setItems] = useState<CartItem[]>(getInitialCartItems);
+
+  // Save to localStorage whenever items change
+  useEffect(() => {
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+      // ignore
+    }
+  }, [items]);
 
   const addItem = (newItem: Omit<CartItem, 'quantity'>) => {
     setItems(prev => {

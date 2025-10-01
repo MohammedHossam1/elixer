@@ -13,23 +13,7 @@ const Checkout = () => {
   const { toast } = useToast();
   const [orderComplete, setOrderComplete] = useState(false);
 
-  // Mock cart data
-  const cartItems = [
-    {
-      id: "1",
-      name: "Radiant Foundation",
-      price: 45.99,
-      quantity: 2,
-      image: "/src/assets/product-foundation.jpg"
-    },
-    {
-      id: "2", 
-      name: "Moisturizing Cream",
-      price: 32.99,
-      quantity: 1,
-      image: "/src/assets/product-moisturizer.jpg"
-    }
-  ];
+  const cartItems = JSON.parse(localStorage.getItem("cart_items")) || []
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = 8.99;
@@ -72,12 +56,12 @@ const Checkout = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      
+
       <main className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <div className="mb-6">
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -148,7 +132,7 @@ const Checkout = () => {
                     <TabsTrigger value="card">Credit Card</TabsTrigger>
                     <TabsTrigger value="paypal">PayPal</TabsTrigger>
                   </TabsList>
-                  
+
                   <TabsContent value="card" className="space-y-4 mt-4">
                     <div className="space-y-2">
                       <Label htmlFor="cardNumber">Card Number</Label>
@@ -169,7 +153,7 @@ const Checkout = () => {
                       <Input id="cardName" placeholder="Enter name as shown on card" />
                     </div>
                   </TabsContent>
-                  
+
                   <TabsContent value="paypal" className="mt-4">
                     <div className="text-center py-8">
                       <p className="text-muted-foreground mb-4">
@@ -239,16 +223,16 @@ const Checkout = () => {
                     <span>Tax</span>
                     <span>${tax.toFixed(2)}</span>
                   </div>
-                  
+
                   <Separator />
-                  
+
                   <div className="flex justify-between font-bold text-lg">
                     <span>Total</span>
                     <span>${total.toFixed(2)}</span>
                   </div>
                 </div>
 
-                <Button 
+                <Button
                   onClick={handlePlaceOrder}
                   className="w-full btn-gradient text-white hover:shadow-glow"
                   size="lg"

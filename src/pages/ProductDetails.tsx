@@ -1,13 +1,11 @@
-import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Heart, ShoppingBag, Star, Minus, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
-import Header from "@/components/Header/Index";
-import Footer from "@/components/Footer";
 import { products } from "@/data/Index";
+import { useToast } from "@/hooks/use-toast";
+import { ArrowLeft, Heart, Minus, Plus, ShoppingBag, Star } from "lucide-react";
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
 // Mock product data - in real app this would come from API
 
 const ProductDetail = () => {
@@ -35,7 +33,6 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       <main className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <div className="mb-6">
@@ -229,7 +226,6 @@ const ProductDetail = () => {
           </Tabs>
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

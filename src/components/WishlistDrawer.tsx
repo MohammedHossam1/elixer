@@ -1,0 +1,122 @@
+import { Link } from "react-router-dom";
+import { Heart, ShoppingBag, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { useWishlist } from "@/contexts/WishlistContext";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
+
+interface WishlistItem {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  category: string;
+}
+
+interface WishlistDrawerProps {
+  children: React.ReactNode;
+}
+
+const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
+  const { items, removeItem } = useWishlist();
+  const { addItem: addToCart } = useCart();
+  const { toast } = useToast();
+
+  const handleAddToCart = (item: WishlistItem) => {
+    addToCart({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      image: item.image,
+    });
+    removeItem(item.id)
+    toast({
+      title: "Added to cart",
+      description: `${item.name} has been added to your cart.`,
+    });
+  };
+
+  return (
+    <Sheet>
+      <SheetTrigger asChild>{children}</SheetTrigger>
+      <SheetContent className="w-full sm:w-96">
+        <SheetHeader>
+          <SheetTitle className="flex items-center gap-2">
+            <Heart className="h-5 w-5 text-primary" />
+            My Wishlist
+          </SheetTitle>
+          <SheetDescription>
+            {items.length === 0
+              ? "Your wishlist is empty"
+              : `You have ${items.length} item${items.length > 1 ? "s" : ""} in your wishlist`}
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="mt-8 space-y-4">
+          {items.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <Heart className="h-16 w-16 text-muted mb-4" />
+              <p className="text-muted-foreground">Start adding items to your wishlist</p>
+            </div>
+          ) : (
+            <>
+              <div className="space-y-4 max-h-[60vh] overflow-y-auto">
+                {items.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex gap-4 p-4 rounded-lg border border-border bg-card"
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-20 h-20 object-cover rounded"
+                    />
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-sm line-clamp-2">{item.name}</h4>
+                      <p className="text-xs text-muted-foreground mt-1">{item.category}</p>
+                      <p className="text-primary font-bold mt-2">${item.price.toFixed(2)}</p>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeItem(item.id)}
+                        className="h-8 w-8"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => handleAddToCart(item)}
+                        className="h-8 w-8"
+                      >
+                        <ShoppingBag className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-4 border-t">
+                <Link to="/shop">
+                  <Button className="w-full btn-gradient">Continue Shopping</Button>
+                </Link>
+              </div>
+            </>
+          )}
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+};
+
+export default WishlistDrawer;

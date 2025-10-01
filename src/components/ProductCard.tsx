@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 
 interface ProductCardProps {
   id: string;
@@ -33,10 +34,11 @@ const ProductCard = ({
   isOnSale = false,
   inStock = true,
 }: ProductCardProps) => {
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const { addItem } = useCart();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
   const { toast } = useToast();
+  const isWishlisted = isInWishlist(id);
 
   const handleAddToCart = () => {
     if (!inStock) return;
@@ -55,11 +57,19 @@ const ProductCard = ({
   };
 
   const handleToggleWishlist = () => {
-    setIsWishlisted(!isWishlisted);
-    toast({
-      title: isWishlisted ? "Removed from wishlist" : "Added to wishlist",
-      description: `${name} ${isWishlisted ? "removed from" : "added to"} your wishlist.`,
-    });
+    if (isWishlisted) {
+      removeFromWishlist(id);
+      toast({
+        title: "Removed from wishlist",
+        description: `${name} has been removed from your wishlist.`,
+      });
+    } else {
+      addToWishlist({ id, name, price, image, category });
+      toast({
+        title: "Added to wishlist",
+        description: `${name} has been added to your wishlist.`,
+      });
+    }
   };
 
   return (
@@ -71,25 +81,23 @@ const ProductCard = ({
       {/* Badges */}
       <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
         {isNew && (
-          <Badge className="bg-rose-gold text-white font-semibold w-fit">NEW</Badge>
+          <Badge className="bg-rose-gold max-lg:text-[9px] text-white font-semibold w-fit">NEW</Badge>
         )}
         {isOnSale && (
-          <Badge className="bg-primary text-primary-foreground font-semibold w-fit" >
+          <Badge className="bg-primary max-lg:text-[9px text-primary-foreground font-semibold w-fit">
             SALE
           </Badge>
         )}
         {!inStock && (
-          <Badge variant="secondary" className="font-semibold">
+          <Badge variant="secondary" className="font-semibold max-lg:text-[9px]">
             OUT OF STOCK
           </Badge>
         )}
       </div>
 
       {/* Wishlist Button */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className={`absolute top-3 right-3 z-10 w-8 h-8 bg-white/80 hover:bg-white transition-all duration-300 ${
+      <button
+        className={`absolute rounded-xl p-2 flex items-center justify-center  top-3 right-3 z-50 w-8 h-8 bg-white/80 hover:bg-white transition-all duration-300 ${
           isHovered ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
         }`}
         onClick={handleToggleWishlist}
@@ -99,7 +107,7 @@ const ProductCard = ({
             isWishlisted ? "fill-primary text-primary" : "text-muted-foreground"
           }`}
         />
-      </Button>
+      </button>
 
       {/* Product Image */}
       <Link to={`/product/${id}`} className="block relative aspect-square overflow-hidden bg-gradient-to-br from-muted/20 to-muted/5">
@@ -116,14 +124,14 @@ const ProductCard = ({
       </Link>
 
       {/* Product Info */}
-      <div className="p-4 space-y-3">
+      <div className="p-2 lg:p-4 space-y-1 lg:space-y-3 flex flex-col justify-between ">
         {/* Category */}
-        <div className="text-xs uppercase tracking-wide text-rose-gold font-semibold">
+        <div className="text-[9px] lg:text-xs uppercase tracking-wide text-rose-gold font-semibold">
           {category}
         </div>
 
         {/* Name */}
-        <h3 className="font-semibold text-foreground line-clamp-2 leading-tight">
+        <h3 className="font-semibold text-foreground line-clamp-1 leading-tight">
           {name}
         </h3>
 
@@ -146,7 +154,7 @@ const ProductCard = ({
 
         {/* Price */}
         <div className="flex items-center gap-2">
-          <span className="text-lg font-bold text-foreground">
+          <span className="text-base lg:text-lg font-bold text-foreground">
             ${price.toFixed(2)}
           </span>
           {originalPrice && (
@@ -160,13 +168,13 @@ const ProductCard = ({
         <Button
           onClick={handleAddToCart}
           disabled={!inStock}
-          className={`w-full transition-all duration-300 ${
+          className={`w-full transition-all  duration-300  ${
             inStock
               ? "btn-gradient text-white hover:shadow-glow"
               : "bg-muted text-muted-foreground cursor-not-allowed"
           }`}
         >
-          <ShoppingBag className="h-4 w-4 mr-2" />
+          <ShoppingBag className="size-4 mr-2" />
           {inStock ? "Add to Cart" : "Out of Stock"}
         </Button>
       </div>
