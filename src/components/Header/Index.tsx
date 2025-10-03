@@ -1,5 +1,12 @@
 import { Button } from "@/components/ui/button";
 import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import {
     Sheet,
     SheetContent,
     SheetDescription,
@@ -10,6 +17,7 @@ import {
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { Heart, Menu, ShoppingBag } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import CartDrawer from "../CartDrawer";
 import WishlistDrawer from "../WishlistDrawer";
@@ -18,14 +26,14 @@ import SearchComponent from "./Search";
 const Header = () => {
     const { totalItems } = useCart();
     const { totalItems: wishlistTotal } = useWishlist();
-
+    const { t, i18n } = useTranslation();
     const navigationItems = [
-        { name: "HOME", href: "/" },
-        { name: "SHOP", href: "/shop" },
-        { name: "CLEANSERS", href: "/shop?category=CLEANSERS" },
-        { name: "SERUMS", href: "/shop?category=SERUMS" },
-        { name: "MOISTURIZERS", href: "/shop?category=MOISTURIZERS" },
-        { name: "CONTACT", href: "/contact" },
+        { name: t('nav.home'), href: "/" },
+        { name: t('nav.shop'), href: "/shop" },
+        { name: t('nav.cleansers'), href: "/shop?category=CLEANSERS" },
+        { name: t('nav.serums'), href: "/shop?category=SERUMS" },
+        { name: t('nav.moisturizers'), href: "/shop?category=MOISTURIZERS" },
+        { name: t('nav.contact'), href: "/contact" },
     ];
 
 
@@ -43,8 +51,8 @@ const Header = () => {
                             </SheetTrigger>
                             <SheetContent side="left" className="w-80">
                                 <SheetHeader>
-                                    <SheetTitle className="font-script text-3xl text-primary">ELIXIR</SheetTitle>
-                                    <SheetDescription>Professional Skincare Solutions</SheetDescription>
+                                    <SheetTitle className="font-script text-3xl text-primary">{t('brand.name')}</SheetTitle>
+                                    <SheetDescription>{t('brand.slogan')}</SheetDescription>
                                 </SheetHeader>
                                 <div className="lg:hidden mt-8 mb-2">
                                     <SearchComponent />
@@ -83,8 +91,8 @@ const Header = () => {
 
                     {/* Logo */}
                     <Link to="/" className="">
-                        <h1 className="font-script text-4xl lg:text-5xl text-primary font-bold tracking-wider">
-                            ELIXIR
+                        <h1 className="!font-script text-4xl lg:text-5xl text-primary font-bold tracking-wider">
+                            {t('brand.name')}
                         </h1>
                     </Link>
 
@@ -93,6 +101,21 @@ const Header = () => {
                         <div className="max-lg:hidden">
                             <SearchComponent />
                         </div>
+                        {/* Language Switcher */}
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="sm" className="mx-1">
+                                    {i18n.language?.toUpperCase?.() || 'EN'}
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align={"end"}>
+                                <DropdownMenuLabel className="hidden">{t('lang.english')}/{t('lang.arabic')}/{t('lang.hebrew')}</DropdownMenuLabel>
+                                <DropdownMenuItem onClick={() => i18n.changeLanguage('en')}>EN - {t('lang.english')}</DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => i18n.changeLanguage('ar')}>AR - {t('lang.arabic')}</DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => i18n.changeLanguage('he')}>HE - {t('lang.hebrew')}</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+
                         {/* favorite */}
                         {/* Wishlist */}
                         <WishlistDrawer>

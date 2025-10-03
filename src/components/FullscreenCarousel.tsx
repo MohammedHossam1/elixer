@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 // Import images
 import heroModel from "@/assets/banner1.jpg";
 import heroMode2 from "@/assets/banner2.jpg";
+import { IHeroSlider } from "@/types/Index";
 
 const carouselImages = [
   {
@@ -19,7 +20,7 @@ const carouselImages = [
   }
 ];
 
-const FullscreenCarousel = () => {
+const FullscreenCarousel = ({ data }:{data: IHeroSlider[]}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 

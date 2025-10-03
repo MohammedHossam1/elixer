@@ -3,8 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { footerLinks } from "@/data/Index";
+import { ISettings } from "@/types/Index";
+import { useTranslation } from "react-i18next";
 
-const Footer = () => {
+const Footer = ({ data }: { data: ISettings }) => {
+  const { t } = useTranslation();
 
 
   return (
@@ -16,11 +19,10 @@ const Footer = () => {
           <div className="space-y-6 col-span-12 lg:col-span-4 ">
             <div>
               <h3 className="font-script text-4xl text-primary font-bold mb-2">
-                ELIXIR
+                {t('brand.name')}
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                Discover your natural beauty with our premium cosmetics collection.
-                Crafted with love and the finest ingredients for your radiant glow.
+                {t('footer.tagline1')} {t('footer.tagline2')}
               </p>
             </div>
 
@@ -28,15 +30,15 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-sm">
                 <MapPin className="h-4 w-4 text-rose-gold flex-shrink-0" />
-                <span className="text-muted-foreground">123 Beauty Street, New York, NY 10001</span>
+                <span className="text-muted-foreground">{data?.address}</span>
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <Phone className="h-4 w-4 text-rose-gold flex-shrink-0" />
-                <span className="text-muted-foreground">+1 (555) 123-4567</span>
+                <span className="text-muted-foreground">{data?.contact.mobile}</span>
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <Mail className="h-4 w-4 text-rose-gold flex-shrink-0" />
-                <span className="text-muted-foreground">hello@ELIXIR.com</span>
+                <span className="text-muted-foreground">{data?.contact.email}</span>
               </div>
             </div>
           </div>
@@ -66,23 +68,23 @@ const Footer = () => {
         {/* Newsletter Section */}
         <div className="py-8 border-t border-border">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-            <div className="text-center lg:text-left">
+            <div className="text-center lg:text-start">
               <h4 className="font-semibold text-lg text-foreground mb-2">
-                Stay in the loop
+                {t('footer.stayInLoop')}
               </h4>
               <p className="text-muted-foreground">
-                Subscribe for exclusive offers and beauty tips
+                {t('footer.subscribeCopy')}
               </p>
             </div>
 
             <div className="flex w-full lg:w-auto max-w-sm gap-2">
               <Input
                 type="email"
-                placeholder="Your email address"
+                placeholder={t('footer.emailPlaceholder')}
                 className="flex-1"
               />
               <Button className="btn-gradient text-white px-6">
-                Subscribe
+                {t('footer.subscribeCta')}
               </Button>
             </div>
           </div>
@@ -92,27 +94,27 @@ const Footer = () => {
         <div className="py-6 border-t border-border">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-1 text-sm text-muted-foreground">
-              Made with  <Heart className="h-4 w-4 text-rose-gold fill-rose-gold" />by
+              {t('footer.madeWith')}  <Heart className="h-4 w-4 text-rose-gold fill-rose-gold" />{t('footer.by')}
 
-              <Link to="https://qadi-tech.com" target="_blank">Qadi-tech</Link>
+              <Link to="https://qadi-tech.com/home" target="_blank">Qadi-tech</Link>
             </div>
 
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
-              <a href="#" className="hover:text-primary transition-colors">
-                Privacy Policy
+              <a href="/legals/privacy" className="hover:text-primary transition-colors">
+                {t('footer.privacy')}
               </a>
-              <a href="#" className="hover:text-primary transition-colors">
-                Terms of Service
+              <a href="/legals/terms" className="hover:text-primary transition-colors">
+                {t('footer.terms')}
               </a>
-              <a href="#" className="hover:text-primary transition-colors">
-                Cookie Policy
+              <a href="/legals/disclaimer" className="hover:text-primary transition-colors">
+                {t('footer.disclaimer')}
               </a>
             </div>
           </div>
 
           <div className="text-center mt-4 pt-4 border-t border-border">
             <p className="text-sm text-muted-foreground">
-              © 2025 Qadi-tech . All rights reserved.
+              © 2025 Qadi-tech . {t('footer.allRightsReserved')}
             </p>
           </div>
         </div>

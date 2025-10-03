@@ -1,9 +1,13 @@
-import ProductCard from "./ProductCard";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
 import { categories, products } from "@/data/Index";
-import { motion, cubicBezier } from "framer-motion";
+import { cubicBezier, motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import ProductCard from "./ProductCard";
+import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
+
+// Define IProductShowCase interface
+
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -26,6 +30,8 @@ const itemVariants = {
 };
 
 const ProductShowcase = () => {
+  const { t, i18n } = useTranslation();
+  const isArOrHe = i18n.language === 'ar' || i18n.language === 'he';
   const getFilteredProducts = (category: string) => {
     if (category === "all") return products;
     return products.filter(
@@ -44,15 +50,16 @@ const ProductShowcase = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-3xl lg:text-5xl font-bold text-foreground mb-4">
-            Featured <span className="text-primary font-script">Products</span>
+            {t("productShowcase.heading.title")}{" "}
+            <span className={`text-primary ${!isArOrHe && "font-script"}`}>{t("productShowcase.heading.brand")}</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Discover our complete skincare collection, scientifically formulated to address all your skin concerns
+            {t("productShowcase.description")}
           </p>
         </motion.div>
 
         {/* Product Tabs */}
-        <Tabs defaultValue="all" className="w-full">
+        <Tabs defaultValue="all" dir={isArOrHe ? "rtl" : "ltr"} className="w-full">
           <TabsList className="bg-muted/50 h-auto block max-w-4xl mx-auto sm:w-fit mb-5">
             <Carousel opts={{ align: "start" }}>
               <CarouselContent className="pl-3">
@@ -62,8 +69,8 @@ const ProductShowcase = () => {
                       value={category.id}
                       className="text-xs sm:text-sm border font-medium data-[state=active]:bg-primary data-[state=active]:text-white px-2 py-3 sm:px-4"
                     >
-                      <span className="">{category.name}</span>
-                      <span className="ml-1 text-xs hidden sm:inline">
+                      <span className="">{t(`productShowcase.tabs.${category.id}`)}</span>
+                      <span className="ms-1 text-xs hidden sm:inline">
                         ({category.count})
                       </span>
                     </TabsTrigger>
@@ -76,7 +83,7 @@ const ProductShowcase = () => {
           {categories.map((category) => (
             <TabsContent key={category.id} value={category.id}>
               <motion.div
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12"
+                className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-12"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="show"
@@ -105,7 +112,7 @@ const ProductShowcase = () => {
             variant="outline"
             className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-6 text-lg"
           >
-            View All Products
+            {t("productShowcase.cta")}
           </Button>
         </motion.div>
       </div>

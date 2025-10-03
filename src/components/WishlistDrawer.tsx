@@ -1,17 +1,17 @@
-import { Link } from "react-router-dom";
-import { Heart, ShoppingBag, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useWishlist } from "@/contexts/WishlistContext";
 import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 import { useToast } from "@/hooks/use-toast";
+import { Heart, ShoppingBag, X } from "lucide-react";
 
 interface WishlistItem {
   id: string;
@@ -105,12 +105,11 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
                   </div>
                 ))}
               </div>
-
-              <div className="pt-4 border-t">
-                <Link to="/shop">
-                  <Button className="w-full btn-gradient">Continue Shopping</Button>
-                </Link>
-              </div>
+              <SheetClose className="w-full">
+                <div className="pt-4 border-t">
+                  <Button className="w-full btn-gradient" >Continue Shopping</Button>
+                </div>
+              </SheetClose>
             </>
           )}
         </div>

@@ -2,10 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Calendar, CheckCircle } from "lucide-react";
 import { results } from "@/data/Index";
+import { useTranslation } from "react-i18next";
 
 
 const SkinResults = () => {
- 
+  const { t } = useTranslation();
 
   return (
     <section className="py-16 lg:py-24 bg-background overflow-hidden">
@@ -13,14 +14,13 @@ const SkinResults = () => {
         {/* Header */}
         <div className="text-center mb-12 lg:mb-16">
           <Badge variant="secondary" className="mb-4 px-4 py-2 text-sm font-semibold">
-            Real Results
+            {t('skinResults.badge')}
           </Badge>
           <h2 className="text-3xl lg:text-5xl font-bold text-foreground mb-4">
-            Proven <span className="text-primary font-script">Skin Transformations</span>
+            {t('skinResults.title')} <span className="text-primary font-script">{t('skinResults.titleScript')}</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            See real before and after results from our customers who trusted ELIXIR skincare products. 
-            These transformations speak for themselves - visible results that build confidence.
+            {t('skinResults.description')}
           </p>
         </div>
 
@@ -46,7 +46,7 @@ const SkinResults = () => {
                       />
                       <div className="absolute top-3 left-3">
                         <Badge variant="destructive" className="text-xs font-semibold">
-                          BEFORE
+                          {t('skinResults.before')}
                         </Badge>
                       </div>
                     </div>
@@ -62,7 +62,7 @@ const SkinResults = () => {
                       />
                       <div className="absolute top-3 left-3">
                         <Badge variant="default" className="text-xs font-semibold bg-green-600 hover:bg-green-700">
-                          AFTER
+                          {t('skinResults.after')}
                         </Badge>
                       </div>
                     </div>
@@ -74,12 +74,12 @@ const SkinResults = () => {
                   <div className="text-center card-elegant p-4 rounded-xl">
                     <Calendar className="w-5 h-5 text-primary mx-auto mb-2" />
                     <div className="text-sm font-semibold text-foreground">{result.duration}</div>
-                    <div className="text-xs text-muted-foreground">Duration</div>
+                    <div className="text-xs text-muted-foreground">{t('skinResults.duration')}</div>
                   </div>
                   <div className="text-center card-elegant p-4 rounded-xl">
                     <CheckCircle className="w-5 h-5 text-green-600 mx-auto mb-2" />
                     <div className="text-sm font-semibold text-foreground">{result.improvement}</div>
-                    <div className="text-xs text-muted-foreground">Improvement</div>
+                    <div className="text-xs text-muted-foreground">{t('skinResults.improvement')}</div>
                   </div>
                   <div className="text-center card-elegant p-4 rounded-xl">
                     <div className="flex justify-center mb-2">
@@ -88,7 +88,7 @@ const SkinResults = () => {
                       ))}
                     </div>
                     <div className="text-sm font-semibold text-foreground">5.0</div>
-                    <div className="text-xs text-muted-foreground">Rating</div>
+                    <div className="text-xs text-muted-foreground">{t('skinResults.rating')}</div>
                   </div>
                 </div>
               </div>
@@ -109,7 +109,7 @@ const SkinResults = () => {
 
                 {/* Products Used */}
                 <div className="space-y-3">
-                  <h4 className="font-semibold text-foreground">Products Used:</h4>
+                  <h4 className="font-semibold text-foreground">{t('skinResults.productsUsed')}</h4>
                   <div className="flex flex-wrap gap-2">
                     {result.products.map((product, productIndex) => (
                       <Badge
@@ -129,7 +129,7 @@ const SkinResults = () => {
                     size="lg" 
                     className="btn-gradient text-white font-semibold px-6 py-3 text-base w-fit"
                   >
-                    Get Similar Results
+                    {t('skinResults.getSimilarResults')}
                   </Button>
                 </div>
               </div>

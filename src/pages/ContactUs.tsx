@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/button";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useGetHomePage, usePostContact } from "@/hooks/fetch-hooks";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
@@ -16,6 +17,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import * as z from "zod";
+import { useTranslation } from "react-i18next";
 
 const contactSchema = z.object({
   name: z.string()
@@ -47,7 +49,11 @@ type ContactFormData = z.infer<typeof contactSchema>;
 const ContactUs = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-
+  const { t } = useTranslation();
+  const lang = localStorage.getItem("i18nextLng");
+  const { data } = useGetHomePage(lang || "en")
+  const mutation = usePostContact()
+  const contactData = data?.data?.settings
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -61,13 +67,18 @@ const ContactUs = () => {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-    console.log(data);  
-    
+    const finalData = {
+      ...data, city: "x", appointment_type_id: "1", date: "22-8-2026"
+
+    }
+    mutation.mutate(finalData)
+    console.log(finalData);
+
     // Simulate form submission
     setTimeout(() => {
       toast({
-        title: "Message sent successfully!",
-        description: "We'll get back to you within 24-48 hours.",
+        title: t('contact.toast.successTitle'),
+        description: t('contact.toast.successDesc'),
       });
       form.reset();
       setIsSubmitting(false);
@@ -77,20 +88,20 @@ const ContactUs = () => {
   const contactInfo = [
     {
       icon: Mail,
-      title: "Email",
-      content: "support@elixir.com",
-      link: "mailto:support@elixir.com",
+      title: t('contact.email'),
+      content: contactData.contact.email,
+      link: `mailto:${contactData.contact.email}`,
     },
     {
       icon: Phone,
-      title: "Phone",
-      content: "+1 (555) 123-4567",
-      link: "tel:+15551234567",
+      title: t('contact.phone'),
+      content: contactData.contact.mobile,
+      link: `tel:${contactData.contact.mobile}`,
     },
     {
       icon: MapPin,
-      title: "Address",
-      content: "123 Beauty Avenue, Los Angeles, CA 90001",
+      title: t('contact.address'),
+      content: contactData.address,
       link: null,
     },
   ];
@@ -101,10 +112,10 @@ const ContactUs = () => {
         {/* Hero Section */}
         <div className="text-start mb-16">
           <h1 className="font-script text-5xl lg:text-6xl text-primary mb-4">
-            Get In Touch
+            {t('contact.heroTitle')}
           </h1>
           <p className="text-muted-foreground  mx-auto text-lg">
-            Have a question or need assistance? We're here to help you achieve your best skin.
+            {t('contact.heroSub')}
           </p>
         </div>
 
@@ -112,9 +123,9 @@ const ContactUs = () => {
           {/* Contact Information */}
           <div className="space-y-8">
             <div>
-              <h2 className=" text-2xl lg:text-3xl font-bold mb-4">Contact Information</h2>
+              <h2 className=" text-2xl lg:text-3xl font-bold mb-4">{t('contact.infoTitle')}</h2>
               <p className="text-muted-foreground mb-8">
-                Reach out to us through any of these channels and our team will respond promptly.
+                {t('contact.infoSub')}
               </p>
             </div>
 
@@ -146,19 +157,19 @@ const ContactUs = () => {
 
             {/* Business Hours */}
             <div className="card-elegant p-4 lg:p-6">
-              <h3 className="font-semibold mb-4 text-lg">Business Hours</h3>
+              <h3 className="font-semibold mb-4 text-lg">{t('contact.businessHours')}</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Monday - Friday:</span>
+                  <span className="text-muted-foreground">{t('contact.mondayFriday')}</span>
                   <span className="font-medium">9:00 AM - 6:00 PM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Saturday:</span>
+                  <span className="text-muted-foreground">{t('contact.saturday')}</span>
                   <span className="font-medium">10:00 AM - 4:00 PM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Sunday:</span>
-                  <span className="font-medium">Closed</span>
+                  <span className="text-muted-foreground">{t('contact.sunday')}</span>
+                  <span className="font-medium">{t('contact.closed')}</span>
                 </div>
               </div>
             </div>
@@ -166,7 +177,7 @@ const ContactUs = () => {
 
           {/* Contact Form */}
           <div className="card-elegant p-4 lg:p-8">
-            <h2 className="text-xl lg:text-2xl font-bold mb-6">Send Us a Message</h2>
+            <h2 className="text-xl lg:text-2xl font-bold mb-6">{t('contact.sendMessageTitle')}</h2>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
@@ -174,9 +185,9 @@ const ContactUs = () => {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name *</FormLabel>
+                      <FormLabel>{t('contact.form.nameLabel')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="Your full name" {...field} />
+                        <Input placeholder={t('contact.form.namePlaceholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -188,9 +199,9 @@ const ContactUs = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email *</FormLabel>
+                      <FormLabel>{t('contact.form.emailLabel')}</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="your.email@example.com" {...field} />
+                        <Input type="email" placeholder={t('contact.form.emailPlaceholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -202,9 +213,9 @@ const ContactUs = () => {
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone (Optional)</FormLabel>
+                      <FormLabel>{t('contact.form.phoneLabel')}</FormLabel>
                       <FormControl>
-                        <Input type="tel" placeholder="+1 (555) 123-4567" {...field} />
+                        <Input type="tel" placeholder={t('contact.form.phonePlaceholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -216,9 +227,9 @@ const ContactUs = () => {
                   name="subject"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Subject *</FormLabel>
+                      <FormLabel>{t('contact.form.subjectLabel')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="How can we help?" {...field} />
+                        <Input placeholder={t('contact.form.subjectPlaceholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -230,10 +241,10 @@ const ContactUs = () => {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Message *</FormLabel>
+                      <FormLabel>{t('contact.form.messageLabel')}</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Tell us more about your inquiry..."
+                          placeholder={t('contact.form.messagePlaceholder')}
                           className="min-h-[150px] resize-none"
                           {...field}
                         />
@@ -249,11 +260,11 @@ const ContactUs = () => {
                   className="w-full btn-gradient"
                 >
                   {isSubmitting ? (
-                    "Sending..."
+                    t('contact.form.sending')
                   ) : (
                     <>
                       <Send className="h-4 w-4 mr-2" />
-                      Send Message
+                      {t('contact.form.sendMessageCta')}
                     </>
                   )}
                 </Button>
@@ -264,13 +275,13 @@ const ContactUs = () => {
 
         {/* FAQ Section */}
         <div className="mt-20 text-center max-w-4xl mx-auto">
-          <h2 className="text-2xl lg:text-3xl font-bold mb-4">Frequently Asked Questions</h2>
+          <h2 className="text-2xl lg:text-3xl font-bold mb-4">{t('contact.faqTitle')}</h2>
           <p className="text-muted-foreground mb-8">
-            Looking for quick answers? Check out our FAQ section for common inquiries.
+            {t('contact.faqSub')}
           </p>
           <Link to="/faq">
             <Button variant="outline" size="lg" className="btn-outline">
-              View FAQ
+              {t('contact.viewFaq')}
             </Button>
           </Link>
         </div>

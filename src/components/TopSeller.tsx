@@ -8,37 +8,39 @@ import {
   type CarouselApi
 } from "@/components/ui/carousel";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import p1 from "@/assets/p1.png";
 
 const categories = [
   {
     id: 1,
-    name: "CLEANSERS",
+    nameKey: "nav.cleansers",
     itemCount: 12,
     image: p1,
-    alt: "Gentle cleansers for all skin types including foam and gel cleansers",
+    altKey: "topSeller.categories.cleansers.alt",
   },
   {
     id: 2,
-    name: "SERUMS",
+    nameKey: "nav.serums",
     itemCount: 18,
     image: p1,
-    alt: "Advanced treatment serums with active ingredients for targeted skin concerns",
+    altKey: "topSeller.categories.serums.alt",
   },
   {
     id: 3,
-    name: "MOISTURIZERS",
+    nameKey: "nav.moisturizers",
     itemCount: 15,
     image: p1,
-    alt: "Hydrating moisturizers for day and night skincare routines",
+    altKey: "topSeller.categories.moisturizers.alt",
   },
 ];
 
-const TopCategories = () => {
+const TopSeller = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+  const { t ,i18n} = useTranslation();
 
   // 🔹 sync carousel state
   const handleApi = (api: CarouselApi) => {
@@ -50,6 +52,7 @@ const TopCategories = () => {
       setCurrent(api.selectedScrollSnap());
     });
   };
+  const isArOrHe = i18n.language === 'ar' || i18n.language === 'he';
 
   return (
     <section className="py-16 lg:py-24 bg-backgroun overflow-x-hiddend">
@@ -57,10 +60,10 @@ const TopCategories = () => {
         {/* Header */}
         <div className="text-center mb-12 lg:mb-16">
           <h2 className="text-4xl lg:text-6xl mb-2">
-            <span className="text-primary font-script">Best Seller</span>
+            <span className={`text-primary ${!isArOrHe && "font-script"} `}>{t("topSeller.headingScript")}</span>
           </h2>
           <h3 className="text-2xl lg:text-3xl font-bold text-foreground uppercase tracking-wider">
-            TOP Products
+            {t("topSeller.headingMain")}
           </h3>
         </div>
 
@@ -83,7 +86,7 @@ const TopCategories = () => {
                       <div className="w-full h-full flex items-center justify-center">
                         <img
                           src={category.image}
-                          alt={category.alt}
+                          alt={t(category.altKey)}
                           className="max-w-full max-h-full object-contain transition-all duration-300 group-hover:scale-110"
                         />
                       </div>
@@ -96,7 +99,7 @@ const TopCategories = () => {
                   {/* Info */}
                   <div className="space-y-2">
                     <h4 className="text-xl lg:text-2xl font-bold text-foreground uppercase tracking-wide ">
-                      {category.name}
+                      {t(category.nameKey)}
                     </h4>
                   </div>
                 </div>
@@ -122,16 +125,14 @@ const TopCategories = () => {
         {/* Bottom CTA */}
         <div className="text-center mt-12 lg:mt-16">
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Explore our scientifically-formulated skincare range, each category
-            designed to target specific skin concerns and deliver visible
-            results.
+            {t("topSeller.bottom.copy")}
           </p>
           <Button
             size="lg"
             variant="outline"
             className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-6 text-lg font-semibold"
           >
-            View All Products
+            {t("topSeller.bottom.cta")}
           </Button>
         </div>
       </div>
@@ -139,4 +140,4 @@ const TopCategories = () => {
   );
 };
 
-export default TopCategories;
+export default TopSeller;

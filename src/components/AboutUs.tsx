@@ -1,8 +1,10 @@
-"use client";
 import { Button } from "@/components/ui/button";
+import { IAbout } from "@/types/Index";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
-const AboutUs = () => {
+const AboutUs = ({ data }: { data: IAbout }) => {
+  const { t } = useTranslation();
   return (
     <section className="py-16 lg:py-24 bg-gradient-hero overflow-x-hidden">
       <div className="container mx-auto px-4">
@@ -15,7 +17,8 @@ const AboutUs = () => {
             viewport={{ once: true }}
             className="text-3xl lg:text-5xl font-bold text-foreground mb-4"
           >
-            About <span className="text-primary font-script">ELIXIR</span>
+            {t("about.titlePrefix")} {" "}
+            <span className="text-primary font-script">{t("about.brandName")}</span>
           </motion.h2>
 
           <motion.p
@@ -25,7 +28,7 @@ const AboutUs = () => {
             viewport={{ once: true }}
             className="text-lg text-primary font-medium"
           >
-            مجموعة منتجات متكاملة للعناية بجمالك
+            {t("about.tagline1")}
           </motion.p>
 
           <motion.p
@@ -35,7 +38,7 @@ const AboutUs = () => {
             viewport={{ once: true }}
             className="text-base text-primary font-medium"
           >
-            Advanced Rituals. Visible Results ✨
+            {t("about.tagline2")}
           </motion.p>
 
           <motion.div
@@ -73,25 +76,11 @@ const AboutUs = () => {
               className="space-y-6"
             >
               <h3 className="text-2xl lg:text-3xl font-bold text-foreground">
-                Complete Skincare System
+                {t("about.sectionTitle")}
               </h3>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p className="text-base lg:text-lg">
-                  ELIXIR provides a comprehensive skincare system for healthy,
-                  radiant skin. Our collection includes gentle cleansers (غسول),
-                  hydrating moisturizers (مرطب), broad-spectrum sunscreens (واقي
-                  شمس), and targeted treatment serums.
-                </p>
-                <p className="text-base lg:text-lg">
-                  Each product addresses specific skin concerns including acne,
-                  dark spots, fine lines, and dryness. Our
-                  dermatologist-approved formulas show measurable improvements
-                  that customers see within the first week of use.
-                </p>
-                <p className="text-base lg:text-lg">
-                  With convenient delivery nationwide and personalized skincare
-                  consultation via Instagram, we make professional-grade
-                  skincare accessible for achieving your healthiest skin goals.
+                  {data?.description}
                 </p>
               </div>
 
@@ -100,14 +89,14 @@ const AboutUs = () => {
                   size="lg"
                   className="btn-gradient text-white font-semibold px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg"
                 >
-                  Shop Skincare Range
+                  {t("about.shopCta")}
                 </Button>
                 <Button
                   variant="outline"
                   size="lg"
                   className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg"
                 >
-                  See Skin Results
+                  {t("about.seeResultsCta")}
                 </Button>
               </div>
             </motion.div>
@@ -126,7 +115,7 @@ const AboutUs = () => {
                     5K+
                   </div>
                   <div className="text-sm lg:text-base text-muted-foreground">
-                    Happy Customers
+                    {t("about.stats.happyCustomers")}
                   </div>
                 </div>
                 <div className="text-center card-elegant p-6 rounded-2xl">
@@ -134,7 +123,7 @@ const AboutUs = () => {
                     50+
                   </div>
                   <div className="text-sm lg:text-base text-muted-foreground">
-                    Premium Products
+                    {t("about.stats.premiumProducts")}
                   </div>
                 </div>
                 <div className="text-center card-elegant p-6 rounded-2xl">
@@ -142,7 +131,7 @@ const AboutUs = () => {
                     3+
                   </div>
                   <div className="text-sm lg:text-base text-muted-foreground">
-                    Years of Excellence
+                    {t("about.stats.yearsOfExcellence")}
                   </div>
                 </div>
                 <div className="text-center card-elegant p-6 rounded-2xl">
@@ -150,7 +139,7 @@ const AboutUs = () => {
                     100%
                   </div>
                   <div className="text-sm lg:text-base text-muted-foreground">
-                    Cruelty-Free
+                    {t("about.stats.crueltyFree")}
                   </div>
                 </div>
               </div>
@@ -158,13 +147,10 @@ const AboutUs = () => {
               {/* Mission Statement */}
               <div className="card-elegant p-6 lg:p-8 rounded-2xl">
                 <h4 className="text-xl font-bold text-foreground mb-4">
-                  Our Mission
+                  {t("about.missionTitle")}
                 </h4>
                 <p className="text-muted-foreground leading-relaxed">
-                  "To deliver professional-grade skincare solutions that
-                  transform skin health, providing visible results through
-                  scientifically-backed formulas and personalized care
-                  routines."
+                  {t("about.missionBody")}
                 </p>
               </div>
             </motion.div>

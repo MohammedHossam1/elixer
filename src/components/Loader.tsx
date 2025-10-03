@@ -1,11 +1,11 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, type Variants, type RepeatType } from "framer-motion";
 
 const Loader = () => {
   // 🔹 نعمل كل حرف يدخل بشكل stagger
   const letters = "ELIXIR".split("");
 
-  const container = {
+  const container: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -15,7 +15,7 @@ const Loader = () => {
     },
   };
 
-  const letter = {
+  const letter: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -23,7 +23,7 @@ const Loader = () => {
         duration: 1,
         ease: "easeOut",
         repeat: Infinity,    
-        repeatType: "reverse",    
+        repeatType: "reverse" as RepeatType,    
       },
   
     },
@@ -32,7 +32,7 @@ const Loader = () => {
   return (
     <div className="flex items-center justify-center overflow-hidden fixed inset-0 z-50 bg-background">
       <motion.h1
-        className="font-script text-4xl lg:text-5xl xl:text-6xl  text-primary font-bold tracking-wider  space-x-2"
+        className="!font-script text-4xl lg:text-5xl xl:text-6xl  text-primary font-bold tracking-wider  space-x-2"
         variants={container}
         initial="hidden"
         animate="show"
@@ -41,8 +41,6 @@ const Loader = () => {
           <motion.span
             key={index}
             variants={letter}
-            
-        
           >
             {char}
           </motion.span>

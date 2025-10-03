@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useTranslation } from "react-i18next";
 
 interface ProductCardProps {
   id: string;
@@ -39,17 +40,17 @@ const ProductCard = ({
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
   const { toast } = useToast();
   const isWishlisted = isInWishlist(id);
-
+  const { t } = useTranslation('')
   const handleAddToCart = () => {
     if (!inStock) return;
-    
+
     addItem({
       id,
       name,
       price,
       image
     });
-    
+
     toast({
       title: "Added to cart",
       description: `${name} has been added to your cart.`,
@@ -79,7 +80,7 @@ const ProductCard = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Badges */}
-      <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
+      <div className="absolute top-3 start-3 z-10 flex flex-col gap-2">
         {isNew && (
           <Badge className="bg-rose-gold max-lg:text-[9px] text-white font-semibold w-fit">NEW</Badge>
         )}
@@ -97,15 +98,13 @@ const ProductCard = ({
 
       {/* Wishlist Button */}
       <button
-        className={`absolute rounded-xl p-2 flex items-center justify-center  top-3 right-3 z-50 w-8 h-8 bg-white/80 hover:bg-white transition-all duration-300 ${
-          isHovered ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
-        }`}
+        className={`absolute rounded-xl p-2 flex items-center justify-center  top-3 end-3 z-50 w-8 h-8 bg-white/80 hover:bg-white transition-all duration-300 ${isHovered ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
+          }`}
         onClick={handleToggleWishlist}
       >
         <Heart
-          className={`h-4 w-4 transition-colors ${
-            isWishlisted ? "fill-primary text-primary" : "text-muted-foreground"
-          }`}
+          className={`h-4 w-4 transition-colors ${isWishlisted ? "fill-primary text-primary" : "text-muted-foreground"
+            }`}
         />
       </button>
 
@@ -116,11 +115,10 @@ const ProductCard = ({
           alt={name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
-        
+
         {/* Overlay on hover */}
-        <div className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ${
-          isHovered ? "opacity-100" : "opacity-0"
-        }`}></div>
+        <div className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"
+          }`}></div>
       </Link>
 
       {/* Product Info */}
@@ -141,11 +139,10 @@ const ProductCard = ({
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                className={`h-3 w-3 ${
-                  i < Math.floor(rating)
+                className={`h-3 w-3 ${i < Math.floor(rating)
                     ? "fill-rose-gold text-rose-gold"
                     : "text-muted"
-                }`}
+                  }`}
               />
             ))}
           </div>
@@ -168,14 +165,13 @@ const ProductCard = ({
         <Button
           onClick={handleAddToCart}
           disabled={!inStock}
-          className={`w-full transition-all  duration-300  ${
-            inStock
+          className={`w-full transition-all  duration-300  ${inStock
               ? "btn-gradient text-white hover:shadow-glow"
               : "bg-muted text-muted-foreground cursor-not-allowed"
-          }`}
+            }`}
         >
           <ShoppingBag className="size-4 mr-2" />
-          {inStock ? "Add to Cart" : "Out of Stock"}
+          {inStock ? t("addToCart") : t("outOfStock")}
         </Button>
       </div>
     </div>

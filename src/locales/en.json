@@ -1,0 +1,175 @@
+{
+  "nav": {
+    "home": "HOME",
+    "shop": "SHOP",
+    "cleansers": "CLEANSERS",
+    "serums": "SERUMS",
+    "moisturizers": "MOISTURIZERS",
+    "contact": "CONTACT"
+  },
+  "brand": {
+    "name": "ELIXIR",
+    "slogan": "Professional Skincare Solutions"
+  },
+  "footer": {
+    "tagline1": "Discover your natural beauty with our premium cosmetics collection.",
+    "tagline2": "Crafted with love and the finest ingredients for your radiant glow.",
+    "stayInLoop": "Stay in the loop",
+    "subscribeCopy": "Subscribe for exclusive offers and beauty tips",
+    "emailPlaceholder": "Your email address",
+    "subscribeCta": "Subscribe",
+    "madeWith": "Made with",
+    "by": "by",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "disclaimer": "Disclaimer",
+    "allRightsReserved": "All rights reserved."
+  },
+  "lang": {
+    "english": "English",
+    "arabic": "Arabic",
+    "hebrew": "Hebrew"
+  },
+  "contact": {
+    "heroTitle": "Get In Touch",
+    "heroSub": "Have a question or need assistance? We're here to help you achieve your best skin.",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "infoTitle": "Contact Information",
+    "infoSub": "Reach out to us through any of these channels and our team will respond promptly.",
+    "businessHours": "Business Hours",
+    "mondayFriday": "Monday - Friday:",
+    "saturday": "Saturday:",
+    "sunday": "Sunday:",
+    "closed": "Closed",
+    "sendMessageTitle": "Send Us a Message",
+    "form": {
+      "nameLabel": "Name *",
+      "namePlaceholder": "Your full name",
+      "emailLabel": "Email *",
+      "emailPlaceholder": "your.email@example.com",
+      "phoneLabel": "Phone (Optional)",
+      "phonePlaceholder": "+1 (555) 123-4567",
+      "subjectLabel": "Subject *",
+      "subjectPlaceholder": "How can we help?",
+      "messageLabel": "Message *",
+      "messagePlaceholder": "Tell us more about your inquiry...",
+      "sending": "Sending...",
+      "sendMessageCta": "Send Message"
+    },
+    "faqTitle": "Frequently Asked Questions",
+    "faqSub": "Looking for quick answers? Check out our FAQ section for common inquiries.",
+    "viewFaq": "View FAQ",
+    "toast": {
+      "successTitle": "Message sent successfully!",
+      "successDesc": "We'll get back to you within 24-48 hours."
+    }
+  },
+  "about": {
+    "titlePrefix": "About",
+    "brandName": "ELIXIR",
+    "tagline1": "A complete product system to care for your beauty",
+    "tagline2": "Advanced Rituals. Visible Results ✨",
+    "sectionTitle": "Complete Skincare System",
+    "shopCta": "Shop Skincare Range",
+    "seeResultsCta": "See Skin Results",
+    "stats": {
+      "happyCustomers": "Happy Customers",
+      "premiumProducts": "Premium Products",
+      "yearsOfExcellence": "Years of Excellence",
+      "crueltyFree": "Cruelty-Free"
+    },
+    "missionTitle": "Our Mission",
+    "missionBody": "To deliver professional-grade skincare solutions that transform skin health, providing visible results through scientifically-backed formulas and personalized care routines."
+  },
+  "topSeller": {
+    "headingScript": "Best Seller",
+    "headingMain": "TOP Products",
+    "bottom": {
+      "copy": "Explore our scientifically-formulated skincare range, each category designed to target specific skin concerns and deliver visible results.",
+      "cta": "View All Products"
+    },
+    "categories": {
+      "cleansers": {
+        "alt": "Gentle cleansers for all skin types including foam and gel cleansers"
+      },
+      "serums": {
+        "alt": "Advanced treatment serums with active ingredients for targeted skin concerns"
+      },
+      "moisturizers": {
+        "alt": "Hydrating moisturizers for day and night skincare routines"
+      }
+    }
+  },
+  "productShowcase": {
+    "heading": {
+      "title": "Featured",
+      "brand": "Products"
+    },
+    "description": "Discover our complete skincare collection, scientifically formulated to address all your skin concerns",
+    "tabs": {
+      "all": "All Products",
+      "cleanser": "Cleanser",
+      "serum": "Serum",
+      "sunscreen": "Sunscreen",
+      "moisturizer": "Moisturizer"
+    },
+    "cta": "View All Products"
+  },
+  "addToCart": "Add to Cart",
+  "outOfStock": "Out of Stock",
+  "addToCartSuccess": "Added to cart successfully",
+  "addToCartError": "Failed to add to cart",
+  "skinResults": {
+    "badge": "Real Results",
+    "title": "Proven",
+    "titleScript": "Skin Transformations",
+    "description": "See real before and after results from our customers who trusted ELIXIR skincare products. These transformations speak for themselves - visible results that build confidence.",
+    "before": "BEFORE",
+    "after": "AFTER",
+    "duration": "Duration",
+    "improvement": "Improvement",
+    "rating": "Rating",
+    "productsUsed": "Products Used:",
+    "getSimilarResults": "Get Similar Results"
+  },
+  "whatWeStandFor": {
+    "title": "What We Stand For",
+    "values": {
+      "pureIngredients": {
+        "title": "Pure Ingredients",
+        "description": "Natural, scientifically-proven ingredients that nourish and protect your skin effectively."
+      },
+      "dermatologistApproved": {
+        "title": "Dermatologist Approved",
+        "description": "All products are tested and recommended by skincare professionals for safety and results."
+      },
+      "healthySkinGoals": {
+        "title": "Healthy Skin Goals",
+        "description": "We help you achieve clear, healthy, and radiant skin through consistent daily care."
+      },
+      "fastResults": {
+        "title": "Fast Results",
+        "description": "Experience visible skin improvements within days of starting your skincare routine."
+      }
+    },
+    "cta": {
+      "title": "Ready for Healthier Skin?",
+      "description": "Join thousands who trust ELIXIR for professional skincare results and achieve your healthiest skin goals.",
+      "button": "Start Your Skin Transformation"
+    }
+  },
+  "beforeAfterComparison": {
+    "title": "See The",
+    "titleScript": "Transformation",
+    "description": "Discover the incredible results our customers achieve with our premium skincare products. Drag the slider to reveal the amazing before and after transformation.",
+    "before": "Before",
+    "after": "After",
+    "cta": {
+      "title": "Ready for Your Own Transformation?",
+      "description": "Join thousands of satisfied customers who have achieved incredible results with our premium skincare collection.",
+      "button": "Shop Skincare Collection"
+    }
+  }
+}
