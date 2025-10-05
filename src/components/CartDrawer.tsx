@@ -6,6 +6,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { useCart } from '@/contexts/CartContext';
+import { useTranslation } from 'react-i18next';
 
 interface CartDrawerProps {
   children: React.ReactNode;
@@ -28,13 +29,15 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
   const handleQuantityChange = (id: string, newQuantity: number) => {
     updateQuantity(id, newQuantity);
   };
+  const { i18n } = useTranslation();
+
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+    <Sheet open={isOpen}  onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         {children}
       </SheetTrigger>
-      <SheetContent side="right" className="w-full sm:w-96 p-0">
+      <SheetContent side={i18n.language === "en" ? "right" : "left"} className="w-full sm:w-96 p-0">
         <SheetHeader className="p-6 pb-4">
           <SheetTitle className="flex items-center gap-2">
             <ShoppingBag className="h-5 w-5" />

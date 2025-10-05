@@ -12,6 +12,7 @@ import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useToast } from "@/hooks/use-toast";
 import { Heart, ShoppingBag, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface WishlistItem {
   id: string;
@@ -20,7 +21,6 @@ interface WishlistItem {
   image: string;
   category: string;
 }
-
 interface WishlistDrawerProps {
   children: React.ReactNode;
 }
@@ -29,6 +29,7 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
   const { items, removeItem } = useWishlist();
   const { addItem: addToCart } = useCart();
   const { toast } = useToast();
+  const { i18n } = useTranslation();
 
   const handleAddToCart = (item: WishlistItem) => {
     addToCart({
@@ -45,9 +46,9 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
   };
 
   return (
-    <Sheet>
-      <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent className="w-full sm:w-96">
+    <Sheet >
+      <SheetTrigger  asChild>{children}</SheetTrigger>
+      <SheetContent side={i18n.language === "en" ? "right" : "left"} className="w-full sm:w-96">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             <Heart className="h-5 w-5 text-primary" />
