@@ -4,12 +4,14 @@ import { IProduct } from "@/interfaces/Index";
 
 
 
-export const products :IProduct[]= [
+export const products: IProduct[] = [
     {
         id: "1",
         name: "Gentle Daily Cleanser",
         category: "Cleanser",
+        category_id: "1",
         price: 19.99,
+
         originalPrice: 24.99,
         description: "A lightweight, buildable foundation that provides natural-looking coverage while nourishing your skin with botanical extracts.",
         ingredients: ["Hyaluronic Acid", "Vitamin E", "Botanical Extracts", "SPF 20"],
@@ -31,7 +33,9 @@ export const products :IProduct[]= [
         id: "2",
         name: "Vitamin C Brightening Serum",
         category: "Serum",
+        category_id: "2",
         price: 34.99,
+
         image: productMoisturizer,
         rating: 4.6,
         reviews: 243,
@@ -52,7 +56,9 @@ export const products :IProduct[]= [
         id: "3",
         name: "Broad Spectrum Sunscreen SPF 50",
         category: "Sunscreen",
+        category_id: "3",
         price: 22.99,
+
         originalPrice: 28.99,
         description: "A lightweight, buildable foundation that provides natural-looking coverage while nourishing your skin with botanical extracts.",
         ingredients: ["Hyaluronic Acid", "Vitamin E", "Botanical Extracts", "SPF 20"],
@@ -74,7 +80,9 @@ export const products :IProduct[]= [
         id: "4",
         name: "Hydrating Night Moisturizer",
         category: "Moisturizer",
+        category_id: "1",
         price: 32.99,
+
         image: productMoisturizer,
         description: "A lightweight, buildable foundation that provides natural-looking coverage while nourishing your skin with botanical extracts.",
         ingredients: ["Hyaluronic Acid", "Vitamin E", "Botanical Extracts", "SPF 20"],
@@ -95,7 +103,9 @@ export const products :IProduct[]= [
         id: "5",
         name: "Niacinamide Pore Refining Serum",
         category: "Serum",
+        category_id: "1",
         price: 29.99,
+
         image: productMoisturizer,
         description: "A lightweight, buildable foundation that provides natural-looking coverage while nourishing your skin with botanical extracts.",
         ingredients: ["Hyaluronic Acid", "Vitamin E", "Botanical Extracts", "SPF 20"],
@@ -116,7 +126,9 @@ export const products :IProduct[]= [
         id: "6",
         name: "Hydrating Daily Moisturizer",
         category: "Moisturizer",
+        category_id: "1",
         price: 26.99,
+
         originalPrice: 32.99,
         image: productMoisturizer,
         images: [
@@ -156,9 +168,7 @@ export const footerLinks = {
     "Customer Care": [
         { name: "Contact Us", href: "/contact" },
         { name: "FAQ", href: "/faq" },
-        { name: "Shipping & Returns", href: "#" },
-        { name: "Size Guide", href: "#" },
-        { name: "Track Your Order", href: "#" },
+        { name: "Shipping", href: "#" },
     ],
     "About Shades": [
         { name: "Our Story", href: "#" },
@@ -181,28 +191,28 @@ import customer2 from "@/assets/res2.jpg";
 import customer3 from "@/assets/res3.jpg";
 import customer4 from "@/assets/res4.jpg";
 export const results = [
-  {
-    id: 1,
-    title: "Acne Scar Treatment",
-    beforeImage: customer1,
-    afterImage: customer2,
-    duration: "4 weeks",
-    concern: "Acne Scars",
-    improvement: "85% reduction",
-    products: ["Vitamin C Serum", "Niacinamide Serum", "Moisturizer"],
-    rating: 5,
-    testimonial: "Amazing results! My acne scars have significantly faded and my skin looks so much smoother."
-  },
-  {
-    id: 2,
-    title: "Dark Spots & Pigmentation",
-    beforeImage: customer3,
-    afterImage: customer4,
-    duration: "6 weeks",
-    concern: "Pigmentation",
-    improvement: "90% brighter",
-    products: ["Brightening Serum", "Sunscreen SPF 50", "Night Moisturizer"],
-    rating: 5,
-    testimonial: "The dark spots are almost completely gone. I can't believe the transformation!"
-  }
+    {
+        id: 1,
+        title: "Acne Scar Treatment",
+        beforeImage: customer1,
+        afterImage: customer2,
+        duration: "4 weeks",
+        concern: "Acne Scars",
+        improvement: "85% reduction",
+        products: ["Vitamin C Serum", "Niacinamide Serum", "Moisturizer"],
+        rating: 5,
+        testimonial: "Amazing results! My acne scars have significantly faded and my skin looks so much smoother."
+    },
+    {
+        id: 2,
+        title: "Dark Spots & Pigmentation",
+        beforeImage: customer3,
+        afterImage: customer4,
+        duration: "6 weeks",
+        concern: "Pigmentation",
+        improvement: "90% brighter",
+        products: ["Brightening Serum", "Sunscreen SPF 50", "Night Moisturizer"],
+        rating: 5,
+        testimonial: "The dark spots are almost completely gone. I can't believe the transformation!"
+    }
 ];

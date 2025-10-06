@@ -30,7 +30,7 @@ const Loader = () => {
   };
 
   return (
-    <div className="flex items-center justify-center overflow-hidden fixed inset-0 z-50 bg-background">
+    <div className="flex items-center justify-center overflow-hidden fixed inset-0 z-[2000] bg-background">
       <motion.h1
         className="!font-script text-4xl lg:text-5xl xl:text-6xl  text-primary font-bold tracking-wider  space-x-2"
         variants={container}

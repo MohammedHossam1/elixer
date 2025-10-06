@@ -1,32 +1,10 @@
-import React from 'react'
-import { Heart, Award, Users, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { IWhyChooseUs } from '@/types/Index';
 import { useTranslation } from "react-i18next";
-const WhatWeStandFor = () => {
+import Image from './shared/Image';
+const WhatWeStandFor = ({ data }: { data: IWhyChooseUs[] }) => {
     const { t } = useTranslation();
-    
-    const values = [
-        {
-            icon: Heart,
-            titleKey: "whatWeStandFor.values.pureIngredients.title",
-            descriptionKey: "whatWeStandFor.values.pureIngredients.description"
-        },
-        {
-            icon: Award,
-            titleKey: "whatWeStandFor.values.dermatologistApproved.title",
-            descriptionKey: "whatWeStandFor.values.dermatologistApproved.description"
-        },
-        {
-            icon: Users,
-            titleKey: "whatWeStandFor.values.healthySkinGoals.title",
-            descriptionKey: "whatWeStandFor.values.healthySkinGoals.description"
-        },
-        {
-            icon: Sparkles,
-            titleKey: "whatWeStandFor.values.fastResults.title",
-            descriptionKey: "whatWeStandFor.values.fastResults.description"
-        }
-    ];
+    if (!data) return null
     return (
         <section className="py-16 lg:py-24 bg-background overflow-x-hidden">
             <div className="container mx-auto px-4">
@@ -37,19 +15,24 @@ const WhatWeStandFor = () => {
                     </h3>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {values.map((value, index) => {
-                            const Icon = value.icon;
+                        {data?.map((value, index) => {
                             return (
                                 <div
                                     key={index}
                                     className="text-center space-y-4 card-elegant p-6 rounded-2xl hover:transform hover:scale-105 transition-all duration-300"
                                 >
                                     <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
-                                        <Icon className="w-8 h-8 text-primary" />
+                                        <Image
+                                            src={value.image}
+                                            alt={value.title}
+                                            width={100}
+                                            className="w-10 h-10"
+                                            height={100}
+                                        />
                                     </div>
-                                    <h4 className="text-lg font-bold text-foreground">{t(value.titleKey)}</h4>
+                                    <h4 className="text-lg font-bold text-foreground">{t(value.title)}</h4>
                                     <p className="text-sm text-muted-foreground leading-relaxed">
-                                        {t(value.descriptionKey)}
+                                        {t(value.description)}
                                     </p>
                                 </div>
                             );

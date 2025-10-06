@@ -9,6 +9,7 @@ import customer5 from "@/assets/customer-5.jpg";
 import customer6 from "@/assets/customer-6.jpg";
 import customer7 from "@/assets/customer-7.jpg";
 import customer8 from "@/assets/customer-8.jpg";
+import { useTranslation } from "react-i18next";
 
 const customerImages = [
   customer1, customer2, customer3, customer4,
@@ -51,8 +52,9 @@ const testimonials = [
 ];
 
 const Testimonials = () => {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
   };
@@ -62,25 +64,24 @@ const Testimonials = () => {
   };
 
   const current = testimonials[currentTestimonial];
-
   return (
     <section className="py-16 lg:py-24 bg-muted/30 overflow-x-hidden">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12 lg:mb-16">
           <h2 className="text-lg lg:text-xl font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-            TESTIMONIAL
+            {t('testimonials.title')}
           </h2>
           <h3 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            What People Say?
+            {t('testimonials.description')}
           </h3>
           {/* Decorative wavy line */}
           <div className="flex justify-center">
             <svg width="120" height="20" viewBox="0 0 120 20" className="text-primary">
-              <path 
-                d="M10 10 Q30 2, 50 10 Q70 18, 90 10 Q110 2, 110 10" 
-                stroke="currentColor" 
-                strokeWidth="2" 
+              <path
+                d="M10 10 Q30 2, 50 10 Q70 18, 90 10 Q110 2, 110 10"
+                stroke="currentColor"
+                strokeWidth="2"
                 fill="none"
               />
             </svg>
@@ -90,12 +91,12 @@ const Testimonials = () => {
         {/* Testimonials Content */}
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
-            
+
             {/* Customer Photos Grid */}
             <div className="order-2 lg:order-1">
               <div className="grid grid-cols-4 sm:grid-cols-4 gap-2 sm:gap-4">
                 {customerImages.map((image, index) => (
-                  <div 
+                  <div
                     key={index}
                     className="aspect-square rounded-lg overflow-hidden bg-muted hover:transform hover:scale-105 transition-all duration-300 cursor-pointer"
                   >
@@ -119,8 +120,8 @@ const Testimonials = () => {
               </div>
 
               {/* Customer Info */}
-              <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
-                <div className="flex items-center space-x-4">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-y-3 sm:gap-y-0 sm:gap-x-4">
+                <div className="flex items-center gap-x-4">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden flex-shrink-0">
                     <img
                       src={current.avatar}
@@ -134,15 +135,14 @@ const Testimonials = () => {
                   </div>
                 </div>
                 {/* Star Rating */}
-                <div className="flex items-center space-x-1 sm:ml-auto">
+                <div className="flex items-center gap-x-1 sm:ml-auto">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star
                       key={star}
-                      className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                        star <= current.rating 
-                          ? 'text-yellow-400 fill-current' 
-                          : 'text-muted-foreground'
-                      }`}
+                      className={`w-4 h-4 sm:w-5 sm:h-5 ${star <= current.rating
+                        ? 'text-yellow-400 fill-current'
+                        : 'text-muted-foreground'
+                        }`}
                     />
                   ))}
                 </div>
@@ -160,20 +160,19 @@ const Testimonials = () => {
                   onClick={prevTestimonial}
                   className="flex items-center space-x-1 sm:space-x-2 text-muted-foreground hover:text-foreground"
                 >
-                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-                  <span className="font-semibold text-sm sm:text-base">PREV</span>
+                  <ChevronLeft className={`w-4 h-4 sm:w-5 sm:h-5 ${lang != " en" && "rotate-180"}`} />
+                  <span className="font-semibold text-sm sm:text-base">{t('testimonials.prev')}</span>
                 </Button>
 
-                <div className="flex space-x-2">
+                <div className="flex gap-x-2">
                   {testimonials.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentTestimonial(index)}
-                      className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
-                        index === currentTestimonial 
-                          ? 'bg-primary' 
-                          : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                      }`}
+                      className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${index === currentTestimonial
+                        ? 'bg-primary'
+                        : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                        }`}
                     />
                   ))}
                 </div>
@@ -183,8 +182,8 @@ const Testimonials = () => {
                   onClick={nextTestimonial}
                   className="flex items-center space-x-1 sm:space-x-2 text-muted-foreground hover:text-foreground"
                 >
-                  <span className="font-semibold text-sm sm:text-base">NEXT</span>
-                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="font-semibold text-sm sm:text-base">{t('testimonials.next')}</span>
+                  <ChevronRight className={`w-4 h-4 sm:w-5 sm:h-5   ${lang != "en" && "rotate-180"}`} />
                 </Button>
               </div>
             </div>

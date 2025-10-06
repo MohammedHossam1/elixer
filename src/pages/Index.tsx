@@ -25,7 +25,7 @@ const Index = () => {
           <FadeInSection><TopCategories    /></FadeInSection>
           <ProductShowcase   />
           <FadeInSection><SkinResults   /></FadeInSection>
-          <FadeInSection><WhatWeStandFor    /></FadeInSection>
+          <FadeInSection><WhatWeStandFor data={data?.data?.how_we_works}   /></FadeInSection>
           <FadeInSection><BeforeAfterComparison   /></FadeInSection>
           <FadeInSection><Testimonials   /></FadeInSection>
         </main>

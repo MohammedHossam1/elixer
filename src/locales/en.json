@@ -160,6 +160,16 @@
       "button": "Start Your Skin Transformation"
     }
   },
+  "shop": {
+    "title": "Shop Our Collection",
+    "description": "Discover our premium skincare products crafted with the finest ingredients"
+  },
+  "testimonials": {
+    "title": "Testimonials",
+    "description": "What People Say?",
+    "prev": "Previous",
+    "next": "Next"
+  },
   "beforeAfterComparison": {
     "title": "See The",
     "titleScript": "Transformation",

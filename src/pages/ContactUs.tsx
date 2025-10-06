@@ -155,24 +155,6 @@ const ContactUs = () => {
               ))}
             </div>
 
-            {/* Business Hours */}
-            <div className="card-elegant p-4 lg:p-6">
-              <h3 className="font-semibold mb-4 text-lg">{t('contact.businessHours')}</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">{t('contact.mondayFriday')}</span>
-                  <span className="font-medium">9:00 AM - 6:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">{t('contact.saturday')}</span>
-                  <span className="font-medium">10:00 AM - 4:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">{t('contact.sunday')}</span>
-                  <span className="font-medium">{t('contact.closed')}</span>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Contact Form */}

@@ -144,15 +144,7 @@ const AboutUs = ({ data }: { data: IAbout }) => {
                 </div>
               </div>
 
-              {/* Mission Statement */}
-              <div className="card-elegant p-6 lg:p-8 rounded-2xl">
-                <h4 className="text-xl font-bold text-foreground mb-4">
-                  {t("about.missionTitle")}
-                </h4>
-                <p className="text-muted-foreground leading-relaxed">
-                  {t("about.missionBody")}
-                </p>
-              </div>
+            
             </motion.div>
           </div>
         </div>

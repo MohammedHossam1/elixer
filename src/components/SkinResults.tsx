@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, Calendar, CheckCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { results } from "@/data/Index";
 import { useTranslation } from "react-i18next";
 
@@ -69,35 +68,14 @@ const SkinResults = () => {
                   </div>
                 </div>
 
-                {/* Results Stats */}
-                <div className="grid grid-cols-3 gap-4 pt-4">
-                  <div className="text-center card-elegant p-4 rounded-xl">
-                    <Calendar className="w-5 h-5 text-primary mx-auto mb-2" />
-                    <div className="text-sm font-semibold text-foreground">{result.duration}</div>
-                    <div className="text-xs text-muted-foreground">{t('skinResults.duration')}</div>
-                  </div>
-                  <div className="text-center card-elegant p-4 rounded-xl">
-                    <CheckCircle className="w-5 h-5 text-green-600 mx-auto mb-2" />
-                    <div className="text-sm font-semibold text-foreground">{result.improvement}</div>
-                    <div className="text-xs text-muted-foreground">{t('skinResults.improvement')}</div>
-                  </div>
-                  <div className="text-center card-elegant p-4 rounded-xl">
-                    <div className="flex justify-center mb-2">
-                      {[...Array(result.rating)].map((_, i) => (
-                        <Star key={i} className="w-3 h-3 text-yellow-400 fill-current" />
-                      ))}
-                    </div>
-                    <div className="text-sm font-semibold text-foreground">5.0</div>
-                    <div className="text-xs text-muted-foreground">{t('skinResults.rating')}</div>
-                  </div>
-                </div>
+              
               </div>
 
               {/* Content */}
               <div className={`space-y-6 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
                 <div>
                   <Badge variant="outline" className="mb-3 text-primary border-primary">
-                    {result.concern}
+                    {result.duration}
                   </Badge>
                   <h3 className="text-2xl lg:text-3xl font-bold text-foreground mb-4">
                     {result.title}

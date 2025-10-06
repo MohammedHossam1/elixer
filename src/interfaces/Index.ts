@@ -14,5 +14,6 @@ export interface IProduct {
     images: string[];
     isNew: boolean;
     isOnSale: boolean;
+    category_id: string;
     inStock: boolean;
 }

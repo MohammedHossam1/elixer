@@ -20,6 +20,7 @@ interface ProductCardProps {
   isNew?: boolean;
   isOnSale?: boolean;
   inStock?: boolean;
+  quantity?: number;
 }
 
 const ProductCard = ({
@@ -31,7 +32,6 @@ const ProductCard = ({
   image,
   rating,
   reviews,
-  isNew = false,
   isOnSale = false,
   inStock = true,
 }: ProductCardProps) => {
@@ -81,9 +81,6 @@ const ProductCard = ({
     >
       {/* Badges */}
       <div className="absolute top-3 start-3 z-10 flex flex-col gap-2">
-        {isNew && (
-          <Badge className="bg-rose-gold max-lg:text-[9px] text-white font-semibold w-fit">NEW</Badge>
-        )}
         {isOnSale && (
           <Badge className="bg-primary max-lg:text-[9px text-primary-foreground font-semibold w-fit">
             SALE

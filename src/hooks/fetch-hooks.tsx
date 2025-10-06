@@ -13,6 +13,18 @@ export const useGetHomePage = (lang: string) => {
   });
 };
 
+interface ICategory {
+  id: number;
+  name: string;
+}
+export const useGetCategories = (lang: string) => {
+  return useQuery<ApiResponse<ICategory[]>>({
+    queryKey: ["categories", lang],
+    queryFn: () => fetcher<ICategory[]>({ url: "/categories", lang }),
+    staleTime: 1000 * 60 * 60,
+  });
+};
+
 
 export const useGetAppointmentsTypes = (lang: string) => {
   //hanlde react query fetch

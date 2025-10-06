@@ -1,43 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { categories, products } from "@/data/Index";
-import { cubicBezier, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import ProductCard from "./ProductCard";
-import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
-
+import FilteredProductsCategories from "./shared/FilteredProductsCategories";
 // Define IProductShowCase interface
 
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 40, scale: 0.95 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.5, ease: cubicBezier(0.16, 1, 0.3, 1) },
-  },
-};
 
 const ProductShowcase = () => {
   const { t, i18n } = useTranslation();
   const isArOrHe = i18n.language === 'ar' || i18n.language === 'he';
-  const getFilteredProducts = (category: string) => {
-    if (category === "all") return products;
-    return products.filter(
-      (product) => product.category.toLowerCase() === category
-    );
-  };
+
+
 
   return (
     <section className="py-16 lg:py-24 bg-background overflow-x-hidden">
@@ -59,45 +31,7 @@ const ProductShowcase = () => {
         </motion.div>
 
         {/* Product Tabs */}
-        <Tabs defaultValue="all" dir={isArOrHe ? "rtl" : "ltr"} className="w-full">
-          <TabsList className="bg-muted/50 h-auto block max-w-4xl mx-auto sm:w-fit mb-5">
-            <Carousel opts={{ align: "start" }}>
-              <CarouselContent className="pl-3">
-                {categories.map((category) => (
-                  <CarouselItem key={category.id} className="basis-auto pl-1">
-                    <TabsTrigger
-                      value={category.id}
-                      className="text-xs sm:text-sm border font-medium data-[state=active]:bg-primary data-[state=active]:text-white px-2 py-3 sm:px-4"
-                    >
-                      <span className="">{t(`productShowcase.tabs.${category.id}`)}</span>
-                      <span className="ms-1 text-xs hidden sm:inline">
-                        ({category.count})
-                      </span>
-                    </TabsTrigger>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-          </TabsList>
-
-          {categories.map((category) => (
-            <TabsContent key={category.id} value={category.id}>
-              <motion.div
-                className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-12"
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, amount: 0.15 }}
-              >
-                {getFilteredProducts(category.id).map((product) => (
-                  <motion.div key={product.id} variants={itemVariants}>
-                    <ProductCard {...product} />
-                  </motion.div>
-                ))}
-              </motion.div>
-            </TabsContent>
-          ))}
-        </Tabs>
+        <FilteredProductsCategories params="0" />
 
         {/* View All Button */}
         <motion.div
