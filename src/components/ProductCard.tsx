@@ -7,34 +7,23 @@ import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useTranslation } from "react-i18next";
+import { IProduct } from "@/types/Index";
+import Image from "./shared/Image";
 
-interface ProductCardProps {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  originalPrice?: number;
-  image: string;
-  rating: number;
-  reviews: number;
-  isNew?: boolean;
-  isOnSale?: boolean;
-  inStock?: boolean;
-  quantity?: number;
-}
+
 
 const ProductCard = ({
   id,
   name,
   category,
   price,
-  originalPrice,
+  discount,
+  slug,
+  attachments,
   image,
   rating,
-  reviews,
-  isOnSale = false,
-  inStock = true,
-}: ProductCardProps) => {
+  quantity
+}: IProduct) => {
   const [isHovered, setIsHovered] = useState(false);
   const { addItem } = useCart();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
@@ -42,13 +31,13 @@ const ProductCard = ({
   const isWishlisted = isInWishlist(id);
   const { t } = useTranslation('')
   const handleAddToCart = () => {
-    if (!inStock) return;
+    if (quantity == 0) return;
 
     addItem({
       id,
       name,
       price,
-      image
+      image,
     });
 
     toast({
@@ -81,14 +70,14 @@ const ProductCard = ({
     >
       {/* Badges */}
       <div className="absolute top-3 start-3 z-10 flex flex-col gap-2">
-        {isOnSale && (
+        {Number(discount) > 0 && (
           <Badge className="bg-primary max-lg:text-[9px text-primary-foreground font-semibold w-fit">
-            SALE
+            {t('sale')}
           </Badge>
         )}
-        {!inStock && (
+        {quantity == 0 && (
           <Badge variant="secondary" className="font-semibold max-lg:text-[9px]">
-            OUT OF STOCK
+            {t('outOfStock')}
           </Badge>
         )}
       </div>
@@ -106,9 +95,9 @@ const ProductCard = ({
       </button>
 
       {/* Product Image */}
-      <Link to={`/product/${id}`} className="block relative aspect-square overflow-hidden bg-gradient-to-br from-muted/20 to-muted/5">
-        <img
-          src={image}
+      <Link to={`/product/${slug}`} className="block relative aspect-square overflow-hidden bg-gradient-to-br from-muted/20 to-muted/5">
+        <Image
+          src={attachments.length > 0 ? attachments[0].file_path : image}
           alt={name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
@@ -122,7 +111,7 @@ const ProductCard = ({
       <div className="p-2 lg:p-4 space-y-1 lg:space-y-3 flex flex-col justify-between ">
         {/* Category */}
         <div className="text-[9px] lg:text-xs uppercase tracking-wide text-rose-gold font-semibold">
-          {category}
+          {category.name}
         </div>
 
         {/* Name */}
@@ -137,23 +126,23 @@ const ProductCard = ({
               <Star
                 key={i}
                 className={`h-3 w-3 ${i < Math.floor(rating)
-                    ? "fill-rose-gold text-rose-gold"
-                    : "text-muted"
+                  ? "fill-rose-gold text-rose-gold"
+                  : "text-muted"
                   }`}
               />
             ))}
           </div>
-          <span className="text-xs text-muted-foreground">({reviews})</span>
+          {/* <span className="text-xs text-muted-foreground">({reviews})</span> */}
         </div>
 
         {/* Price */}
         <div className="flex items-center gap-2">
           <span className="text-base lg:text-lg font-bold text-foreground">
-            ${price.toFixed(2)}
+            ${((price - (price * Number(discount) / 100))).toFixed(2)}
           </span>
-          {originalPrice && (
+          {price && (
             <span className="text-sm text-muted-foreground line-through">
-              ${originalPrice.toFixed(2)}
+              ${Number(price).toFixed(2)}
             </span>
           )}
         </div>
@@ -161,14 +150,14 @@ const ProductCard = ({
         {/* Add to Cart Button */}
         <Button
           onClick={handleAddToCart}
-          disabled={!inStock}
-          className={`w-full transition-all  duration-300  ${inStock
-              ? "btn-gradient text-white hover:shadow-glow"
-              : "bg-muted text-muted-foreground cursor-not-allowed"
+          disabled={quantity == 0}
+          className={`w-full transition-all  duration-300  ${quantity == 0
+            ? "bg-muted text-muted-foreground cursor-not-allowed"
+            : "btn-gradient text-white hover:shadow-glow"
             }`}
         >
           <ShoppingBag className="size-4 mr-2" />
-          {inStock ? t("addToCart") : t("outOfStock")}
+          {quantity == 0 ? t("outOfStock") : t("addToCart")}
         </Button>
       </div>
     </div>

@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import fallbackImg from '../../assets/banner1.jpg';
 
 interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
@@ -16,24 +17,35 @@ const Image: React.FC<ImageProps> = ({
   height,
   className,
   loading = 'lazy',
-  fallbackSrc,
+  fallbackSrc = fallbackImg,
   ...rest
 }) => {
-  const [imgSrc, setImgSrc] = React.useState(src);
+  const [imgSrc, setImgSrc] = useState(src);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setImgSrc(src);
+    setError(false);
+    console.log(src,"src");
+    console.log(error,"error");
+
+  }, [src,error]);
 
   const handleError = () => {
-    if (fallbackSrc) {
+    if (!error) {
+      setError(true);
       setImgSrc(fallbackSrc);
     }
   };
 
   return (
     <img
-      src={imgSrc}
+      key={imgSrc} 
+      src={imgSrc ||fallbackSrc}
       alt={alt}
       width={width}
-      loading={loading}
       height={height}
+      loading={loading}
       className={className}
       onError={handleError}
       {...rest}

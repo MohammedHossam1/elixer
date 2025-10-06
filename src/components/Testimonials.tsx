@@ -10,6 +10,7 @@ import customer6 from "@/assets/customer-6.jpg";
 import customer7 from "@/assets/customer-7.jpg";
 import customer8 from "@/assets/customer-8.jpg";
 import { useTranslation } from "react-i18next";
+import Image from "./shared/Image";
 
 const customerImages = [
   customer1, customer2, customer3, customer4,
@@ -100,7 +101,7 @@ const Testimonials = () => {
                     key={index}
                     className="aspect-square rounded-lg overflow-hidden bg-muted hover:transform hover:scale-105 transition-all duration-300 cursor-pointer"
                   >
-                    <img
+                    <Image
                       src={image}
                       alt={`Customer ${index + 1}`}
                       className="w-full h-full object-cover"
@@ -123,7 +124,7 @@ const Testimonials = () => {
               <div className="flex flex-col sm:flex-row sm:items-center gap-y-3 sm:gap-y-0 sm:gap-x-4">
                 <div className="flex items-center gap-x-4">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden flex-shrink-0">
-                    <img
+                    <Image
                       src={current.avatar}
                       alt={current.name}
                       className="w-full h-full object-cover"
@@ -160,7 +161,7 @@ const Testimonials = () => {
                   onClick={prevTestimonial}
                   className="flex items-center space-x-1 sm:space-x-2 text-muted-foreground hover:text-foreground"
                 >
-                  <ChevronLeft className={`w-4 h-4 sm:w-5 sm:h-5 ${lang != " en" && "rotate-180"}`} />
+                  <ChevronLeft className={`w-4 h-4 sm:w-5 sm:h-5 ${lang != "en" && "rotate-180"}`} />
                   <span className="font-semibold text-sm sm:text-base">{t('testimonials.prev')}</span>
                 </Button>
 

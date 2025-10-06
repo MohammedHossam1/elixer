@@ -1,30 +1,64 @@
+import Image from "@/components/shared/Image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { products } from "@/data/Index";
+import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
+import { useGetProducts } from "@/hooks/fetch-hooks";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Heart, Minus, Plus, ShoppingBag, Star } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 // Mock product data - in real app this would come from API
 
 const ProductDetail = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
+  const { i18n, t } = useTranslation();
   const { toast } = useToast();
   const [selectedImage, setSelectedImage] = useState(0);
+  const { addItem, updateQuantity } = useCart();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
+  const { data } = useGetProducts(i18n.language);
+  const product = data?.data.items.find((p) => p.slug === slug);
+  const isWishlisted = isInWishlist(product.id);
+
   const [quantity, setQuantity] = useState(1);
-  const [isWishlisted, setIsWishlisted] = useState(false);
-  const product = products.find((p) => p.id === id);
-  console.log(product)
+  const handleQuantityChange = (id: string, newQuantity: number) => {
+    updateQuantity(id, newQuantity);
+  };
   const handleAddToCart = () => {
+    if (product.quantity == 0) return;
+
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: Number(product.price),
+      image: product.image,
+    });
+    handleQuantityChange(product.id, quantity)
+
     toast({
       title: "Added to cart",
-      description: `${quantity} x ${product.name} added to your cart.`,
+      description: `${name} has been added to your cart.`,
     });
   };
-  
+
   const handleToggleWishlist = () => {
-    setIsWishlisted(!isWishlisted);
+    if (isWishlisted) {
+      removeFromWishlist(product.id);
+      toast({
+        title: "Removed from wishlist",
+        description: `${name} has been removed from your wishlist.`,
+      });
+    } else {
+      addToWishlist({ id: product.id, name: product.name, price: Number(product.price), image: product.image, category: product.category });
+      toast({
+        title: "Added to wishlist",
+        description: `${name} has been added to your wishlist.`,
+      });
+    }
+
     toast({
       title: isWishlisted ? "Removed from wishlist" : "Added to wishlist",
       description: `${product.name} ${isWishlisted ? "removed from" : "added to"} your wishlist.`,
@@ -41,32 +75,32 @@ const ProductDetail = () => {
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to Products
+            {t("back")}
           </Link>
         </div>
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Images */}
           <div className="space-y-4">
             <div className="aspect-square overflow-hidden rounded-xl bg-gradient-to-br from-muted/20 to-muted/5">
-              <img
-                src={product.images[selectedImage]}
+              <Image
+                src={product.attachments[selectedImage].file_path}
                 alt={product.name}
+                key={product.image}
                 className="w-full h-full object-cover"
               />
             </div>
             {/* Image Thumbnails */}
             <div className="flex gap-3">
-              {product.images.map((image, index) => (
+              {product.attachments.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
-                    selectedImage === index ? "border-primary" : "border-muted"
-                  }`}
+                  className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${selectedImage === index ? "border-primary" : "border-muted"
+                    }`}
                 >
-                  <img
-                    src={image}
-                    alt={`${product.name} ${index + 1}`}
+                  <Image
+                    src={image.file_path}
+                    alt={`${image.file_name} ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
                 </button>
@@ -77,16 +111,13 @@ const ProductDetail = () => {
           <div className="space-y-6">
             {/* Badges */}
             <div className="flex gap-2">
-              {product.isNew && (
-                <Badge className="bg-rose-gold text-white">NEW</Badge>
-              )}
-              {product.isOnSale && (
-                <Badge className="bg-primary text-primary-foreground">SALE</Badge>
+              {Number(product.discount) > 0 && (
+                <Badge className="bg-primary text-primary-foreground">{t("discount")}</Badge>
               )}
             </div>
             {/* Category */}
             <div className="text-sm uppercase tracking-wide text-rose-gold font-semibold">
-              {product.category}
+              {product.category.name}
             </div>
             {/* Name */}
             <h1 className="text-3xl font-bold text-foreground">
@@ -98,28 +129,27 @@ const ProductDetail = () => {
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`h-4 w-4 ${
-                      i < Math.floor(product.rating)
-                        ? "fill-rose-gold text-rose-gold"
-                        : "text-muted"
-                    }`}
+                    className={`h-4 w-4 ${i < Math.floor(product.rating)
+                      ? "fill-rose-gold text-rose-gold"
+                      : "text-muted"
+                      }`}
                   />
                 ))}
               </div>
-              <span className="text-sm text-muted-foreground">
+              {/* <span className="text-sm text-muted-foreground">
                 {product.rating} ({product.reviews} reviews)
-              </span>
+              </span> */}
             </div>
             {/* Price */}
             <div className="flex items-center gap-3">
               <span className="text-3xl font-bold text-foreground">
-                ${product.price}
+                ${Number(product.price)}
               </span>
-              {product.originalPrice && (
+              {/* {product.originalPrice && (
                 <span className="text-xl text-muted-foreground line-through">
                   ${product.originalPrice}
                 </span>
-              )}
+              )} */}
             </div>
             {/* Description */}
             <p className="text-muted-foreground leading-relaxed">
@@ -128,7 +158,7 @@ const ProductDetail = () => {
             {/* Quantity & Actions */}
             <div className="space-y-4">
               <div className="flex items-center gap-4">
-                <span className="font-semibold">Quantity:</span>
+                <span className="font-semibold">{t("quantity")}:</span>
                 <div className="flex items-center border border-input rounded-md">
                   <Button
                     variant="ghost"
@@ -158,7 +188,7 @@ const ProductDetail = () => {
                   size="lg"
                 >
                   <ShoppingBag className="h-5 w-5 mr-2" />
-                  Add to Cart - ${(product.price * quantity).toFixed(2)}
+                  {t("addToCart")} - ${(Number(product.price) * quantity).toFixed(2)}
                 </Button>
                 <Button
                   variant="outline"
@@ -174,55 +204,34 @@ const ProductDetail = () => {
         </div>
         {/* Product Details Tabs */}
         <div className="mt-12">
-          <Tabs defaultValue="details" className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="details">Details</TabsTrigger>
-              <TabsTrigger value="ingredients">Ingredients</TabsTrigger>
-              <TabsTrigger value="howto">How to Use</TabsTrigger>
-              <TabsTrigger value="reviews">Reviews</TabsTrigger>
+          <Tabs defaultValue="details" className="w-full ">
+            <TabsList className="grid lg:w-1/3 grid-cols-2 ">
+              <TabsTrigger value="details" className="w-full">{t("details")}</TabsTrigger>
+              <TabsTrigger value="howto" className="w-full">How to Use</TabsTrigger>
             </TabsList>
             <TabsContent value="details" className="mt-6">
               <div className="card-elegant rounded-xl p-6">
                 <h3 className="font-semibold mb-4">Product Benefits</h3>
-                <ul className="space-y-2">
+                {/* <ul className="space-y-2">
                   {product.benefits.map((benefit, index) => (
                     <li key={index} className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-rose-gold rounded-full"></div>
                       <span>{benefit}</span>
                     </li>
                   ))}
-                </ul>
+                </ul> */}
               </div>
             </TabsContent>
-            <TabsContent value="ingredients" className="mt-6">
-              <div className="card-elegant rounded-xl p-6">
-                <h3 className="font-semibold mb-4">Key Ingredients</h3>
-                <div className="grid gap-3">
-                  {product.ingredients.map((ingredient, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-                      <div className="w-3 h-3 bg-gradient-primary rounded-full"></div>
-                      <span>{ingredient}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </TabsContent>
+            {/* howToUse */}
             <TabsContent value="howto" className="mt-6">
               <div className="card-elegant rounded-xl p-6">
                 <h3 className="font-semibold mb-4">How to Use</h3>
-                <p className="text-muted-foreground leading-relaxed">
+                {/* <p className="text-muted-foreground leading-relaxed">
                   {product.howToUse}
-                </p>
+                </p> */}
               </div>
             </TabsContent>
-            <TabsContent value="reviews" className="mt-6">
-              <div className="card-elegant rounded-xl p-6">
-                <h3 className="font-semibold mb-4">Customer Reviews</h3>
-                <p className="text-muted-foreground">
-                  Reviews section coming soon. Currently showing {product.reviews} reviews with an average rating of {product.rating} stars.
-                </p>
-              </div>
-            </TabsContent>
+   
           </Tabs>
         </div>
       </main>

@@ -1,10 +1,9 @@
-import { Heart, Mail, Phone, MapPin } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
 import { footerLinks } from "@/data/Index";
 import { ISettings } from "@/types/Index";
+import { Heart, Mail, MapPin, Phone } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import ScrollToTop from "./ScrollToTop";
 
 const Footer = ({ data }: { data: ISettings }) => {
   const { t } = useTranslation();
@@ -28,18 +27,18 @@ const Footer = ({ data }: { data: ISettings }) => {
 
             {/* Contact Info */}
             <div className="space-y-3">
-              <div className="flex items-center gap-3 text-sm">
+              {data?.address && <div className="flex items-center gap-3 text-sm">
                 <MapPin className="h-4 w-4 text-rose-gold flex-shrink-0" />
                 <span className="text-muted-foreground">{data?.address}</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm">
+              </div>}
+              {data?.contact.mobile && <div className="flex items-center gap-3 text-sm">
                 <Phone className="h-4 w-4 text-rose-gold flex-shrink-0" />
                 <span className="text-muted-foreground">{data?.contact.mobile}</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm">
+              </div>}
+              {data?.contact.email && <div className="flex items-center gap-3 text-sm">
                 <Mail className="h-4 w-4 text-rose-gold flex-shrink-0" />
                 <span className="text-muted-foreground">{data?.contact.email}</span>
-              </div>
+              </div>}
             </div>
           </div>
 
@@ -47,7 +46,7 @@ const Footer = ({ data }: { data: ISettings }) => {
             {/* Footer Links */}
             {Object.entries(footerLinks).map(([title, links]) => (
               <div key={title} className="">
-                <h4 className="font-semibold text-lg text-foreground">{title}</h4>
+                <h4 className="font-semibold text-lg text-foreground">{t(title)}</h4>
                 <ul className="space-y-3 mt-4">
                   {links.map((link) => (
                     <li key={link.name}>
@@ -55,7 +54,7 @@ const Footer = ({ data }: { data: ISettings }) => {
                         href={link.href}
                         className="text-muted-foreground hover:text-primary transition-colors duration-200"
                       >
-                        {link.name}
+                        {t(link.name)}
                       </a>
                     </li>
                   ))}
@@ -65,58 +64,22 @@ const Footer = ({ data }: { data: ISettings }) => {
           </div>
         </div>
 
-        {/* Newsletter Section */}
-        <div className="py-8 border-t border-border">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-            <div className="text-center lg:text-start">
-              <h4 className="font-semibold text-lg text-foreground mb-2">
-                {t('footer.stayInLoop')}
-              </h4>
-              <p className="text-muted-foreground">
-                {t('footer.subscribeCopy')}
-              </p>
-            </div>
-
-            <div className="flex w-full lg:w-auto max-w-sm gap-2">
-              <Input
-                type="email"
-                placeholder={t('footer.emailPlaceholder')}
-                className="flex-1"
-              />
-              <Button className="btn-gradient text-white px-6">
-                {t('footer.subscribeCta')}
-              </Button>
-            </div>
-          </div>
-        </div>
 
         {/* Bottom Section */}
-        <div className="py-6 border-t border-border">
+        <div className=" relative py-6 border-t border-border">
+          <div className="absolute left-1/2 -top-5">
+            <ScrollToTop />
+          </div>
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-1 text-sm text-muted-foreground">
               {t('footer.madeWith')}  <Heart className="h-4 w-4 text-rose-gold fill-rose-gold" />{t('footer.by')}
-
               <Link to="https://qadi-tech.com/home" target="_blank">Qadi-tech</Link>
             </div>
-
-            <div className="flex items-center gap-6 text-sm text-muted-foreground">
-              <a href="/legals/privacy" className="hover:text-primary transition-colors">
-                {t('footer.privacy')}
-              </a>
-              <a href="/legals/terms" className="hover:text-primary transition-colors">
-                {t('footer.terms')}
-              </a>
-              <a href="/legals/disclaimer" className="hover:text-primary transition-colors">
-                {t('footer.disclaimer')}
-              </a>
-            </div>
-          </div>
-
-          <div className="text-center mt-4 pt-4 border-t border-border">
             <p className="text-sm text-muted-foreground">
               © 2025 Qadi-tech . {t('footer.allRightsReserved')}
             </p>
           </div>
+
         </div>
       </div>
     </footer>

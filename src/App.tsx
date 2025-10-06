@@ -4,13 +4,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { CartProvider } from "./contexts/CartContext";
-import Loader from "./components/Loader";
-import ScrollToTop from "./components/ScrollToTop";
-import StartPageTop from "./components/StartPageTop";
 import Layout from "./Layout";
+import Loader from "./components/Loader";
+import StartPageTop from "./components/StartPageTop";
+import { CartProvider } from "./contexts/CartContext";
 import { WishlistProvider } from "./contexts/WishlistContext";
 import FooterLegalPage from "./pages/FooterLegalPage";
+import OurStory from "./pages/OurStory";
 
 // 👇 Lazy imports for pages
 const Index = lazy(() => import("./pages/Index"));
@@ -36,17 +36,17 @@ const App = () => (
         <CartProvider>
           <Toaster />
           <Sonner />
-          <ScrollToTop />
           <BrowserRouter>
             <StartPageTop />
             <Suspense fallback={<Loader />}>
               <Routes>
                 <Route path="/" element={<Layout />}>
                   <Route index element={<Index />} />
-                  <Route path="product/:id" element={<ProductDetail />} />
+                  <Route path="product/:slug" element={<ProductDetail />} />
                   <Route path="checkout" element={<Checkout />} />
                   <Route path="shop" element={<Shop />} />
                   <Route path="contact" element={<ContactUs />} />
+                  <Route path="/our-story" element={<OurStory />} />
                   <Route path="/legals/:slug" element={<FooterLegalPage />} />
                   <Route path="faq" element={<FAQ />} />
                   <Route path="*" element={<NotFound />} />

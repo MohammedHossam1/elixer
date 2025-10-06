@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Plus, Minus, Trash2} from 'lucide-react';
+import { ShoppingBag, Plus, Minus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
@@ -16,6 +16,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
   const { items, updateQuantity, removeItem, totalItems, totalPrice } = useCart();
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
 
   const handleRemoveItem = (id: string, name: string) => {
     removeItem(id);
@@ -33,7 +34,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
 
 
   return (
-    <Sheet open={isOpen}  onOpenChange={setIsOpen}>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         {children}
       </SheetTrigger>
@@ -41,22 +42,22 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
         <SheetHeader className="p-6 pb-4">
           <SheetTitle className="flex items-center gap-2">
             <ShoppingBag className="h-5 w-5" />
-            Shopping Cart ({totalItems})
+            {t("cartTitle")} ({totalItems})
           </SheetTitle>
         </SheetHeader>
-        
+
         <div className="flex flex-col justify-between  h-full">
           {/* Cart Items */}
           <div className=" overflow-y-auto px-6">
             {items.length === 0 ? (
               <div className="text-center py-12">
                 <ShoppingBag className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <p className="text-muted-foreground mb-4">Your cart is empty</p>
-                <Button 
+                <p className="text-muted-foreground mb-4">{t("cartEmpty")}</p>
+                <Button
                   onClick={() => setIsOpen(false)}
                   variant="outline"
                 >
-                  Continue Shopping
+                  {t("close")}
                 </Button>
               </div>
             ) : (
@@ -71,9 +72,9 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                     <div className="flex-1 min-w-0">
                       <h4 className="font-semibold text-sm truncate">{item.name}</h4>
                       <p className="text-sm text-muted-foreground mb-2">
-                        ${item.price.toFixed(2)} each
+                        ${Number(item.price).toFixed(2)} {t("cartDrawer.each")}
                       </p>
-                      
+
                       {/* Quantity Controls */}
                       <div className="flex items-center gap-2">
                         <Button
@@ -97,7 +98,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                         </Button>
                       </div>
                     </div>
-                    
+
                     <div className="flex flex-col items-end justify-between">
                       <Button
                         size="icon"
@@ -122,39 +123,39 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
             <div className="border-t  mb-16 backdrop-blur p-6 space-y-4">
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span>Subtotal</span>
+                  <span>{t("subtotal")}</span>
                   <span className="font-semibold">${totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm text-muted-foreground">
-                  <span>Shipping</span>
-                  <span>Calculated at checkout</span>
+                  <span>{t("shipping")}</span>
+                  <span> {t("calculated")}</span>
                 </div>
               </div>
-              
+
               <Separator />
-              
+
               <div className="flex justify-between text-lg font-bold">
-                <span>Total</span>
+                <span>{t("total")}</span>
                 <span>${totalPrice.toFixed(2)}</span>
               </div>
 
               <div className="space-y-2">
-                <Button 
+                <Button
                   asChild
                   className="w-full btn-gradient text-white hover:shadow-glow"
                   size="lg"
                   onClick={() => setIsOpen(false)}
                 >
                   <Link to="/checkout">
-                    Checkout
+                    {t("checkout")}
                   </Link>
                 </Button>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full"
                   onClick={() => setIsOpen(false)}
                 >
-                  Continue Shopping
+                  {t("continueShopping")}
                 </Button>
               </div>
             </div>

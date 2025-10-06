@@ -1,5 +1,5 @@
 import { ApiResponse, fetcher } from "@/lib/fetch-methods";
-import { HomePageData, TArticle, appointmentType } from "@/types/Index";
+import { HomePageData, IProduct, TArticle, appointmentType } from "@/types/Index";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
@@ -21,6 +21,31 @@ export const useGetCategories = (lang: string) => {
   return useQuery<ApiResponse<ICategory[]>>({
     queryKey: ["categories", lang],
     queryFn: () => fetcher<ICategory[]>({ url: "/categories", lang }),
+    staleTime: 1000 * 60 * 60,
+  });
+};
+interface IProductsResponse {
+  items: IProduct[],
+  meta: {
+    has_more_pages: boolean,
+    has_pages: boolean,
+    is_first_page: boolean,
+    is_last_page: boolean,
+    links: {
+      first: string,
+      last: string,
+      prev: string | null,
+      next: string | null
+    },
+    pagination: {
+      total_it: number,
+    }
+  }
+}
+export const useGetProducts = (lang: string) => {
+  return useQuery<ApiResponse<IProductsResponse>>({
+    queryKey: ["products", lang],
+    queryFn: () => fetcher<IProductsResponse>({ url: "/products", lang }),
     staleTime: 1000 * 60 * 60,
   });
 };

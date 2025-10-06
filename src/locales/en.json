@@ -181,5 +181,30 @@
       "description": "Join thousands of satisfied customers who have achieved incredible results with our premium skincare collection.",
       "button": "Shop Skincare Collection"
     }
-  }
+  },
+  "cartTitle": "Shopping Cart",
+  "cartEmpty": "Your cart is empty",
+  "close": "Close",
+  "checkout": "Checkout",
+  "remove": "Remove",
+  "each": "Each",
+  "total": "Total",
+  "subtotal": "Sub total",
+  "continueShopping": "Continue Shopping",
+  "shipping": "Shipping",
+  "calculated": "Calculated at checkout",
+  "discount": "Discount",
+  "sale": "Sale",
+  "back": " Back to Products",
+  "noProducts": "No Products",
+  "contactUs": "Contact us",
+  "faq": "FAQ",
+  "disclaimer": "Disclaimer",
+  "ourStory":"Our Story",
+  "privacy":"Privacy Policy",
+  "terms":"Terms of Service",
+  "legals":"Legals",
+  "customerTitle":"Customer services & Our story",
+  "searchPlaceholder":"Search .."
+
 }

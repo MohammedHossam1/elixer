@@ -31,7 +31,7 @@ const ProductShowcase = () => {
         </motion.div>
 
         {/* Product Tabs */}
-        <FilteredProductsCategories params="0" />
+        <FilteredProductsCategories params="0" centered />
 
         {/* View All Button */}
         <motion.div

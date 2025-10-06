@@ -13,13 +13,17 @@ import { useWishlist } from "@/contexts/WishlistContext";
 import { useToast } from "@/hooks/use-toast";
 import { Heart, ShoppingBag, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import Image from "./shared/Image";
 
 interface WishlistItem {
   id: string;
   name: string;
   price: number;
   image: string;
-  category: string;
+  category: {
+    id: number;
+    name: string;
+  };
 }
 interface WishlistDrawerProps {
   children: React.ReactNode;
@@ -29,7 +33,7 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
   const { items, removeItem } = useWishlist();
   const { addItem: addToCart } = useCart();
   const { toast } = useToast();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const handleAddToCart = (item: WishlistItem) => {
     addToCart({
@@ -47,12 +51,12 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
 
   return (
     <Sheet >
-      <SheetTrigger  asChild>{children}</SheetTrigger>
+      <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent side={i18n.language === "en" ? "right" : "left"} className="w-full sm:w-96">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             <Heart className="h-5 w-5 text-primary" />
-            My Wishlist
+            {t("wishlistTitle")}
           </SheetTitle>
           <SheetDescription>
             {items.length === 0
@@ -65,7 +69,7 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Heart className="h-16 w-16 text-muted mb-4" />
-              <p className="text-muted-foreground">Start adding items to your wishlist</p>
+              <p className="text-muted-foreground">{t("wishlistEmpty")}</p>
             </div>
           ) : (
             <>
@@ -75,14 +79,14 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
                     key={item.id}
                     className="flex gap-4 p-4 rounded-lg border border-border bg-card"
                   >
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.name}
                       className="w-20 h-20 object-cover rounded"
                     />
                     <div className="flex-1">
                       <h4 className="font-semibold text-sm line-clamp-2">{item.name}</h4>
-                      <p className="text-xs text-muted-foreground mt-1">{item.category}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{item.category?.name}</p>
                       <p className="text-primary font-bold mt-2">${item.price.toFixed(2)}</p>
                     </div>
                     <div className="flex flex-col gap-2">
@@ -108,7 +112,7 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
               </div>
               <SheetClose className="w-full">
                 <div className="pt-4 border-t">
-                  <Button className="w-full btn-gradient" >Continue Shopping</Button>
+                  <Button className="w-full btn-gradient" >{t("continueShopping")}</Button>
                 </div>
               </SheetClose>
             </>

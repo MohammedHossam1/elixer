@@ -5,7 +5,10 @@ interface WishlistItem {
   name: string;
   price: number;
   image: string;
-  category: string;
+  category: {
+    id: number;
+    name: string;
+  };
 }
 
 interface WishlistContextType {
@@ -25,7 +28,7 @@ function getInitialWishlistItems(): WishlistItem[] {
     if (stored) {
       return JSON.parse(stored);
     }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
     // ignore
   }
@@ -41,7 +44,7 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     try {
       localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(items));
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       // ignore
     }

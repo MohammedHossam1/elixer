@@ -5,6 +5,7 @@ import Image from './shared/Image';
 const WhatWeStandFor = ({ data }: { data: IWhyChooseUs[] }) => {
     const { t } = useTranslation();
     if (!data) return null
+    console.log(data,"what we stand for");
     return (
         <section className="py-16 lg:py-24 bg-background overflow-x-hidden">
             <div className="container mx-auto px-4">
@@ -26,7 +27,7 @@ const WhatWeStandFor = ({ data }: { data: IWhyChooseUs[] }) => {
                                             src={value.image}
                                             alt={value.title}
                                             width={100}
-                                            className="w-10 h-10"
+                                            className="w-10 h-10 rounded-full"
                                             height={100}
                                         />
                                     </div>

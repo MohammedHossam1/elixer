@@ -4,12 +4,13 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { AnimatePresence, motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const SearchComponent = () => {
     const searchRef = useRef<HTMLDivElement>(null);
     const isMobile = useIsMobile();
     const [isSearchOpen, setIsSearchOpen] = useState(isMobile);
-
+    const { t } = useTranslation()
     // Always open search on mobile, otherwise use toggle logic
     useEffect(() => {
         if (isMobile) {
@@ -50,7 +51,7 @@ const SearchComponent = () => {
                     >
                         <Input
                             type="search"
-                            placeholder="Search products..."
+                            placeholder={t("searchPlaceholder")}
                             className="w-40 lg:w-64 border-border/60 focus:border-primary/50"
                             autoFocus
                             // Only close on blur if not mobile

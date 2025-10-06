@@ -25,6 +25,32 @@ export interface IProductShowCase {
   beforeImage: string;
   items?: string[];
 }
+export interface IProduct {
+  id: string,
+  slug: string,
+  category: {
+    id: number,
+    name: string
+  },
+  name: string,
+  description: string,
+  image: string,
+  discount: string,
+  price: number,
+  featured: boolean,
+  active: boolean,
+  order: number,
+  rating: number,
+  quantity: number
+  attachments: {
+    id: number,
+    file_name: string,
+    file_path: string,
+    created_at: string
+  }[]
+
+}
+
 
 export interface BlogPost {
   id: string;            // unique slug or id
@@ -55,12 +81,7 @@ export interface IAbout {
   image: string;
 }
 
-export interface IVideo {
-  id: number;
-  type: string;
-  thumbnail: string;
-  video_url: string;
-}
+
 export interface ITestimonial {
   id: number;
   name: string;
@@ -91,12 +112,6 @@ type Category = {
   image: string | null;
 };
 
-type Product = {
-  id: number;
-  name: { ar: string; he: string };
-  image: string | null;
-  price: string;
-};
 
 export interface IService {
   id: number;
@@ -108,13 +123,7 @@ export interface IService {
   link: string;
   active: boolean;
 }
-export interface IVideo {
-  id: number;
-  type: string;
-  description: string;
-  thumbnail: string;
-  path: string;
-}
+
 export interface ISuccessStory {
   id: number
   active: boolean
@@ -162,13 +171,11 @@ export interface ISettings {
 export type HomePageData = {
   settings: ISettings
   categories: Category[];
-  products: Product[];
+  products: IProduct[];
   sliders: IHeroSlider[];
   site_settings: { phone: string; email: string; address: string };
   about_office: IAbout;
   services: IService[];
-  videos: IVideo[];
-  sucess_stories: IVideo[];
   how_we_works: IWhyChooseUs[];
   appointment_types: string[];
   customer_rates: ITestimonial[];
