@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import FilteredProductsCategories from "./shared/FilteredProductsCategories";
+import { Link } from "react-router-dom";
 // Define IProductShowCase interface
 
 
@@ -41,13 +42,15 @@ const ProductShowcase = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-6 text-lg"
-          >
-            {t("productShowcase.cta")}
-          </Button>
+          <Link to="/products" className="mt-5 block"> 
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-6 text-base"
+            >
+              {t("productShowcase.cta")}
+            </Button>
+          </Link>
         </motion.div>
       </div>
     </section>

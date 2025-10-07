@@ -1,5 +1,5 @@
 import { ApiResponse, fetcher } from "@/lib/fetch-methods";
-import { HomePageData, IProduct, TArticle, appointmentType } from "@/types/Index";
+import { HomePageData, IFAQ, IProduct, TArticle, appointmentType } from "@/types/Index";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
@@ -38,17 +38,34 @@ interface IProductsResponse {
       next: string | null
     },
     pagination: {
-      total_it: number,
+      total_items: number;
+      total_pages: number;
+      current_page: number;
     }
+
   }
 }
-export const useGetProducts = (lang: string) => {
+// hooks/fetch-hooks.ts
+export const useGetProducts = (lang: string, page: number) => {
   return useQuery<ApiResponse<IProductsResponse>>({
-    queryKey: ["products", lang],
-    queryFn: () => fetcher<IProductsResponse>({ url: "/products", lang }),
+    queryKey: ["products", lang, page],
+    queryFn: () =>
+      fetcher<IProductsResponse>({
+        url: `/products?page=${page}`,
+        lang,
+      }),
     staleTime: 1000 * 60 * 60,
   });
 };
+
+export const useGetFAQ = (lang: string) => {
+  return useQuery<ApiResponse<IFAQ>>({
+    queryKey: ["faqs", lang],
+    queryFn: () => fetcher<IFAQ>({ url: "/faqs", lang }),
+    staleTime: 1000 * 60 * 60,
+  });
+};
+
 
 
 export const useGetAppointmentsTypes = (lang: string) => {

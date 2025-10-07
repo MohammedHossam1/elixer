@@ -19,7 +19,6 @@ const ProductCard = ({
   price,
   discount,
   slug,
-  attachments,
   image,
   rating,
   quantity
@@ -97,7 +96,7 @@ const ProductCard = ({
       {/* Product Image */}
       <Link to={`/product/${slug}`} className="block relative aspect-square overflow-hidden bg-gradient-to-br from-muted/20 to-muted/5">
         <Image
-          src={attachments.length > 0 ? attachments[0].file_path : image}
+          src={image}
           alt={name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />

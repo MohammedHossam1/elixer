@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import p1 from "@/assets/p1.png";
+import { Link } from "react-router-dom";
 
 const categories = [
   {
@@ -40,7 +41,8 @@ const TopSeller = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
-  const { t ,i18n} = useTranslation();
+
+  const { t, i18n } = useTranslation();
 
   // 🔹 sync carousel state
   const handleApi = (api: CarouselApi) => {
@@ -115,9 +117,8 @@ const TopSeller = () => {
             <button
               key={index}
               onClick={() => api?.scrollTo(index)}
-              className={`w-3 h-3 rounded-full transition-colors ${
-                current === index ? "bg-primary" : "bg-muted"
-              }`}
+              className={`w-3 h-3 rounded-full transition-colors ${current === index ? "bg-primary" : "bg-muted"
+                }`}
             />
           ))}
         </div>
@@ -127,13 +128,15 @@ const TopSeller = () => {
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
             {t("topSeller.bottom.copy")}
           </p>
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-6 text-lg font-semibold"
-          >
-            {t("topSeller.bottom.cta")}
-          </Button>
+          <Link to="/products" className="">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-6 text-base font-semibold"
+            >
+              {t("topSeller.bottom.cta")}
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

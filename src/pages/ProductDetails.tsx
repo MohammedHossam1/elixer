@@ -10,20 +10,28 @@ import { ArrowLeft, Heart, Minus, Plus, ShoppingBag, Star } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
-// Mock product data - in real app this would come from API
 
 const ProductDetail = () => {
   const { slug } = useParams();
   const { i18n, t } = useTranslation();
   const { toast } = useToast();
-  const [selectedImage, setSelectedImage] = useState(0);
   const { addItem, updateQuantity } = useCart();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
-  const { data } = useGetProducts(i18n.language);
+  const { data } = useGetProducts(i18n.language, 1);
   const product = data?.data.items.find((p) => p.slug === slug);
   const isWishlisted = isInWishlist(product.id);
-
+  const isArOrHe = i18n.language === 'ar' || i18n.language === 'he';
   const [quantity, setQuantity] = useState(1);
+
+  const galleryImages = [
+    ...(product.image
+      ? [{ file_path: product.image, file_name: product.name || "Main Image" }]
+      : []),
+    ...(Array.isArray(product.attachments) ? product.attachments : []),
+  ];
+
+  const [selectedImage, setSelectedImage] = useState(0);
+
   const handleQuantityChange = (id: string, newQuantity: number) => {
     updateQuantity(id, newQuantity);
   };
@@ -36,11 +44,11 @@ const ProductDetail = () => {
       price: Number(product.price),
       image: product.image,
     });
-    handleQuantityChange(product.id, quantity)
+    handleQuantityChange(product.id, quantity);
 
     toast({
       title: "Added to cart",
-      description: `${name} has been added to your cart.`,
+      description: `${product.name} has been added to your cart.`,
     });
   };
 
@@ -49,13 +57,19 @@ const ProductDetail = () => {
       removeFromWishlist(product.id);
       toast({
         title: "Removed from wishlist",
-        description: `${name} has been removed from your wishlist.`,
+        description: `${product.name} has been removed from your wishlist.`,
       });
     } else {
-      addToWishlist({ id: product.id, name: product.name, price: Number(product.price), image: product.image, category: product.category });
+      addToWishlist({
+        id: product.id,
+        name: product.name,
+        price: Number(product.price),
+        image: product.image,
+        category: product.category,
+      });
       toast({
         title: "Added to wishlist",
-        description: `${name} has been added to your wishlist.`,
+        description: `${product.name} has been added to your wishlist.`,
       });
     }
 
@@ -71,10 +85,10 @@ const ProductDetail = () => {
         {/* Breadcrumb */}
         <div className="mb-6">
           <Link
-            to="/"
+            to="/products"
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className={`h-4 w-4 ${isArOrHe && "rotate-180"}`} />
             {t("back")}
           </Link>
         </div>
@@ -83,28 +97,30 @@ const ProductDetail = () => {
           <div className="space-y-4">
             <div className="aspect-square overflow-hidden rounded-xl bg-gradient-to-br from-muted/20 to-muted/5">
               <Image
-                src={product.attachments[selectedImage].file_path}
+                src={galleryImages[selectedImage]?.file_path}
                 alt={product.name}
-                key={product.image}
+                key={galleryImages[selectedImage]?.file_path}
                 className="w-full h-full object-cover"
               />
             </div>
             {/* Image Thumbnails */}
             <div className="flex gap-3">
-              {product.attachments.map((image, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedImage(index)}
-                  className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${selectedImage === index ? "border-primary" : "border-muted"
+              {galleryImages.length > 0 &&
+                galleryImages.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImage(index)}
+                    className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
+                      selectedImage === index ? "border-primary" : "border-muted"
                     }`}
-                >
-                  <Image
-                    src={image.file_path}
-                    alt={`${image.file_name} ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
+                  >
+                    <Image
+                      src={image.file_path}
+                      alt={`${image.file_name || product.name} ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
             </div>
           </div>
           {/* Product Info */}
@@ -129,10 +145,11 @@ const ProductDetail = () => {
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`h-4 w-4 ${i < Math.floor(product.rating)
-                      ? "fill-rose-gold text-rose-gold"
-                      : "text-muted"
-                      }`}
+                    className={`h-4 w-4 ${
+                      i < Math.floor(product.rating)
+                        ? "fill-rose-gold text-rose-gold"
+                        : "text-muted"
+                    }`}
                   />
                 ))}
               </div>
@@ -231,7 +248,6 @@ const ProductDetail = () => {
                 </p> */}
               </div>
             </TabsContent>
-   
           </Tabs>
         </div>
       </main>

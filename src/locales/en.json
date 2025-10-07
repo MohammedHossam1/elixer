@@ -205,6 +205,11 @@
   "terms":"Terms of Service",
   "legals":"Legals",
   "customerTitle":"Customer services & Our story",
-  "searchPlaceholder":"Search .."
+  "searchPlaceholder":"Search ..",
+  "faqContactDesc":"Can't find the answer you're looking for? Our customer support team is here to help.",
+  "faqContactTitle":"Still Have Questions?",
+  "faqContactBtn":" Contact Support",
+  "faqDesc":" Find answers to common questions about our products, shipping, returns, and more.",
+  "faqTitle":"Frequently Asked Questions"
 
 }

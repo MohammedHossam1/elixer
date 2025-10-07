@@ -50,7 +50,38 @@ export interface IProduct {
   }[]
 
 }
+export interface IFAQ {
 
+  items: [
+    {
+      id: number,
+      question: string,
+      answer: string
+    }
+  ],
+  meta: {
+    pagination: {
+      total_items: number,
+      total_pages: number,
+      current_page: number,
+      items_per_page: number,
+      count: number,
+      from: number,
+      to: number
+    },
+    links: {
+      first: string,
+      last: string,
+      prev: null,
+      next: null
+    },
+    has_pages: boolean,
+    has_more_pages: boolean,
+    is_first_page: boolean,
+    is_last_page: boolean
+  }
+
+}
 
 export interface BlogPost {
   id: string;            // unique slug or id
