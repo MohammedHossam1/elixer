@@ -37,7 +37,7 @@ function getInitialCartItems(): CartItem[] {
     if (stored) {
       return JSON.parse(stored);
     }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
     // ignore
   }
@@ -92,7 +92,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const totalPrice = items.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
 
   return (
     <CartContext.Provider value={{

@@ -109,7 +109,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                         <Trash2 className="h-4 w-4" />
                       </Button>
                       <p className="font-bold text-sm">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        ${(Number(item.price) * item.quantity).toFixed(2)}
                       </p>
                     </div>
                   </div>

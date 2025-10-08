@@ -15,7 +15,7 @@ const Checkout = () => {
 
   const cartItems = JSON.parse(localStorage.getItem("cart_items")) || []
 
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
   const shipping = 8.99;
   const tax = subtotal * 0.08;
   const total = subtotal + shipping + tax;

@@ -39,7 +39,7 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
     addToCart({
       id: item.id,
       name: item.name,
-      price: item.price,
+      price: Number(item.price),
       image: item.image,
     });
     removeItem(item.id)
@@ -87,7 +87,7 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
                     <div className="flex-1">
                       <h4 className="font-semibold text-sm line-clamp-2">{item.name}</h4>
                       <p className="text-xs text-muted-foreground mt-1">{item.category?.name}</p>
-                      <p className="text-primary font-bold mt-2">${item.price.toFixed(2)}</p>
+                      <p className="text-primary font-bold mt-2">${Number(item.price).toFixed(2)}</p>
                     </div>
                     <div className="flex flex-col gap-2">
                       <Button
