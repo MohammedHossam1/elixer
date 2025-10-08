@@ -43,7 +43,7 @@ const SearchComponent = () => {
                 {isSearchOpen ? (
                     <motion.div
                         key="search-input"
-                        className="flex items-center gap-2"
+                        className="flex items-center gap-2 "
                         initial={{ opacity: 0, scaleX: 0.95 }}
                         animate={{ opacity: 1, scaleX: 1 }}
                         exit={{ opacity: 0, scaleX: 0.95 }}
@@ -52,9 +52,7 @@ const SearchComponent = () => {
                         <Input
                             type="search"
                             placeholder={t("searchPlaceholder")}
-                            className="w-40 lg:w-64 border-border/60 focus:border-primary/50"
-                            autoFocus
-                            // Only close on blur if not mobile
+                            className="w-40 lg:w-64 border-border/60 focus:border-primary/50 max-md:w-full"
                             onBlur={() => { if (!isMobile) setIsSearchOpen(false); }}
                         />
                     </motion.div>

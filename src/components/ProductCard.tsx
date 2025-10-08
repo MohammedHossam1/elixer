@@ -114,9 +114,9 @@ const ProductCard = ({
         </div>
 
         {/* Name */}
-        <h3 className="font-semibold text-foreground line-clamp-1 leading-tight">
+        <Link to={`/product/${slug}`}  className="font-semibold  hover:text-primary text-foreground line-clamp-1 leading-tight">
           {name}
-        </h3>
+        </Link>
 
         {/* Rating */}
         <div className="flex items-center gap-2">

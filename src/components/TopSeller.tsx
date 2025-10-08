@@ -10,39 +10,18 @@ import {
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import p1 from "@/assets/p1.png";
 import { Link } from "react-router-dom";
+import { useGetProducts } from "@/hooks/fetch-hooks";
+import Image from "./shared/Image";
 
-const categories = [
-  {
-    id: 1,
-    nameKey: "nav.cleansers",
-    itemCount: 12,
-    image: p1,
-    altKey: "topSeller.categories.cleansers.alt",
-  },
-  {
-    id: 2,
-    nameKey: "nav.serums",
-    itemCount: 18,
-    image: p1,
-    altKey: "topSeller.categories.serums.alt",
-  },
-  {
-    id: 3,
-    nameKey: "nav.moisturizers",
-    itemCount: 15,
-    image: p1,
-    altKey: "topSeller.categories.moisturizers.alt",
-  },
-];
+
 
 const TopSeller = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
-
   const { t, i18n } = useTranslation();
+  const { data } = useGetProducts(i18n.language, 1);
 
   // 🔹 sync carousel state
   const handleApi = (api: CarouselApi) => {
@@ -69,27 +48,27 @@ const TopSeller = () => {
           </h3>
         </div>
 
-        {/* Categories Carousel */}
+        {/* data Carousel */}
         <Carousel
           setApi={handleApi}
           opts={{ align: "start", loop: false }}
           className="w-full max-w-6xl mx-auto"
         >
           <CarouselContent>
-            {categories.map((category) => (
+            {data?.data.items.map((item) => (
               <CarouselItem
-                key={category.id}
+                key={item.id}
                 className="basis-1/2 md:basis-1/3 py-10"
               >
-                <div className="group text-center cursor-pointer transition-all duration-300 hover:scale-105">
+                <Link to={`/product/${item.slug}`} className="group text-center cursor-pointer transition-all duration-300 hover:scale-105">
                   {/* Circle Image */}
                   <div className="relative mb-6">
                     <div className="w-40 h-40 sm:w-60 sm:h-60 lg:w-80 lg:h-80 mx-auto rounded-full bg-gradient-to-br from-muted/30 to-muted/60 p-6 sm:p-8 transition-all duration-300 group-hover:shadow-elegant">
                       <div className="w-full h-full flex items-center justify-center">
-                        <img
-                          src={category.image}
-                          alt={t(category.altKey)}
-                          className="max-w-full max-h-full object-contain transition-all duration-300 group-hover:scale-110"
+                        <Image
+                          src={item.image}
+                          alt={t(item.name)}
+                          className="w-full h-full !object-cover rounded-full transition-all duration-300 group-hover:scale-110"
                         />
                       </div>
                     </div>
@@ -101,10 +80,10 @@ const TopSeller = () => {
                   {/* Info */}
                   <div className="space-y-2">
                     <h4 className="text-xl lg:text-2xl font-bold text-foreground uppercase tracking-wide ">
-                      {t(category.nameKey)}
+                      {t(item.name)}
                     </h4>
                   </div>
-                </div>
+                </Link>
               </CarouselItem>
             ))}
           </CarouselContent>

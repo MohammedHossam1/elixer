@@ -110,9 +110,8 @@ const ProductDetail = () => {
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
-                      selectedImage === index ? "border-primary" : "border-muted"
-                    }`}
+                    className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${selectedImage === index ? "border-primary" : "border-muted"
+                      }`}
                   >
                     <Image
                       src={image.file_path}
@@ -128,7 +127,7 @@ const ProductDetail = () => {
             {/* Badges */}
             <div className="flex gap-2">
               {Number(product.discount) > 0 && (
-                <Badge className="bg-primary text-primary-foreground">{t("discount")}</Badge>
+                <Badge className="bg-primary text-primary-foreground">{t("sale")}</Badge>
               )}
             </div>
             {/* Category */}
@@ -145,11 +144,10 @@ const ProductDetail = () => {
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`h-4 w-4 ${
-                      i < Math.floor(product.rating)
-                        ? "fill-rose-gold text-rose-gold"
-                        : "text-muted"
-                    }`}
+                    className={`h-4 w-4 ${i < Math.floor(product.rating)
+                      ? "fill-rose-gold text-rose-gold"
+                      : "text-muted"
+                      }`}
                   />
                 ))}
               </div>
@@ -158,15 +156,15 @@ const ProductDetail = () => {
               </span> */}
             </div>
             {/* Price */}
-            <div className="flex items-center gap-3">
-              <span className="text-3xl font-bold text-foreground">
-                ${Number(product.price)}
+            <div className="flex items-center gap-2">
+              <span className="text-base lg:text-lg font-bold text-foreground">
+                ${((product.price - (product.price * Number(product.discount) / 100))).toFixed(2)}
               </span>
-              {/* {product.originalPrice && (
-                <span className="text-xl text-muted-foreground line-through">
-                  ${product.originalPrice}
+              {product.price && (
+                <span className="text-sm text-muted-foreground line-through">
+                  ${Number(product.price).toFixed(2)}
                 </span>
-              )} */}
+              )}
             </div>
             {/* Description */}
             <p className="text-muted-foreground leading-relaxed">

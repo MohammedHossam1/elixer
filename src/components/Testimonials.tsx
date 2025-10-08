@@ -11,60 +11,28 @@ import customer7 from "@/assets/customer-7.jpg";
 import customer8 from "@/assets/customer-8.jpg";
 import { useTranslation } from "react-i18next";
 import Image from "./shared/Image";
+import { ITestimonial } from "@/types/Index";
 
 const customerImages = [
   customer1, customer2, customer3, customer4,
   customer5, customer6, customer7, customer8
 ];
 
-const testimonials = [
-  {
-    id: 1,
-    name: "Izabel Watt",
-    location: "Michigan",
-    rating: 4,
-    text: "I love my lash tint! I don't have extremely blonde lashes, but I do like that they can be even darker than they are. It makes my eyes stand out more and I love the way it looks! Now, I just need to add on a bit of mascara for length and I am set.",
-    avatar: customer1
-  },
-  {
-    id: 2,
-    name: "Sarah Johnson",
-    location: "California",
-    rating: 5,
-    text: "The lipstick collection is absolutely amazing! The colors are so vibrant and long-lasting. I've never found products that make me feel so confident and beautiful. The quality is outstanding!",
-    avatar: customer2
-  },
-  {
-    id: 3,
-    name: "Emma Davis",
-    location: "New York",
-    rating: 5,
-    text: "This skincare routine completely transformed my skin! Within just two weeks, I noticed a significant improvement in texture and glow. I can't recommend these products enough.",
-    avatar: customer3
-  },
-  {
-    id: 4,
-    name: "Sofia Martinez",
-    location: "Texas",
-    rating: 4,
-    text: "The eyeshadow palette is incredible! The pigmentation is perfect and the colors blend so smoothly. It's become my go-to for both everyday and special occasion looks.",
-    avatar: customer4
-  }
-];
 
-const Testimonials = () => {
+
+const Testimonials = ({ data }: { data: ITestimonial[] }) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    setCurrentTestimonial((prev) => (prev + 1) % data.length);
   };
 
   const prevTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setCurrentTestimonial((prev) => (prev - 1 + data.length) % data.length);
   };
 
-  const current = testimonials[currentTestimonial];
+  const current = data[currentTestimonial];
   return (
     <section className="py-16 lg:py-24 bg-muted/30 overflow-x-hidden">
       <div className="container mx-auto px-4">
@@ -125,14 +93,15 @@ const Testimonials = () => {
                 <div className="flex items-center gap-x-4">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden flex-shrink-0">
                     <Image
-                      src={current.avatar}
+                      src={current?.name}
+                      key={current?.name}
                       alt={current.name}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div>
                     <h4 className="text-lg sm:text-xl font-bold text-foreground">{current.name}</h4>
-                    <p className="text-sm sm:text-base text-muted-foreground">{current.location}</p>
+                    <p className="text-sm sm:text-base text-muted-foreground">{current.rate}</p>
                   </div>
                 </div>
                 {/* Star Rating */}
@@ -140,7 +109,7 @@ const Testimonials = () => {
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star
                       key={star}
-                      className={`w-4 h-4 sm:w-5 sm:h-5 ${star <= current.rating
+                      className={`w-4 h-4 sm:w-5 sm:h-5 ${star <= current.rate
                         ? 'text-yellow-400 fill-current'
                         : 'text-muted-foreground'
                         }`}
@@ -151,7 +120,7 @@ const Testimonials = () => {
 
               {/* Testimonial Text */}
               <blockquote className="text-base sm:text-lg lg:text-xl text-foreground leading-relaxed">
-                "{current.text}"
+                "{current.description}"
               </blockquote>
 
               {/* Navigation */}
@@ -166,7 +135,7 @@ const Testimonials = () => {
                 </Button>
 
                 <div className="flex gap-x-2">
-                  {testimonials.map((_, index) => (
+                  {data.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentTestimonial(index)}

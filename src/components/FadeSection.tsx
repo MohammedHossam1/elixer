@@ -18,7 +18,7 @@ export const FadeInSection = ({ children, stop }: { children: React.ReactNode, s
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkScreen = () => setIsMobile(window.innerWidth < 768); // أقل من md
+    const checkScreen = () => setIsMobile(window.innerWidth < 1024); // أقل من md
     checkScreen();
     window.addEventListener("resize", checkScreen);
     return () => window.removeEventListener("resize", checkScreen);
