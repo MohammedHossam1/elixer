@@ -15,7 +15,7 @@ const Shop = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-2 lg:px-6 pb-10 pt-32">
         <div className="text-start mb-12">
           <h1 className="font-script text-5xl lg:text-6xl text-primary mb-4">
             {t("shop.title")}

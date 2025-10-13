@@ -3,13 +3,14 @@ import { ReactCompareSlider, ReactCompareSliderImage } from "react-compare-slide
 import transformationImage1 from "@/assets/after.jpg";
 import transformationImage2 from "@/assets/before.png";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const BeforeAfterComparison = () => {
   const { t } = useTranslation();
-  
+
   return (
-    <section className="py-16 lg:py-24 bg-gradient-subtle overflow-x-hidden">
-      <div className="container mx-auto px-4">
+    <section className="py-10 lg:py-12 bg-gradient-subtle overflow-x-hidden">
+      <div className="container mx-auto px-2 lg:px-6 ">
         {/* Header */}
         <div className="text-center mb-12 lg:mb-16">
           <h2 className="text-3xl lg:text-5xl font-bold text-foreground mb-4">
@@ -56,12 +57,14 @@ const BeforeAfterComparison = () => {
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               {t('beforeAfterComparison.cta.description')}
             </p>
-            <Button 
-              size="lg" 
-              className="btn-gradient text-white font-semibold px-8 py-6 text-lg"
-            >
-              {t('beforeAfterComparison.cta.button')}
-            </Button>
+            <Link to="/contact" >
+              <Button
+                size="lg"
+                className="btn-gradient text-white font-semibold px-8 py-6 text-lg"
+              >
+                {t('contactUs')}
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

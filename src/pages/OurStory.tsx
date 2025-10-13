@@ -1,12 +1,11 @@
 import heroModel from "@/assets/hero-model.jpg";
 const OurStory = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <main>
+    <main className="min-h-screen bg-background ">
         {/* Hero Section */}
-        <section className="relative py-10 bg-gradient-to-b from-primary/5 to-background">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-5">
+        <section className="relative pt-32  pb-10 bg-gradient-to-b from-primary/5 to-background">
+          <div className="container mx-auto px-2 lg:px-6 ">
+            <div className="text-center ">
               <h1 className="font-script text-5xl lg:text-7xl text-primary mb-6">
                 Our Story
               </h1>
@@ -18,9 +17,9 @@ const OurStory = () => {
         </section>
         {/* Story Content */}
         <section className="py-5">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-2 lg:px-6 ">
             {/* Chapter 1 */}
-            <div className="grid md:grid-cols-2 gap-12 items-start mb-24 max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-12 items-start mb-24  mx-auto">
               <div className="order-2 md:order-1">
                 <h2 className="text-4xl font-bold mt-4 mb-6">Where It All Started</h2>
                 <p className="text-muted-foreground mb-4 leading-relaxed">
@@ -50,8 +49,7 @@ const OurStory = () => {
          
           </div>
         </section>
-      </main>
-    </div>
+    </main>
   );
 };
 export default OurStory;

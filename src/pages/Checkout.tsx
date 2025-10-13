@@ -1,20 +1,19 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft, CreditCard, Truck, Shield, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
+import { ArrowLeft, CheckCircle, Shield, Truck } from "lucide-react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const Checkout = () => {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [orderComplete, setOrderComplete] = useState(false);
-
   const cartItems = JSON.parse(localStorage.getItem("cart_items")) || []
-
   const subtotal = cartItems.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
   const shipping = 8.99;
   const tax = subtotal * 0.08;
@@ -31,21 +30,21 @@ const Checkout = () => {
   if (orderComplete) {
     return (
       <div className="min-h-screen bg-background">
-        <main className="container mx-auto px-4 py-16">
+        <main className="container mx-auto px-2 lg:px-6  py-16">
           <div className="max-w-md mx-auto text-center space-y-6">
             <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
               <CheckCircle className="h-8 w-8 text-white" />
             </div>
-            <h1 className="text-3xl font-bold">Order Confirmed!</h1>
+            <h1 className="text-3xl font-bold">{t("orderConfirmed")}</h1>
             <p className="text-muted-foreground">
-              Thank you for your order. We'll send you a confirmation email with tracking details shortly.
+              {t("orderConfirmedDescription")}
             </p>
             <div className="space-y-3">
               <Button asChild className="w-full btn-gradient text-white">
-                <Link to="/">Continue Shopping</Link>
+                <Link to="/">{t("continueShopping")}</Link>
               </Button>
               <Button variant="outline" className="w-full">
-                Track Your Order
+                {t("trackOrder")}
               </Button>
             </div>
           </div>
@@ -57,7 +56,7 @@ const Checkout = () => {
   return (
     <div className="min-h-screen bg-background">
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-2 lg:px-6  py-32">
         {/* Breadcrumb */}
         <div className="mb-6">
           <Link
@@ -65,11 +64,11 @@ const Checkout = () => {
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to Shopping
+            {t("backToShop")}
           </Link>
         </div>
 
-        <h1 className="text-3xl font-bold mb-8">Checkout</h1>
+        <h1 className="text-3xl font-bold mb-8">{t("checkout")}</h1>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Checkout Form */}
@@ -79,51 +78,51 @@ const Checkout = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Truck className="h-5 w-5 text-rose-gold" />
-                  Shipping Information
+                  {t("shippingInformation")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name</Label>
-                    <Input id="firstName" placeholder="Enter first name" />
+                    <Label htmlFor="firstName">{t("firstName")}</Label>
+                    <Input id="firstName" placeholder={t("enterFirstName")} />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name</Label>
-                    <Input id="lastName" placeholder="Enter last name" />
+                    <Label htmlFor="lastName">{t("lastName")}</Label>
+                    <Input id="lastName" placeholder={t("enterLastName")} />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="Enter email address" />
+                  <Label htmlFor="email">{t("email")}</Label>
+                  <Input id="email" type="email" placeholder={t("enterEmail")} />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="address">Address</Label>
-                  <Input id="address" placeholder="Enter street address" />
+                  <Label htmlFor="address">{t("address")}</Label>
+                  <Input id="address" placeholder={t("enterAddress")} />
                 </div>
                 <div className="grid md:grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="city">City</Label>
-                    <Input id="city" placeholder="Enter city" />
+                    <Label htmlFor="city">{t("city")}</Label>
+                    <Input id="city" placeholder={t("enterCity")} />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="state">State</Label>
-                    <Input id="state" placeholder="Enter state" />
+                    <Label htmlFor="state">{t("state")}</Label>
+                    <Input id="state" placeholder={t("enterState")} />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="zip">ZIP Code</Label>
-                    <Input id="zip" placeholder="Enter ZIP" />
+                    <Label htmlFor="zip">{t("zip")}</Label>
+                    <Input id="zip" placeholder={t("enterZipCode")} />
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             {/* Payment Information */}
-            <Card className="card-elegant">
+            {/* <Card className="card-elegant">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <CreditCard className="h-5 w-5 text-rose-gold" />
-                  Payment Information
+                  {t("paymentInformation")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -166,15 +165,15 @@ const Checkout = () => {
                   </TabsContent>
                 </Tabs>
               </CardContent>
-            </Card>
+            </Card> */}
 
             {/* Security Notice */}
             <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
               <Shield className="h-5 w-5 text-rose-gold" />
               <div>
-                <p className="font-semibold">Secure Checkout</p>
+                <p className="font-semibold">{t("securityNotice")}</p>
                 <p className="text-sm text-muted-foreground">
-                  Your payment information is encrypted and secure.
+                  {t("securityNoticeDescription")}
                 </p>
               </div>
             </div>
@@ -212,22 +211,22 @@ const Checkout = () => {
                 {/* Price Breakdown */}
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span>Subtotal</span>
+                    <span>{t("subtotal")}</span>
                     <span>${subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Shipping</span>
+                    <span>{t("shipping")}</span>
                     <span>${shipping.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Tax</span>
+                    <span>{t("tax")}</span>
                     <span>${tax.toFixed(2)}</span>
                   </div>
 
                   <Separator />
 
                   <div className="flex justify-between font-bold text-lg">
-                    <span>Total</span>
+                    <span>{t("total")}</span>
                     <span>${total.toFixed(2)}</span>
                   </div>
                 </div>
@@ -237,7 +236,7 @@ const Checkout = () => {
                   className="w-full btn-gradient text-white hover:shadow-glow"
                   size="lg"
                 >
-                  Place Order
+                  {t("placeOrder")}
                 </Button>
 
                 {/* Shipping Info */}

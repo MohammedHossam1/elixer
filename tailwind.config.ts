@@ -16,7 +16,7 @@ export default {
       fontFamily: {
         // 'script': ['Dancing Script', 'cursive'],
         'script': ['"Caveat"', 'cursive'], // خليه Caveat
-        'inter': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        'inter': ["Roboto Condensed", 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

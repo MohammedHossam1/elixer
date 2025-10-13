@@ -24,6 +24,7 @@ import WishlistDrawer from "../WishlistDrawer";
 import SearchComponent from "./Search";
 import { useGetCategories } from "@/hooks/fetch-hooks";
 import clsx from "clsx";
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const { totalItems } = useCart();
@@ -33,43 +34,43 @@ const Header = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const activeCategory = searchParams.get("category");
-
+  const [isScrolled, setIsScrolled] = useState(false);
+  // ✅ Detect scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 120);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   const navigationItems = [
     { name: t("nav.home"), href: "/" },
     { name: t("nav.shop"), href: "/shop" },
     ...(Array.isArray(data?.data)
       ? data.data.slice(0, 4).map((cat: { id: number; name: string }) => ({
-          name: cat.name.toUpperCase(),
-          href: `/shop?category=${encodeURIComponent(cat.id)}`,
-          categoryId: String(cat.id),
-        }))
+        name: cat.name.toUpperCase(),
+        href: `/shop?category=${encodeURIComponent(cat.id)}`,
+        categoryId: String(cat.id),
+      }))
       : []),
     { name: t("nav.contact"), href: "/contact" },
   ];
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const isActive = (item: any) => {
-    // ✅ الحالة الخاصة بالصفحة الرئيسية
     if (item.href === "/" && location.pathname === "/") return true;
-
-    // ✅ حالة صفحة contact
     if (item.href === "/contact" && location.pathname.startsWith("/contact"))
       return true;
-
-    // ✅ حالة shop بدون كاتيجوري
     if (item.href === "/shop" && location.pathname.startsWith("/shop") && !activeCategory)
       return true;
-
-    // ✅ حالة الكاتيجوري داخل shop
     if (item.categoryId && activeCategory === item.categoryId) return true;
-
     return false;
   };
 
   return (
-    <header className="bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/95 border-b border-border/50">
+    <header className="fixed  inset-x-0 z-20 bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/95 border-b border-border/50 shadow" >
       <div className="container mx-auto px-2 lg:px-6 ">
-        <div className="flex items-center justify-between h-20 ">
+        <div className={`flex items-center justify-between ${isScrolled ? "h-16" : "h-20"} transition-all duration-300 `}>
           {/* Mobile Menu */}
           <div className="lg:hidden">
             <Sheet>

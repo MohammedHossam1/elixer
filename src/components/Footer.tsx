@@ -11,7 +11,7 @@ const Footer = ({ data }: { data: ISettings }) => {
 
   return (
     <footer className="bg-card border-t border-border">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-2 lg:px-6 ">
         {/* Main Footer Content */}
         <div className="py-16 grid grid-cols-12 gap-5 xl:gap-10 ">
           {/* Brand Section */}

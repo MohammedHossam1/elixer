@@ -39,7 +39,7 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
   };
 
   return (
-    <section className="relative w-full  h-[60vh] lg:h-[calc(100dvh-80px)] overflow-hidden">
+    <section className="relative w-full  h-[60vh] lg:h-[calc(100dvh)] pt-20 overflow-hidden">
       {/* Image Container */}
       <div className="relative w-full h-full">
         {data.map((image, index) => (
@@ -63,7 +63,7 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
 
       {/* Content Overlay */}
       <div className="absolute inset-0 flex items-center justify-center text-center text-white z-10">
-        <div className="container mx-auto px-4 sm:px-6 animate-fade-in">
+        <div className="container mx-auto px-2 lg:px-6  sm:px-6 animate-fade-in">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 font-script leading-tight">
             {data[currentIndex]?.title}
           </h1>

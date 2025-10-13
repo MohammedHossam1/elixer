@@ -81,7 +81,7 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-2 lg:px-6  py-8">
         {/* Breadcrumb */}
         <div className="mb-6">
           <Link

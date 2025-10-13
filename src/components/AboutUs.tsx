@@ -2,12 +2,13 @@ import { Button } from "@/components/ui/button";
 import { IAbout } from "@/types/Index";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const AboutUs = ({ data }: { data: IAbout }) => {
   const { t } = useTranslation();
   return (
-    <section className="py-16 lg:py-24 bg-gradient-hero overflow-x-hidden">
-      <div className="container mx-auto px-4">
+    <section className="py-10 lg:py-12 bg-gradient-hero overflow-x-hidden">
+      <div className="container mx-auto px-2 lg:px-6 ">
         {/* Header */}
         <div className="text-center mb-12 lg:mb-16">
           <motion.h2
@@ -75,29 +76,24 @@ const AboutUs = ({ data }: { data: IAbout }) => {
               viewport={{ once: true }}
               className="space-y-6"
             >
-              <h3 className="text-2xl lg:text-3xl font-bold text-foreground">
+              <h3 className="text-2xl lg:text-3xl font-bold text-foreground max-lg:text-center">
                 {t("about.sectionTitle")}
               </h3>
-              <div className="space-y-4 text-muted-foreground leading-relaxed">
+              <div className="space-y-4 text-muted-foreground leading-relaxed max-lg:text-center">
                 <p className="text-base lg:text-lg">
                   {data?.description}
                 </p>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button
-                  size="lg"
-                  className="btn-gradient text-white font-semibold px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg"
-                >
-                  {t("about.shopCta")}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg"
-                >
-                  {t("about.seeResultsCta")}
-                </Button>
+                <Link to="/shop" className="mx-auto">
+                  <Button
+                    size="lg"
+                    className="btn-gradient text-white font-semibold px-6 sm:px-8 py-4 sm:py-6 text-base mx-auto sm:text-lg"
+                  >
+                    {t("about.shopCta")}
+                  </Button>
+                </Link>
               </div>
             </motion.div>
 
@@ -144,7 +140,7 @@ const AboutUs = ({ data }: { data: IAbout }) => {
                 </div>
               </div>
 
-            
+
             </motion.div>
           </div>
         </div>

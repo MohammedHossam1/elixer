@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 const FilteredProductsCategories = ({ params, centered = false }: { params: string | null, centered?: boolean }) => {
     const { t, i18n } = useTranslation();
     const { data } = useGetCategories(i18n.language);
-    const { data: productsRes } = useGetProducts(i18n.language);
+    const { data: productsRes } = useGetProducts(i18n.language, 1);
     const products = productsRes?.data?.items
     const [activeTab, setActiveTab] = useState(params || "0");
     useEffect(() => {
@@ -33,7 +33,7 @@ const FilteredProductsCategories = ({ params, centered = false }: { params: stri
             className="w-full"
         >
             <TabsList className={`bg-muted/50 h-auto block max-w-4xl ${centered && "mx-auto"} sm:w-fit mb-5`}>
-                <Carousel opts={{ align: "start" }}>
+                <Carousel opts={{ align: "start",dragFree: true, direction: i18n.language === "en" ? "ltr" : "rtl" }}>
                     <CarouselContent className="pl-3">
                         {finalCategories.map((category) => (
                             <CarouselItem key={category.id} className="basis-auto pl-1">

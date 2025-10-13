@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { IWhyChooseUs } from '@/types/Index';
 import { useTranslation } from "react-i18next";
 import Image from './shared/Image';
@@ -7,8 +6,8 @@ const WhatWeStandFor = ({ data }: { data: IWhyChooseUs[] }) => {
     if (!data) return null
     console.log(data,"what we stand for");
     return (
-        <section className="py-16 lg:py-24 bg-background overflow-x-hidden">
-            <div className="container mx-auto px-4">
+        <section className="py-10 lg:py-12 bg-background overflow-x-hidden">
+            <div className="container mx-auto px-2 lg:px-6 ">
                 {/* Values Section */}
                 <div className="space-y-8">
                     <h3 className="text-2xl lg:text-3xl font-bold text-foreground text-center">
@@ -41,21 +40,7 @@ const WhatWeStandFor = ({ data }: { data: IWhyChooseUs[] }) => {
                     </div>
                 </div>
 
-                {/* Call to Action */}
-                <div className="text-center mt-16 space-y-6">
-                    <h3 className="text-2xl lg:text-3xl font-bold text-foreground">
-                        {t('whatWeStandFor.cta.title')}
-                    </h3>
-                    <p className="text-muted-foreground max-w-2xl mx-auto">
-                        {t('whatWeStandFor.cta.description')}
-                    </p>
-                    <Button
-                        size="lg"
-                        className="btn-gradient text-white font-semibold px-8 py-6 text-lg"
-                    >
-                        {t('whatWeStandFor.cta.button')}
-                    </Button>
-                </div>
+          
             </div>
         </section>
     )

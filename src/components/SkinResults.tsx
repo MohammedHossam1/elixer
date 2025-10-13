@@ -1,15 +1,17 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { results } from "@/data/Index";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 
 const SkinResults = () => {
   const { t } = useTranslation();
-
+  const isMobile = useIsMobile();
   return (
-    <section className="py-16 lg:py-24 bg-background overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section className="py-10  lg:py-12 bg-background overflow-hidden">
+      <div className="container mx-auto px-2  lg:px-6 ">
         {/* Header */}
         <div className="text-center mb-12 lg:mb-16">
           <Badge variant="secondary" className="mb-4 px-4 py-2 text-sm font-semibold">
@@ -24,13 +26,12 @@ const SkinResults = () => {
         </div>
 
         {/* Results Grid */}
-        <div className="space-y-16 max-w-7xl mx-auto">
+        <div className="space-y-16 mx-auto">
           {results.map((result, index) => (
             <div
               key={result.id}
-              className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center ${
-                index % 2 === 1 ? 'lg:grid-cols-2' : ''
-              }`}
+              className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center ${index % 2 === 1 ? 'lg:grid-cols-2' : ''
+                }`}
             >
               {/* Before/After Images */}
               <div className={`space-y-6 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
@@ -68,7 +69,7 @@ const SkinResults = () => {
                   </div>
                 </div>
 
-              
+
               </div>
 
               {/* Content */}
@@ -100,24 +101,32 @@ const SkinResults = () => {
                     ))}
                   </div>
                 </div>
-
-                {/* CTA */}
-                <div className="pt-4  w-fit">
-                  <Button 
-                    size="lg" 
-                    className="btn-gradient text-white font-semibold px-6 py-3 text-base w-fit"
-                  >
-                    {t('skinResults.getSimilarResults')}
-                  </Button>
-                </div>
+                {index == results.length - 1 && isMobile &&
+                  <Link to="/contact" className="pt-4 block mx-auto  w-fit">
+                    <Button
+                      size="lg"
+                      className="btn-gradient text-white font-semibold px-6 py-3 text-base w-fit"
+                    >
+                      {t('contactUs')}
+                    </Button>
+                  </Link>}
+                {!isMobile &&
+                  <Link to="/contact" className="pt-4 block  w-fit">
+                    <Button
+                      size="lg"
+                      className="btn-gradient text-white font-semibold px-6 py-3 text-base w-fit"
+                    >
+                      {t('contactUs')}
+                    </Button>
+                  </Link>}
               </div>
             </div>
           ))}
         </div>
 
-  
+
       </div>
-    </section>
+    </section >
   );
 };
 

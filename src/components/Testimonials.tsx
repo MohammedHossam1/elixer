@@ -34,8 +34,8 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
 
   const current = data[currentTestimonial];
   return (
-    <section className="py-16 lg:py-24 bg-muted/30 overflow-x-hidden">
-      <div className="container mx-auto px-4">
+    <section className="py-10 lg:py-12 bg-muted/30 overflow-x-hidden">
+      <div className="container mx-auto px-2 lg:px-6 ">
         {/* Header */}
         <div className="text-center mb-12 lg:mb-16">
           <h2 className="text-lg lg:text-xl font-semibold text-muted-foreground uppercase tracking-wider mb-2">
@@ -58,7 +58,7 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
         </div>
 
         {/* Testimonials Content */}
-        <div className="max-w-7xl mx-auto">
+        <div className=" mx-auto">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
 
             {/* Customer Photos Grid */}
@@ -81,15 +81,8 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
 
             {/* Testimonial Content */}
             <div className="order-1 lg:order-2 space-y-6">
-              {/* Quote Icon */}
-              <div className="flex justify-start">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Quote className="w-8 h-8 text-primary" />
-                </div>
-              </div>
-
-              {/* Customer Info */}
-              <div className="flex flex-col sm:flex-row sm:items-center gap-y-3 sm:gap-y-0 sm:gap-x-4">
+              <div className=" flex justify-between items-center gap-6 ">
+                {/* Customer Info */}
                 <div className="flex items-center gap-x-4">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden flex-shrink-0">
                     <Image
@@ -103,9 +96,18 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
                     <h4 className="text-lg sm:text-xl font-bold text-foreground">{current.name}</h4>
                     <p className="text-sm sm:text-base text-muted-foreground">{current.rate}</p>
                   </div>
+
                 </div>
+                {/* Quote Icon */}
+                <div className="flex justify-start">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+                    <Quote className="w-8 h-8 text-primary" />
+                  </div>
+                </div>
+
+
                 {/* Star Rating */}
-                <div className="flex items-center gap-x-1 sm:ml-auto">
+                <div className="flex items-center justify-center">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star
                       key={star}
@@ -119,7 +121,7 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
               </div>
 
               {/* Testimonial Text */}
-              <blockquote className="text-base sm:text-lg lg:text-xl text-foreground leading-relaxed">
+              <blockquote className="text-base  sm:text-lg lg:text-xl text-foreground max-lg:text-center leading-relaxed">
                 "{current.description}"
               </blockquote>
 

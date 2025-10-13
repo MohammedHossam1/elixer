@@ -36,8 +36,8 @@ const TopSeller = () => {
   const isArOrHe = i18n.language === 'ar' || i18n.language === 'he';
 
   return (
-    <section className="py-16 lg:py-24 bg-backgroun overflow-x-hiddend">
-      <div className="container mx-auto px-4">
+    <section className="py-10 lg:py-12 bg-backgroun overflow-x-hiddend">
+      <div className="container mx-auto px-2 lg:px-6 ">
         {/* Header */}
         <div className="text-center mb-12 lg:mb-16">
           <h2 className="text-4xl lg:text-6xl mb-2">

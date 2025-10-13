@@ -18,7 +18,7 @@ const FAQ = () => {
   return (
     <div className="min-h-screen bg-background">
 
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-2 lg:px-6  pb-10 pt-32">
         {/* Hero Section */}
         <div className="text-start mb-16">
           <h1 className="font-script text-5xl lg:text-6xl text-primary mb-4">
