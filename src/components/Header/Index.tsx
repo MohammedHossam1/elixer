@@ -1,9 +1,9 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {
@@ -16,17 +16,17 @@ import {
 } from "@/components/ui/sheet";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useGetCategories } from "@/hooks/fetch-hooks";
+import { ISettings } from "@/types/Index";
+import clsx from "clsx";
 import { Heart, Menu, ShoppingBag } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import CartDrawer from "../CartDrawer";
 import WishlistDrawer from "../WishlistDrawer";
-import SearchComponent from "./Search";
-import { useGetCategories } from "@/hooks/fetch-hooks";
-import clsx from "clsx";
-import { useEffect, useState } from "react";
 import Image from "../shared/Image";
-import { ISettings } from "@/types/Index";
+import SearchComponent from "./Search";
 
 const Header = ({ data: settings }: { data: ISettings }) => {
   const { totalItems } = useCart();
@@ -37,6 +37,10 @@ const Header = ({ data: settings }: { data: ISettings }) => {
   const [searchParams] = useSearchParams();
   const activeCategory = searchParams.get("category");
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // ✅ حالة التحكم في إغلاق وفتح الـ Sheet
+  const [isOpen, setIsOpen] = useState(false);
+
   // ✅ Detect scroll
   useEffect(() => {
     const handleScroll = () => {
@@ -45,15 +49,16 @@ const Header = ({ data: settings }: { data: ISettings }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   const navigationItems = [
     { name: t("nav.home"), href: "/" },
     { name: t("nav.shop"), href: "/shop" },
     ...(Array.isArray(data?.data)
       ? data.data.slice(0, 4).map((cat: { id: number; name: string }) => ({
-        name: cat.name.toUpperCase(),
-        href: `/shop?category=${encodeURIComponent(cat.id)}`,
-        categoryId: String(cat.id),
-      }))
+          name: cat.name.toUpperCase(),
+          href: `/shop?category=${encodeURIComponent(cat.id)}`,
+          categoryId: String(cat.id),
+        }))
       : []),
     { name: t("nav.contact"), href: "/contact" },
   ];
@@ -70,32 +75,49 @@ const Header = ({ data: settings }: { data: ISettings }) => {
   };
 
   return (
-    <header className="fixed  inset-x-0 z-20 bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/95 border-b border-border/50 shadow" >
-      <div className="container mx-auto px-2 lg:px-6 ">
-        <div className={`flex items-center justify-between ${isScrolled ? "h-16" : "h-20"} transition-all duration-300 `}>
-          {/* Mobile Menu */}
+    <header className="fixed inset-x-0 z-20 bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/95 border-b border-border/50 shadow">
+      <div className="container mx-auto px-2 lg:px-6">
+        <div
+          className={`flex items-center justify-between ${
+            isScrolled ? "h-16" : "h-20"
+          } transition-all duration-300`}
+        >
+          {/* ✅ Mobile Menu */}
           <div className="lg:hidden">
-            <Sheet>
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild className="lg:hidden">
                 <Button variant="ghost" size="icon">
-                  <Menu className="h-5 w-5" />
+                  <Menu className="h-8 w-8" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-80">
+
+              <SheetContent side={i18n.language === "en" ? "left" : "right"} className="w-80">
                 <SheetHeader>
                   <SheetTitle className="font-script text-3xl text-primary">
-                    {t("brand.name")}
+                    <Link to="/" onClick={() => setIsOpen(false)}>
+                      <Image
+                        src={settings?.logo}
+                        alt="logo"
+                        width={100}
+                        height={100}
+                        className="mx-auto"
+                      />
+                    </Link>
                   </SheetTitle>
                   <SheetDescription>{t("brand.slogan")}</SheetDescription>
                 </SheetHeader>
+
                 <div className="lg:hidden mt-8 mb-2">
                   <SearchComponent />
                 </div>
+
+                {/* ✅ إغلاق القائمة عند الضغط على أي لينك */}
                 <nav className="flex flex-col gap-4">
                   {navigationItems.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}
+                      onClick={() => setIsOpen(false)}
                       className={clsx(
                         "relative uppercase flex items-center gap-3 text-lg font-medium hover:text-primary transition-colors",
                         isActive(item) && "text-primary font-bold"
@@ -138,7 +160,7 @@ const Header = ({ data: settings }: { data: ISettings }) => {
               alt="logo"
               width={100}
               height={100}
-              className="w-3s2"
+              className="w-24 lg:w-32 "
             />
           </Link>
 
@@ -147,17 +169,19 @@ const Header = ({ data: settings }: { data: ISettings }) => {
             <div className="max-lg:hidden">
               <SearchComponent />
             </div>
+
             {/* Language Switcher */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="mx-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="mx-1 hover:!bg-primary/40"
+                >
                   {i18n.language?.toUpperCase?.() || "EN"}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align={"end"}>
-                <DropdownMenuLabel className="hidden">
-                  {t("lang.english")}/{t("lang.arabic")}/{t("lang.hebrew")}
-                </DropdownMenuLabel>
                 <DropdownMenuItem onClick={() => i18n.changeLanguage("en")}>
                   EN - {t("lang.english")}
                 </DropdownMenuItem>
@@ -172,7 +196,11 @@ const Header = ({ data: settings }: { data: ISettings }) => {
 
             {/* Wishlist */}
             <WishlistDrawer>
-              <Button variant="ghost" size="icon" className="relative hover:bg-accent">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative hover:!bg-primary/40"
+              >
                 <Heart className="h-5 w-5 text-foreground/70 hover:text-primary transition-colors" />
                 {wishlistTotal > 0 && (
                   <span className="absolute -top-1 -right-1 h-5 w-5 bg-primary text-black text-xs rounded-full flex items-center justify-center font-bold shadow-sm">
@@ -184,7 +212,11 @@ const Header = ({ data: settings }: { data: ISettings }) => {
 
             {/* Shopping Cart */}
             <CartDrawer>
-              <Button variant="ghost" size="icon" className="relative hover:bg-accent">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative hover:!bg-primary/40"
+              >
                 <ShoppingBag className="h-5 w-5 text-foreground/70 hover:text-primary transition-colors" />
                 {totalItems > 0 && (
                   <span className="absolute -top-1 -right-1 h-5 w-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-bold shadow-sm">

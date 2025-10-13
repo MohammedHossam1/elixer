@@ -45,7 +45,7 @@ const SearchComponent = () => {
         {isSearchOpen ? (
           <motion.div
             key="search-input"
-            className="flex items-center gap-2 relative"
+            className="flex items-center gap-2 relative "
             initial={{ opacity: 0, scaleX: 0.95 }}
             animate={{ opacity: 1, scaleX: 1 }}
             exit={{ opacity: 0, scaleX: 0.95 }}
@@ -57,8 +57,8 @@ const SearchComponent = () => {
             }}
           >
             <Input
-                   placeholder={t("searchPlaceholder")}
-              className="w-40 lg:w-64 border-border/60 focus:border-primary/50 max-md:w-full pr-8"
+              placeholder={t("searchPlaceholder")}
+              className=" border-border/60 focus:border-primary/50 w-full lg:w-64 "
             />
 
             {/* Close Button Inside Input */}
@@ -80,6 +80,7 @@ const SearchComponent = () => {
               initial={{ opacity: 0, scaleX: 0.95 }}
               animate={{ opacity: 1, scaleX: 1 }}
               exit={{ opacity: 0, scaleX: 0.95 }}
+              className="w-fit"
               transition={{
                 type: "spring",
                 stiffness: 300,
@@ -90,6 +91,7 @@ const SearchComponent = () => {
               <Button
                 variant="ghost"
                 size="icon"
+                className="hover:!bg-primary/40 "
                 onClick={() => setIsSearchOpen(true)}
               >
                 <Search className="h-4 w-4" />
