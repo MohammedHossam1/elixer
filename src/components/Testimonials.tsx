@@ -24,6 +24,7 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  if (!data.length) return null
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % data.length);
   };
