@@ -58,18 +58,20 @@ export const useGetProducts = (lang: string, page: number) => {
   });
 };
 export const useGetProductsSearch = (lang: string, page: number, search?: string) => {
+  const shouldFetch = Boolean(search && search.trim().length > 0);
+
   return useQuery<ApiResponse<IProductsResponse>>({
-    queryKey: ["products", lang, page, search],
+    queryKey: ["products-search", lang, page, search],
     queryFn: () =>
       fetcher<IProductsResponse>({
-        url: `/products?page=${page}?search=${encodeURIComponent(search || "")}`,
+        url: `/products?page=${page}&search=${encodeURIComponent(search || "")}`,
         lang,
       }),
-    staleTime: 1000 * 60 * 60,
-    enabled: !!search,
-    suspense: search ? false : true
+    enabled: shouldFetch, // ✅ Only fetch if search has non-empty text
+    suspense: false, // ✅ Never suspend for search results
   });
 };
+
 
 export const useGetFAQ = (lang: string) => {
   return useQuery<ApiResponse<IFAQ>>({

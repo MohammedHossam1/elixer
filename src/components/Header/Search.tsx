@@ -23,7 +23,10 @@ const SearchComponent = () => {
   useEffect(() => {
     if (isMobile) setIsSearchOpen(true);
   }, [isMobile]);
-
+useEffect(() => {
+  console.log(searchData,"searchData");
+  console.log(query,"query");
+},[query])
   // Close search on click outside (desktop)
 
   useEffect(() => {
@@ -31,25 +34,6 @@ const SearchComponent = () => {
       setFilteredResults(searchData.data.items);
     }
   }, [searchData]);
-
-  useEffect(() => {
-    if (!query.trim()) {
-      setFilteredResults([]);
-      return;
-    }
-
-
-    const timeout = setTimeout(() => {
-      const products = searchData?.data?.items || [];
-      const results = products.filter((p: IProduct) =>
-        p.name.toLowerCase().includes(query.toLowerCase())
-      );
-
-      setFilteredResults(results);
-    }, 400); // debounce 400ms
-
-    return () => clearTimeout(timeout);
-  }, [query, searchData]);
 
 
   return (
