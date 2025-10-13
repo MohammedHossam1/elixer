@@ -118,6 +118,7 @@ export interface ITestimonial {
   name: string;
   rate: number;
   order: number;
+  image: string;
   description: string;
   active: boolean,
 

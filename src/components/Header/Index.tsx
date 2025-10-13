@@ -132,7 +132,7 @@ const Header = ({ data: settings }: { data: ISettings }) => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-7">
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-7">
             {navigationItems.map((item) => (
               <Link
                 key={item.name}

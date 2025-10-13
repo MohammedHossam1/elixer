@@ -4,12 +4,16 @@ import { useEffect, useState } from "react";
 
 // Import images
 import { IHeroSlider } from "@/types/Index";
-
+import Image from "./shared/Image";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import placeholder from "../assets/logo.jpg";
 
 
 const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const { t } = useTranslation();
   // Auto-scroll functionality
   useEffect(() => {
     if (isAutoPlaying) {
@@ -22,14 +26,21 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
       return () => clearInterval(interval);
     }
   }, [isAutoPlaying]);
-
+  const finalData = data.length > 1 ? data : [
+    {
+      image: placeholder,
+      title: "",
+      description:"",
+      link: ""
+    }
+  ]
   const goToPrevious = () => {
-    setCurrentIndex(currentIndex === 0 ? data.length - 1 : currentIndex - 1);
+    setCurrentIndex(currentIndex === 0 ? finalData.length - 1 : currentIndex - 1);
     setIsAutoPlaying(false);
   };
 
   const goToNext = () => {
-    setCurrentIndex(currentIndex === data.length - 1 ? 0 : currentIndex + 1);
+    setCurrentIndex(currentIndex === finalData.length - 1 ? 0 : currentIndex + 1);
     setIsAutoPlaying(false);
   };
 
@@ -42,7 +53,7 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
     <section className="relative w-full  h-[60vh] lg:h-[calc(100dvh)] pt-20 overflow-hidden">
       {/* Image Container */}
       <div className="relative w-full h-full">
-        {data.map((image, index) => (
+        {finalData.map((image, index) => (
           <div
             key={index}
             className={`absolute inset-0 transition-all duration-1000 ease-in-out ${index === currentIndex
@@ -50,7 +61,7 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
               : 'opacity-0 scale-105'
               }`}
           >
-            <img
+            <Image
               src={image.image}
               alt={image.title}
               className="w-full h-full object-cover"
@@ -65,25 +76,27 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
       <div className="absolute inset-0 flex items-center justify-center text-center text-white z-10">
         <div className="container mx-auto px-2 lg:px-6  sm:px-6 animate-fade-in">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 font-script leading-tight">
-            {data[currentIndex]?.title}
+            {finalData[currentIndex]?.title}
           </h1>
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-white/90 max-w-2xl mx-auto px-4">
-            {data[currentIndex]?.description}
+            {finalData[currentIndex]?.description}
           </p>
           <div className="flex  gap-3 sm:gap-4 justify-center px-4">
             <Button
               size="lg"
               className="btn-gradient text-white font-semibold px-6 sm:px-8 py-4 sm:py-6  text-base sm:text-lg "
             >
-              Shop Collection
+              {t("shopCollection")}
             </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-2 border-white text-black  px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg "
-            >
-              Learn More
-            </Button>
+            <Link to="/contact">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-2 border-white text-black  px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg "
+              >
+                {t("contactUs")}
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -105,7 +118,7 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
 
       {/* Dots Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
-        {data.map((_, index) => (
+        {finalData.map((_, index) => (
           <button
             key={index}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex

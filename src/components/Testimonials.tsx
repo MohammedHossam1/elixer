@@ -1,23 +1,9 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import customer1 from "@/assets/customer-1.jpg";
-import customer2 from "@/assets/customer-2.jpg";
-import customer3 from "@/assets/customer-3.jpg";
-import customer4 from "@/assets/customer-4.jpg";
-import customer5 from "@/assets/customer-5.jpg";
-import customer6 from "@/assets/customer-6.jpg";
-import customer7 from "@/assets/customer-7.jpg";
-import customer8 from "@/assets/customer-8.jpg";
 import { useTranslation } from "react-i18next";
 import Image from "./shared/Image";
 import { ITestimonial } from "@/types/Index";
-
-const customerImages = [
-  customer1, customer2, customer3, customer4,
-  customer5, customer6, customer7, customer8
-];
-
 
 
 const Testimonials = ({ data }: { data: ITestimonial[] }) => {
@@ -65,17 +51,18 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
             {/* Customer Photos Grid */}
             <div className="order-2 lg:order-1">
               <div className="grid grid-cols-4 sm:grid-cols-4 gap-2 sm:gap-4">
-                {customerImages.map((image, index) => (
-                  <div
+                {data.map((item, index) => (
+                  <button 
+                  onClick={() => setCurrentTestimonial(index)}
                     key={index}
                     className="aspect-square rounded-lg overflow-hidden bg-muted hover:transform hover:scale-105 transition-all duration-300 cursor-pointer"
                   >
                     <Image
-                      src={image}
+                      src={item.image}
                       alt={`Customer ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -87,7 +74,7 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
                 <div className="flex items-center gap-x-4">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden flex-shrink-0">
                     <Image
-                      src={current?.name}
+                      src={current?.image}
                       key={current?.name}
                       alt={current.name}
                       className="w-full h-full object-cover"

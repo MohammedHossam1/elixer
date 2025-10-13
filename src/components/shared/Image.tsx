@@ -26,7 +26,6 @@ const Image: React.FC<ImageProps> = ({
   useEffect(() => {
     setImgSrc(src);
     setError(false);
-    console.log(error, "ee");
   }, [src]);
 
   const handleError = () => {
@@ -39,7 +38,7 @@ const Image: React.FC<ImageProps> = ({
   return (
     <img
       key={imgSrc}
-      src={imgSrc || fallbackImg}
+      src={imgSrc || fallbackSrc}
       alt={alt}
       width={width}
       height={height}

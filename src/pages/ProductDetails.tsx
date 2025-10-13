@@ -80,8 +80,8 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-2 lg:px-6  py-8">
+    <div className="min-h-screen bg-background ">
+      <main className="container mx-auto px-2 lg:px-6  py-32">
         {/* Breadcrumb */}
         <div className="mb-6">
           <Link

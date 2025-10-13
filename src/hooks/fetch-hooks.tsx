@@ -57,6 +57,19 @@ export const useGetProducts = (lang: string, page: number) => {
     staleTime: 1000 * 60 * 60,
   });
 };
+export const useGetProductsSearch = (lang: string, page: number, search?: string) => {
+  return useQuery<ApiResponse<IProductsResponse>>({
+    queryKey: ["products", lang, page, search],
+    queryFn: () =>
+      fetcher<IProductsResponse>({
+        url: `/products?page=${page}?search=${encodeURIComponent(search || "")}`,
+        lang,
+      }),
+    staleTime: 1000 * 60 * 60,
+    enabled: !!search,
+    suspense: search ? false : true
+  });
+};
 
 export const useGetFAQ = (lang: string) => {
   return useQuery<ApiResponse<IFAQ>>({
