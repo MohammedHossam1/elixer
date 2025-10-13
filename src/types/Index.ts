@@ -180,6 +180,7 @@ export interface IHeroSlider {
 }
 export interface ISettings {
   years_of_experience: number | null;
+  logo: string;
   address: string;
   contact: {
     mobile: string;

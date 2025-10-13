@@ -4,6 +4,7 @@ import { Heart, Mail, MapPin, Phone } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import ScrollToTop from "./ScrollToTop";
+import Image from "./shared/Image";
 
 const Footer = ({ data }: { data: ISettings }) => {
   const { t } = useTranslation();
@@ -16,10 +17,10 @@ const Footer = ({ data }: { data: ISettings }) => {
         <div className="py-16 grid grid-cols-12 gap-5 xl:gap-10 ">
           {/* Brand Section */}
           <div className="space-y-6 col-span-12 lg:col-span-4 ">
-            <div>
-              <h3 className="font-script text-4xl text-primary font-bold mb-2">
-                {t('brand.name')}
-              </h3>
+            <div className="space-y-3">
+              <Link to="/">
+                <Image src={data?.logo} alt="Logo" className="w-1/2" />
+              </Link>
               <p className="text-muted-foreground leading-relaxed">
                 {t('footer.tagline1')} {t('footer.tagline2')}
               </p>

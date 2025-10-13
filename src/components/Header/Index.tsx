@@ -25,8 +25,10 @@ import SearchComponent from "./Search";
 import { useGetCategories } from "@/hooks/fetch-hooks";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import Image from "../shared/Image";
+import { ISettings } from "@/types/Index";
 
-const Header = () => {
+const Header = ({ data: settings }: { data: ISettings }) => {
   const { totalItems } = useCart();
   const { totalItems: wishlistTotal } = useWishlist();
   const { t, i18n } = useTranslation();
@@ -131,9 +133,13 @@ const Header = () => {
 
           {/* Logo */}
           <Link to="/" className="">
-            <h1 className="!font-script text-4xl lg:text-5xl text-primary font-bold tracking-wider">
-              {t("brand.name")}
-            </h1>
+            <Image
+              src={settings?.logo}
+              alt="logo"
+              width={100}
+              height={100}
+              className="w-3s2"
+            />
           </Link>
 
           {/* Right Actions */}

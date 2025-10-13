@@ -66,7 +66,7 @@ const SearchComponent = () => {
               <button
                 type="button"
                 onClick={() => setIsSearchOpen(false)}
-                className="absolute right-2 text-muted-foreground hover:text-primary transition-colors"
+                className="absolute end-2 text-muted-foreground hover:text-primary transition-colors"
               >
                 <X className="h-4 w-4" />
               </button>
