@@ -248,5 +248,16 @@
   "orderPlaced": "Order Placed",
   "backToShop": "Back to Shop",
   "shopCollection": " Shop Collection",
-  "noResults":"No Results"
+  "noResults": "No Results",
+  "enterCoupon": "Enter Coupon",
+  "apply": "Apply",
+  "addedToCart": "Added to Cart",
+  "addedToCartDescription": "The quantity of {name} is reached to the maximum.",
+  "quantityReachedTitle": "Cannot add more",
+  "quantityReachedDescription": "The quantity of this product is reached to the maximum.",
+  "unavailableDescription": "The quantity of this product is not available.",
+  "addedToWishlist": "Added to wishlist",
+  "addedToWishlistDesc": "has been added to your wishlist.",
+  "removedFromWishlist": "Removed from wishlist",
+  "removedFromWishlistDesc": "has been removed from your wishlist."
 }

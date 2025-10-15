@@ -75,7 +75,7 @@ const Header = ({ data: settings }: { data: ISettings }) => {
   };
 
   return (
-    <header className="fixed inset-x-0 z-20 bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/95 border-b border-border/50 shadow">
+    <header className="fixed inset-x-0 z-40 bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/95 border-b border-border/50 shadow">
       <div className="container mx-auto px-2 lg:px-6">
         <div
           className={`flex items-center justify-between ${

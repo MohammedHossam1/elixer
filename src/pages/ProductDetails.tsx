@@ -2,10 +2,10 @@ import Image from "@/components/shared/Image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useGetProducts } from "@/hooks/fetch-hooks";
 import { useToast } from "@/hooks/use-toast";
+import { useAddToCart } from "@/hooks/useAddToCart";
 import { ArrowLeft, Heart, Minus, Plus, ShoppingBag, Star } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -15,7 +15,6 @@ const ProductDetail = () => {
   const { slug } = useParams();
   const { i18n, t } = useTranslation();
   const { toast } = useToast();
-  const { addItem, updateQuantity } = useCart();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
   const { data } = useGetProducts(i18n.language, 1);
   const product = data?.data.items.find((p) => p.slug === slug);
@@ -29,35 +28,45 @@ const ProductDetail = () => {
       : []),
     ...(Array.isArray(product.attachments) ? product.attachments : []),
   ];
+  const { addToCart } = useAddToCart();
 
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const handleQuantityChange = (id: string, newQuantity: number) => {
-    updateQuantity(id, newQuantity);
-  };
+
   const handleAddToCart = () => {
     if (product.quantity == 0) return;
+    // if (quantity > product.quantity) {
+    //   console.log(product.quantity, "quantity1");
+    //   console.log(quantity, "quantity2");
+    //   return;
+    // };
 
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: Number(product.price),
-      image: product.image,
-    });
-    handleQuantityChange(product.id, quantity);
+     addToCart(
+      product.id,
+      product.name,
+      Number(product.price),
+      product.image,
+      product.quantity,
+      quantity
+    );
+    // if (result) {
+    //   handleQuantityChange(product.id, quantity)
+    //   toast({
+    //     title: t("addedToCart", { name: product.name }),
+    //     description: t("addedToCartDescription", { name: product.name }),
+    //     className: "border border-green-500",
+    //   });
+    // };
 
-    toast({
-      title: "Added to cart",
-      description: `${product.name} has been added to your cart.`,
-    });
+
   };
 
   const handleToggleWishlist = () => {
     if (isWishlisted) {
       removeFromWishlist(product.id);
       toast({
-        title: "Removed from wishlist",
-        description: `${product.name} has been removed from your wishlist.`,
+        title: t("removedFromWishlist"),
+        description: `${product.name} ${t("removedFromWishlistDesc")}`,
       });
     } else {
       addToWishlist({
@@ -68,19 +77,14 @@ const ProductDetail = () => {
         category: product.category,
       });
       toast({
-        title: "Added to wishlist",
-        description: `${product.name} has been added to your wishlist.`,
+        title: t("addedToWishlist"),
+        description: `${product.name} ${t("addedToWishlistDesc")}`,
       });
     }
-
-    toast({
-      title: isWishlisted ? "Removed from wishlist" : "Added to wishlist",
-      description: `${product.name} ${isWishlisted ? "removed from" : "added to"} your wishlist.`,
-    });
   };
 
   return (
-    <div className="min-h-screen bg-background ">
+    <div className="min-h-screen bg-background max-w-6xl mx-auto ">
       <main className="container mx-auto px-2 lg:px-6  py-32">
         {/* Breadcrumb */}
         <div className="mb-6">
@@ -92,15 +96,15 @@ const ProductDetail = () => {
             {t("back")}
           </Link>
         </div>
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 x ">
           {/* Product Images */}
-          <div className="space-y-4">
-            <div className="aspect-square overflow-hidden rounded-xl bg-gradient-to-br from-muted/20 to-muted/5">
+          <div className="flex gap-4 max-lg:flex-col">
+            <div className=" overflow-hidden h-[500px]   rounded-xl  bg-gradient-to-br from-muted/20 to-muted/5">
               <Image
                 src={galleryImages[selectedImage]?.file_path}
                 alt={product.name}
                 key={galleryImages[selectedImage]?.file_path}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain bg-accent"
               />
             </div>
             {/* Image Thumbnails */}
@@ -134,26 +138,25 @@ const ProductDetail = () => {
             <div className="text-sm uppercase tracking-wide text-rose-gold font-semibold">
               {product.category.name}
             </div>
-            {/* Name */}
-            <h1 className="text-3xl font-bold text-foreground">
-              {product.name}
-            </h1>
-            {/* Rating */}
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`h-4 w-4 ${i < Math.floor(product.rating)
-                      ? "fill-rose-gold text-rose-gold"
-                      : "text-muted"
-                      }`}
-                  />
-                ))}
+            <div className="flex gap-6 items-center ">
+              {/* Name */}
+              <h1 className="text-3xl font-bold text-foreground">
+                {product.name}
+              </h1>
+              {/* Rating */}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`h-4 w-4 ${i < Math.floor(product.rating)
+                        ? "fill-rose-gold text-rose-gold"
+                        : "text-muted "
+                        }`}
+                    />
+                  ))}
+                </div>
               </div>
-              {/* <span className="text-sm text-muted-foreground">
-                {product.rating} ({product.reviews} reviews)
-              </span> */}
             </div>
             {/* Price */}
             <div className="flex items-center gap-2">
@@ -220,7 +223,7 @@ const ProductDetail = () => {
         {/* Product Details Tabs */}
         <div className="mt-12">
           <Tabs defaultValue="details" className="w-full ">
-            <TabsList className="grid lg:w-1/3 grid-cols-2 ">
+            <TabsList className="grid lg:w-1/2 grid-cols-2 ">
               <TabsTrigger value="details" className="w-full">{t("details")}</TabsTrigger>
               <TabsTrigger value="howto" className="w-full">How to Use</TabsTrigger>
             </TabsList>

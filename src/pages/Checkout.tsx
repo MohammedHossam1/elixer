@@ -18,8 +18,10 @@ const Checkout = () => {
   const shipping = 8.99;
   const tax = subtotal * 0.08;
   const total = subtotal + shipping + tax;
+  console.log(cartItems, "cartItems");
 
   const handlePlaceOrder = () => {
+    if (!cartItems.length) return
     setOrderComplete(true);
     toast({
       title: "Order placed successfully!",
@@ -181,6 +183,18 @@ const Checkout = () => {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
+
+            <Card className="card-elegant mb-4 ">
+              <CardHeader>
+                <CardTitle>Coupon</CardTitle>
+              </CardHeader>
+              <CardContent >
+                <form className="flex gap-2">
+                  <Input id="firstName" required placeholder={t("enterCoupon")} />
+                  <Button>{t("apply")}</Button>
+                </form>
+              </CardContent>
+            </Card>
             <Card className="card-elegant sticky top-8">
               <CardHeader>
                 <CardTitle>Order Summary</CardTitle>
@@ -193,6 +207,7 @@ const Checkout = () => {
                       <img
                         src={item.image}
                         alt={item.name}
+                        loading="lazy"
                         className="w-16 h-16 rounded-lg object-cover bg-muted"
                       />
                       <div className="flex-1 min-w-0">

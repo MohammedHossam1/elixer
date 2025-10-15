@@ -2,8 +2,9 @@ import { IWhyChooseUs } from '@/types/Index';
 import { useTranslation } from "react-i18next";
 import Image from './shared/Image';
 const WhatWeStandFor = ({ data }: { data: IWhyChooseUs[] }) => {
+    console.log(data, "data");
     const { t } = useTranslation();
-    if (!data) return null
+    if (!data || !data.length) return null
     return (
         <section className="py-10 lg:py-12 bg-background overflow-x-hidden">
             <div className="container mx-auto px-2 lg:px-6 ">

@@ -8,12 +8,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useToast } from "@/hooks/use-toast";
 import { Heart, ShoppingBag, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Image from "./shared/Image";
+import { useAddToCart } from "@/hooks/useAddToCart"; // تأكد إن المسار صح
 
 interface WishlistItem {
   id: string;
@@ -24,6 +24,7 @@ interface WishlistItem {
     id: number;
     name: string;
   };
+  quantity?: number; // في حالة كانت متوفرة
 }
 interface WishlistDrawerProps {
   children: React.ReactNode;
@@ -31,28 +32,35 @@ interface WishlistDrawerProps {
 
 const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
   const { items, removeItem } = useWishlist();
-  const { addItem: addToCart } = useCart();
   const { toast } = useToast();
   const { t, i18n } = useTranslation();
+  const { addToCart } = useAddToCart();
 
   const handleAddToCart = (item: WishlistItem) => {
-    addToCart({
-      id: item.id,
-      name: item.name,
-      price: Number(item.price),
-      image: item.image,
-    });
-    removeItem(item.id)
-    toast({
-      title: "Added to cart",
-      description: `${item.name} has been added to your cart.`,
-    });
+    // 👇 نمرر الكمية (أو 1 لو غير محددة)
+    const quantity = item.quantity ?? 1;
+
+    // نحاول نضيف للسلة
+    const result = addToCart(item.id, item.name, item.price, item.image, quantity);
+
+    // addToCart ممكن ترجّع true/false عشان نعرف العملية تمت ولا لأ
+    if (result) {
+      removeItem(item.id);
+      toast({
+        title: t("addedToCart", { name: item.name }),
+        description: t("addedToCartDescription", { name: item.name }),
+        className: "border border-green-500",
+      });
+    }
   };
 
   return (
-    <Sheet >
+    <Sheet>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent side={i18n.language === "en" ? "right" : "left"} className="w-full sm:w-96">
+      <SheetContent
+        side={i18n.language === "en" ? "right" : "left"}
+        className="w-full sm:w-96"
+      >
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             <Heart className="h-5 w-5 text-primary" />
@@ -60,8 +68,8 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
           </SheetTitle>
           <SheetDescription>
             {items.length === 0
-              ? "Your wishlist is empty"
-              : `You have ${items.length} item${items.length > 1 ? "s" : ""} in your wishlist`}
+              ? t("wishlistEmpty")
+              : t("wishlistCount", { count: items.length })}
           </SheetDescription>
         </SheetHeader>
 
@@ -85,9 +93,15 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
                       className="w-20 h-20 object-cover rounded"
                     />
                     <div className="flex-1">
-                      <h4 className="font-semibold text-sm line-clamp-2">{item.name}</h4>
-                      <p className="text-xs text-muted-foreground mt-1">{item.category?.name}</p>
-                      <p className="text-primary font-bold mt-2">${Number(item.price).toFixed(2)}</p>
+                      <h4 className="font-semibold text-sm line-clamp-2">
+                        {item.name}
+                      </h4>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {item.category?.name}
+                      </p>
+                      <p className="text-primary font-bold mt-2">
+                        ${Number(item.price).toFixed(2)}
+                      </p>
                     </div>
                     <div className="flex flex-col gap-2">
                       <Button
@@ -112,7 +126,9 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
               </div>
               <SheetClose className="w-full">
                 <div className="pt-4 border-t">
-                  <Button className="w-full btn-gradient" >{t("continueShopping")}</Button>
+                  <Button className="w-full btn-gradient">
+                    {t("continueShopping")}
+                  </Button>
                 </div>
               </SheetClose>
             </>

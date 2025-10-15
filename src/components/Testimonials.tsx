@@ -52,8 +52,8 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
             <div className="order-2 lg:order-1">
               <div className="grid grid-cols-4 sm:grid-cols-4 gap-2 sm:gap-4">
                 {data.map((item, index) => (
-                  <button 
-                  onClick={() => setCurrentTestimonial(index)}
+                  <button
+                    onClick={() => setCurrentTestimonial(index)}
                     key={index}
                     className="aspect-square rounded-lg overflow-hidden bg-muted hover:transform hover:scale-105 transition-all duration-300 cursor-pointer"
                   >
@@ -70,19 +70,33 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
             {/* Testimonial Content */}
             <div className="order-1 lg:order-2 space-y-6">
               <div className=" flex justify-between items-center gap-6 ">
-                {/* Customer Info */}
-                <div className="flex items-center gap-x-4">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden flex-shrink-0">
-                    <Image
-                      src={current?.image}
-                      key={current?.name}
-                      alt={current.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="text-lg sm:text-xl font-bold text-foreground">{current.name}</h4>
-                    <p className="text-sm sm:text-base text-muted-foreground">{current.rate}</p>
+                <div className="flex items-center gap-x-6">
+
+                  {/* Customer Info */}
+                  <div className="flex items-center gap-x-4">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden flex-shrink-0">
+                      <Image
+                        src={current?.image}
+                        key={current?.name}
+                        alt={current.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="text-lg sm:text-xl font-bold text-foreground">{current.name}</h4>
+                      {/* Star Rating */}
+                      <div className="flex items-center justify-center">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className={`w-4 h-4 sm:w-5 sm:h-5 ${star <= current.rate
+                              ? 'text-yellow-400 fill-current'
+                              : 'text-muted-foreground'
+                              }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
                   </div>
 
                 </div>
@@ -92,29 +106,15 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
                     <Quote className="w-8 h-8 text-primary" />
                   </div>
                 </div>
-
-
-                {/* Star Rating */}
-                <div className="flex items-center justify-center">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star
-                      key={star}
-                      className={`w-4 h-4 sm:w-5 sm:h-5 ${star <= current.rate
-                        ? 'text-yellow-400 fill-current'
-                        : 'text-muted-foreground'
-                        }`}
-                    />
-                  ))}
-                </div>
               </div>
 
               {/* Testimonial Text */}
-              <blockquote className="text-base  sm:text-lg lg:text-xl text-foreground max-lg:text-center leading-relaxed">
+              <blockquote className="text-base  lg:w-9/12  mx-auto  text-center sm:text-lg lg:text-xl text-foreground max-lg:text-center leading-relaxed">
                 "{current.description}"
               </blockquote>
 
               {/* Navigation */}
-              <div className="flex items-center justify-between pt-6">
+              <div className="flex items-center justify-between pt-3">
                 <Button
                   variant="ghost"
                   onClick={prevTestimonial}

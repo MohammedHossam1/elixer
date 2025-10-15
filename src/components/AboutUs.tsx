@@ -5,7 +5,8 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 const AboutUs = ({ data }: { data: IAbout }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language
   return (
     <section className="py-10 lg:py-12 bg-gradient-hero overflow-x-hidden">
       <div className="container mx-auto px-2 lg:px-6 ">
@@ -70,13 +71,13 @@ const AboutUs = ({ data }: { data: IAbout }) => {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-16">
             {/* Story Content */}
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: lang === 'en' ? -50 : 50  }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.9 }}
               viewport={{ once: true }}
               className="space-y-6"
             >
-              <h3 className="text-2xl lg:text-3xl font-bold text-foreground max-lg:text-center">
+              <h3 className="text-2xl lg:text-3xl text-center font-bold text-foreground max-lg:text-center">
                 {t("about.sectionTitle")}
               </h3>
               <div className="space-y-4 text-muted-foreground leading-relaxed max-lg:text-center">
@@ -99,7 +100,7 @@ const AboutUs = ({ data }: { data: IAbout }) => {
 
             {/* Stats & Highlights */}
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
+              initial={{ opacity: 0, x: lang === 'en' ? 50 : -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.9 }}
               viewport={{ once: true }}
@@ -145,7 +146,7 @@ const AboutUs = ({ data }: { data: IAbout }) => {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 

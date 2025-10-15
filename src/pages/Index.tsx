@@ -3,6 +3,7 @@ import FullscreenCarousel from "@/components/FullscreenCarousel";
 import Loader from "@/components/Loader";
 import { useGetHomePage } from "@/hooks/fetch-hooks";
 import { Suspense, lazy } from "react";
+import { useTranslation } from "react-i18next";
 
 // 👇 Lazy imports
 const AboutUs = lazy(() => import("@/components/AboutUs"));
@@ -14,20 +15,21 @@ const BeforeAfterComparison = lazy(() => import("@/components/BeforeAfterCompari
 const Testimonials = lazy(() => import("@/components/Testimonials"));
 
 const Index = () => {
-  const lang = localStorage.getItem('lang')
+  const { i18n } = useTranslation()
+  const lang = i18n.language
   const { data } = useGetHomePage(lang)
   return (
     <div className=" bg-background ">
       <Suspense fallback={<Loader />}>
         <main>
           <FadeInSection><FullscreenCarousel data={data?.data?.sliders} /></FadeInSection>
-          <FadeInSection stop><AboutUs  data={data?.data?.about_office} /></FadeInSection>
-          <FadeInSection><TopCategories    /></FadeInSection>
-          <ProductShowcase   />
-          <FadeInSection><SkinResults   /></FadeInSection>
-          <FadeInSection><WhatWeStandFor data={data?.data?.how_we_works}   /></FadeInSection>
-          <FadeInSection><BeforeAfterComparison   /></FadeInSection>
-          <FadeInSection><Testimonials data={data?.data?.customer_rates}   /></FadeInSection>
+          <FadeInSection stop><AboutUs data={data?.data?.about_office} /></FadeInSection>
+          <FadeInSection><TopCategories /></FadeInSection>
+          <ProductShowcase />
+          <FadeInSection><SkinResults /></FadeInSection>
+          <FadeInSection><WhatWeStandFor data={data?.data?.how_we_works} /></FadeInSection>
+          <FadeInSection><BeforeAfterComparison /></FadeInSection>
+          <FadeInSection><Testimonials data={data?.data?.customer_rates} /></FadeInSection>
         </main>
       </Suspense>
     </div>

@@ -23,10 +23,7 @@ const SearchComponent = () => {
   useEffect(() => {
     if (isMobile) setIsSearchOpen(true);
   }, [isMobile]);
-useEffect(() => {
-  console.log(searchData,"searchData");
-  console.log(query,"query");
-},[query])
+ 
   // Close search on click outside (desktop)
 
   useEffect(() => {
@@ -64,10 +61,11 @@ useEffect(() => {
             )}
 
             {/* ✅ Popup results */}
+          {query && 
             <motion.ul
               key="results"
               className={clsx(
-                "absolute top-full mt-2 left-0 w-full lg:w-64 bg-background border border-border rounded-xl shadow-xl z-50  max-h-64 overflow-auto"
+                "absolute top-full  mt-2 left-0 w-full lg:w-64 bg-background border border-border rounded-xl shadow-xl z-50  max-h-64 overflow-auto"
               )}
             >
               {filteredResults.length > 0 && query ?
@@ -105,6 +103,7 @@ useEffect(() => {
 
               }
             </motion.ul>
+            }
           </motion.div>
         ) : (
           !isMobile && (

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApiResponse, fetcher } from "@/lib/fetch-methods";
 import { HomePageData, IFAQ, IProduct, TArticle, appointmentType } from "@/types/Index";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -69,7 +70,7 @@ export const useGetProductsSearch = (lang: string, page: number, search?: string
       }),
     enabled: shouldFetch, // ✅ Only fetch if search has non-empty text
     suspense: false, // ✅ Never suspend for search results
-  });
+  } as any);
 };
 
 

@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 
 // Import images
 import { IHeroSlider } from "@/types/Index";
-import Image from "./shared/Image";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import placeholder from "../assets/logo.jpg";
+import placeholder from "../assets/banner1.jpg";
+import Image from "./shared/Image";
 
 
 const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
@@ -16,13 +16,12 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
   const { t } = useTranslation();
   // Auto-scroll functionality
   useEffect(() => {
-    if (isAutoPlaying) {
+    if (isAutoPlaying && data.length > 1) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) =>
           prevIndex === data.length - 1 ? 0 : prevIndex + 1
         );
       }, 5000); // Change image every 5 seconds
-
       return () => clearInterval(interval);
     }
   }, [isAutoPlaying]);
@@ -30,10 +29,11 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
     {
       image: placeholder,
       title: "",
-      description:"",
+      description: "",
       link: ""
     }
   ]
+  console.log(finalData, " finalData");
   const goToPrevious = () => {
     setCurrentIndex(currentIndex === 0 ? finalData.length - 1 : currentIndex - 1);
     setIsAutoPlaying(false);
@@ -82,12 +82,14 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
             {finalData[currentIndex]?.description}
           </p>
           <div className="flex  gap-3 sm:gap-4 justify-center px-4">
-            <Button
-              size="lg"
-              className="btn-gradient text-white font-semibold px-6 sm:px-8 py-4 sm:py-6  text-base sm:text-lg "
-            >
-              {t("shopCollection")}
-            </Button>
+            <Link to="/shop">
+              <Button
+                size="lg"
+                className="btn-gradient text-white font-semibold px-6 sm:px-8 py-4 sm:py-6  text-base sm:text-lg "
+              >
+                {t("shopCollection")}
+              </Button>
+            </Link>
             <Link to="/contact">
               <Button
                 variant="outline"

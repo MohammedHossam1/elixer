@@ -15,20 +15,21 @@ const Products = () => {
 
 
   return (
-    <div className="container min-h-[calc(100dvh-80px)] mx-auto px-4">
+    <div className="container  py-32 min-h-[calc(100dvh)] mx-auto px-4">
+      <h1 className="text-3xl font-bold mb-6">{i18n.language === "en" ? "Products" : "المنتجات"}</h1>
       {/* Products grid */}
-      <div className="py-5 lg:py-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-2 lg:gap-4">
+      <div className="   grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-2 lg:gap-4">
         {products.map((product) => (
           <ProductCard key={product.id} {...product} />
         ))}
       </div>
 
       {/* Pagination */}
-        <Pagination
-          currentPage={pagination.current_page}
-          totalPages={pagination.total_pages}
-          onPageChange={setPage}
-        />
+      <Pagination
+        currentPage={pagination.current_page}
+        totalPages={pagination.total_pages}
+        onPageChange={setPage}
+      />
     </div>
   );
 };
