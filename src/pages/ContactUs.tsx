@@ -49,9 +49,9 @@ type ContactFormData = z.infer<typeof contactSchema>;
 const ContactUs = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const { t } = useTranslation();
-  const lang = localStorage.getItem("i18nextLng");
-  const { data } = useGetHomePage(lang || "en")
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language
+  const { data } = useGetHomePage(lang)
   const mutation = usePostContact()
   const contactData = data?.data?.settings
   const form = useForm<ContactFormData>({
@@ -67,18 +67,16 @@ const ContactUs = () => {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-    const finalData = {
-      ...data, city: "x", appointment_type_id: "1", date: "22-8-2026"
 
-    }
-    mutation.mutate(finalData)
-    console.log(finalData);
+    mutation.mutate(data)
+    console.log(data, "data");
 
     // Simulate form submission
     setTimeout(() => {
       toast({
         title: t('contact.toast.successTitle'),
         description: t('contact.toast.successDesc'),
+        className: "border border-green-500 ",
       });
       form.reset();
       setIsSubmitting(false);

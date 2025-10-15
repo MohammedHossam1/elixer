@@ -24,11 +24,11 @@ const Index = () => {
         <main>
           <FadeInSection><FullscreenCarousel data={data?.data?.sliders} /></FadeInSection>
           <FadeInSection stop><AboutUs data={data?.data?.about_office} /></FadeInSection>
-          <FadeInSection><TopCategories /></FadeInSection>
+          <FadeInSection><TopCategories data={data?.data?.top_products} /></FadeInSection>
           <ProductShowcase />
-          <FadeInSection><SkinResults /></FadeInSection>
+          <FadeInSection><SkinResults data={data?.data?.real_results} /></FadeInSection>
           <FadeInSection><WhatWeStandFor data={data?.data?.how_we_works} /></FadeInSection>
-          <FadeInSection><BeforeAfterComparison /></FadeInSection>
+          <FadeInSection><BeforeAfterComparison data={data?.data?.settings.see_the_transformation} /></FadeInSection>
           <FadeInSection><Testimonials data={data?.data?.customer_rates} /></FadeInSection>
         </main>
       </Suspense>

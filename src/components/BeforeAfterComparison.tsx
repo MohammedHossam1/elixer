@@ -4,9 +4,11 @@ import transformationImage1 from "@/assets/after.jpg";
 import transformationImage2 from "@/assets/before.png";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { ICompare } from "@/types/Index";
 
-const BeforeAfterComparison = () => {
+const BeforeAfterComparison = ({ data }: { data: ICompare }) => {
   const { t } = useTranslation();
+  if (!data || data.image_after == null || data.image_before == null) return null
 
   return (
     <section className="py-10 lg:py-12 bg-gradient-subtle overflow-x-hidden">
@@ -36,13 +38,13 @@ const BeforeAfterComparison = () => {
             <ReactCompareSlider
               itemOne={
                 <ReactCompareSliderImage
-                  src={transformationImage1}
+                  src={data?.image_after || transformationImage1}
                   alt="After skincare treatment showing improved skin quality"
                 />
               }
               itemTwo={
                 <ReactCompareSliderImage
-                  src={transformationImage2}
+                  src={data?.image_before || transformationImage2}
                   alt="Skincare transformation results showing before and after comparison"
                 />
               }

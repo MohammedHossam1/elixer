@@ -7,6 +7,9 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { useCart } from '@/contexts/CartContext';
 import { useTranslation } from 'react-i18next';
+import Image from './shared/Image';
+import { useAddToCart } from '@/hooks/useAddToCart';
+import { IProduct } from '@/types/Index';
 
 interface CartDrawerProps {
   children: React.ReactNode;
@@ -17,6 +20,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
+  const { addToCart } = useAddToCart();
 
   const handleRemoveItem = (id: string, name: string) => {
     removeItem(id);
@@ -27,8 +31,21 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
     });
   };
 
-  const handleQuantityChange = (id: string, newQuantity: number) => {
-    updateQuantity(id, newQuantity);
+  const handleQuantityChange = (item: IProduct, newQuantity: number) => {
+    // const existingItem = items.find(item => item.id === id);
+    // console.log("existingItem", existingItem);
+    // console.log("newQuantity", newQuantity);
+    // if (newQuantity > existingItem?.quantity) return;
+    // updateQuantity(id, newQuantity);
+    // addToCart(item.id, item.name, Number(item.price), item.image, newQuantity);
+    addToCart(
+      item?.id,
+      item.name,
+      Number(item.price),
+      item?.image,
+      item.quantity,
+      newQuantity
+    );
   };
   const { i18n } = useTranslation();
 
@@ -64,7 +81,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
               <div className="space-y-4 py-2">
                 {items.map((item) => (
                   <div key={item.id} className="flex gap-4 p-4 bg-muted/30 rounded-lg">
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.name}
                       className="w-16 h-16 rounded-lg object-cover bg-muted"
@@ -81,7 +98,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                           size="icon"
                           variant="outline"
                           className="h-8 w-8"
-                          onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                          onClick={() => handleQuantityChange(item, item.quantity - 1)}
                         >
                           <Minus className="h-3 w-3" />
                         </Button>
@@ -92,7 +109,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                           size="icon"
                           variant="outline"
                           className="h-8 w-8"
-                          onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                          onClick={() => handleQuantityChange(item, item.quantity + 1)}
                         >
                           <Plus className="h-3 w-3" />
                         </Button>

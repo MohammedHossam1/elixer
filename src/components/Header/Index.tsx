@@ -111,7 +111,6 @@ const Header = ({ data: settings }: { data: ISettings }) => {
                   <SearchComponent />
                 </div>
 
-                {/* ✅ إغلاق القائمة عند الضغط على أي لينك */}
                 <nav className="flex flex-col gap-4">
                   {navigationItems.map((item) => (
                     <Link
@@ -132,7 +131,7 @@ const Header = ({ data: settings }: { data: ISettings }) => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-7">
+          <nav className="hidden lg:flex items-center gap-2 xl:gap-7">
             {navigationItems.map((item) => (
               <Link
                 key={item.name}

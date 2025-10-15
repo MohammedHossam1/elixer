@@ -71,7 +71,7 @@ const AboutUs = ({ data }: { data: IAbout }) => {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-16">
             {/* Story Content */}
             <motion.div
-              initial={{ opacity: 0, x: lang === 'en' ? -50 : 50  }}
+              initial={{ opacity: 0, x: lang === 'en' ? -50 : 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.9 }}
               viewport={{ once: true }}
@@ -107,38 +107,25 @@ const AboutUs = ({ data }: { data: IAbout }) => {
               className="space-y-8"
             >
               <div className="grid grid-cols-2 gap-6">
-                <div className="text-center card-elegant p-6 rounded-2xl">
-                  <div className="text-3xl lg:text-4xl font-bold text-primary mb-2">
-                    5K+
-                  </div>
-                  <div className="text-sm lg:text-base text-muted-foreground">
-                    {t("about.stats.happyCustomers")}
-                  </div>
-                </div>
-                <div className="text-center card-elegant p-6 rounded-2xl">
-                  <div className="text-3xl lg:text-4xl font-bold text-primary mb-2">
-                    50+
-                  </div>
-                  <div className="text-sm lg:text-base text-muted-foreground">
-                    {t("about.stats.premiumProducts")}
-                  </div>
-                </div>
-                <div className="text-center card-elegant p-6 rounded-2xl">
-                  <div className="text-3xl lg:text-4xl font-bold text-primary mb-2">
-                    3+
-                  </div>
-                  <div className="text-sm lg:text-base text-muted-foreground">
-                    {t("about.stats.yearsOfExcellence")}
-                  </div>
-                </div>
-                <div className="text-center card-elegant p-6 rounded-2xl">
-                  <div className="text-3xl lg:text-4xl font-bold text-primary mb-2">
-                    100%
-                  </div>
-                  <div className="text-sm lg:text-base text-muted-foreground">
-                    {t("about.stats.crueltyFree")}
-                  </div>
-                </div>
+                {data?.features.map((stat, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.2, duration: 0.8 }}
+                    viewport={{ once: true }}
+                    className="flex flex-col items-center gap-3"
+                  >
+
+                    <div className="text-center card-elegant p-6 rounded-2xl">
+                      <span className="text-3xl lg:text-4xl font-bold text-primary mb-2">
+                        {stat}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+
+
               </div>
 
 

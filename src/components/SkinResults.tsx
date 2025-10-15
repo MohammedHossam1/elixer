@@ -2,13 +2,16 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { results } from "@/data/Index";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { IResult } from "@/types/Index";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import Image from "./shared/Image";
 
 
-const SkinResults = () => {
+const SkinResults = ({ data }: { data: IResult[] }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
+  if (!data) return null
   return (
     <section className="py-10  lg:py-12 bg-background overflow-hidden">
       <div className="container mx-auto px-2  lg:px-6 ">
@@ -27,7 +30,7 @@ const SkinResults = () => {
 
         {/* Results Grid */}
         <div className="space-y-16 mx-auto">
-          {results.map((result, index) => (
+          {data.map((result, index) => (
             <div
               key={result.id}
               className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center ${index % 2 === 1 ? 'lg:grid-cols-2' : ''
@@ -39,9 +42,9 @@ const SkinResults = () => {
                   {/* Before Image */}
                   <div className="space-y-3">
                     <div className="relative overflow-hidden rounded-xl">
-                      <img
-                        src={result.beforeImage}
-                        alt={`Before ${result.title} treatment`}
+                      <Image
+                        src={result.image_before}
+                        alt={`Before ${result.name} treatment`}
                         className="w-full h-64 object-cover transition-transform duration-300 hover:scale-105"
                       />
                       <div className="absolute top-3 left-3">
@@ -56,8 +59,8 @@ const SkinResults = () => {
                   <div className="space-y-3">
                     <div className="relative overflow-hidden rounded-xl">
                       <img
-                        src={result.afterImage}
-                        alt={`After ${result.title} treatment`}
+                        src={result.image_after}
+                        alt={`After ${result.name} treatment`}
                         className="w-full h-64 object-cover transition-transform duration-300 hover:scale-105"
                       />
                       <div className="absolute top-3 left-3">
@@ -79,10 +82,10 @@ const SkinResults = () => {
                     {result.duration}
                   </Badge>
                   <h3 className="text-2xl lg:text-3xl font-bold text-foreground mb-4">
-                    {result.title}
+                    {result.name}
                   </h3>
                   <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                    "{result.testimonial}"
+                    "{result.description}"
                   </p>
                 </div>
 
@@ -96,7 +99,7 @@ const SkinResults = () => {
                         variant="secondary"
                         className="px-3 py-1 text-xs bg-primary/10 text-primary hover:bg-primary/20"
                       >
-                        {product}
+                        {product.name}
                       </Badge>
                     ))}
                   </div>

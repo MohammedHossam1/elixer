@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWishlist } from "@/contexts/WishlistContext";
-import { useGetProducts } from "@/hooks/fetch-hooks";
+import { useGetSingleProduct } from "@/hooks/fetch-hooks";
 import { useToast } from "@/hooks/use-toast";
 import { useAddToCart } from "@/hooks/useAddToCart";
 import { ArrowLeft, Heart, Minus, Plus, ShoppingBag, Star } from "lucide-react";
@@ -16,15 +16,15 @@ const ProductDetail = () => {
   const { i18n, t } = useTranslation();
   const { toast } = useToast();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
-  const { data } = useGetProducts(i18n.language, 1);
-  const product = data?.data.items.find((p) => p.slug === slug);
-  const isWishlisted = isInWishlist(product.id);
+  const { data } = useGetSingleProduct(slug, i18n.language);
+  const product = data?.data
+  const isWishlisted = isInWishlist(product?.id);
   const isArOrHe = i18n.language === 'ar' || i18n.language === 'he';
   const [quantity, setQuantity] = useState(1);
 
   const galleryImages = [
-    ...(product.image
-      ? [{ file_path: product.image, file_name: product.name || "Main Image" }]
+    ...(product?.image
+      ? [{ file_path: product?.image, file_name: product.name || "Main Image" }]
       : []),
     ...(Array.isArray(product.attachments) ? product.attachments : []),
   ];
@@ -35,29 +35,14 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     if (product.quantity == 0) return;
-    // if (quantity > product.quantity) {
-    //   console.log(product.quantity, "quantity1");
-    //   console.log(quantity, "quantity2");
-    //   return;
-    // };
-
-     addToCart(
-      product.id,
+    addToCart(
+      product?.id,
       product.name,
       Number(product.price),
-      product.image,
+      product?.image,
       product.quantity,
       quantity
     );
-    // if (result) {
-    //   handleQuantityChange(product.id, quantity)
-    //   toast({
-    //     title: t("addedToCart", { name: product.name }),
-    //     description: t("addedToCartDescription", { name: product.name }),
-    //     className: "border border-green-500",
-    //   });
-    // };
-
 
   };
 
@@ -108,7 +93,7 @@ const ProductDetail = () => {
               />
             </div>
             {/* Image Thumbnails */}
-            <div className="flex gap-3">
+            <div className="flex gap-3 lg:flex-col">
               {galleryImages.length > 0 &&
                 galleryImages.map((image, index) => (
                   <button

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApiResponse, fetcher } from "@/lib/fetch-methods";
-import { HomePageData, IFAQ, IProduct, TArticle, appointmentType } from "@/types/Index";
+import { HomePageData, IAdrress, IContact, IFAQ, IProduct, TArticle, appointmentType } from "@/types/Index";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
@@ -47,16 +47,18 @@ interface IProductsResponse {
   }
 }
 // hooks/fetch-hooks.ts
-export const useGetProducts = (lang: string, page: number) => {
+export const useGetProducts = (lang: string, page?: number, category_id?: number | string) => {
   return useQuery<ApiResponse<IProductsResponse>>({
-    queryKey: ["products", lang, page],
+    queryKey: ["products", lang, page, category_id],
     queryFn: () =>
       fetcher<IProductsResponse>({
-        url: `/products?page=${page}`,
+        url: `/products?page=${page}&category_id=${category_id}`,
         lang,
       }),
+    suspense: category_id ? false : true, // ✅ Never suspend for search results
+
     staleTime: 1000 * 60 * 60,
-  });
+  } as any);
 };
 export const useGetProductsSearch = (lang: string, page: number, search?: string) => {
   const shouldFetch = Boolean(search && search.trim().length > 0);
@@ -105,19 +107,46 @@ export const useGetSingleBlog = (id: number, lang: string) => {
 };
 
 
+export const useGetSingleProduct = (slug: string, lang: string) => {
+  //hanlde react query fetch
+  const query = useQuery({
+    queryKey: ["product", slug, lang],
+    queryFn: () => fetcher<IProduct>({ url: `/products/${slug}`, lang }),
+    staleTime: 1000 * 60 * 60,
+  })
+  return query
+};
+export const useGetAdresses = (lang: string) => {
+  //hanlde react query fetch
+  const query = useQuery({
+    queryKey: ["addresses", lang],
+    queryFn: () => fetcher<IAdrress[]>({ url: `/addresses`, lang }),
+    staleTime: 1000 * 60 * 60,
+  })
+  return query
+};
 
 
 
-// --- POST method example ---
+
+
+// --- POST usePostContact ---
 export const usePostContact = () => {
-  // This hook allows you to post contact form data to the backend
-  // Usage: const mutation = usePostContact(); mutation.mutate(formData)
   return useMutation({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    mutationFn: async (data: any) => {
-      // You can adjust the endpoint and payload as needed
+    mutationFn: async (data: IContact) => {
       return fetcher({
-        url: "/book-appointment",
+        url: "/contact-us",
+        method: "POST",
+        body: data,
+      });
+    },
+  });
+};
+export const usePostCheckout = () => {
+  return useMutation({
+    mutationFn: async (data: any) => {
+      return fetcher({
+        url: "/orders/checkout",
         method: "POST",
         body: data,
       });

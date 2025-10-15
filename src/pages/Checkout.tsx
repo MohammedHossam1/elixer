@@ -2,36 +2,95 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useGetAdresses, usePostCheckout } from "@/hooks/fetch-hooks";
 import { useToast } from "@/hooks/use-toast";
+import { checkoutSchema } from "@/schemas";
+import { IAdrress } from "@/types/Index";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, CheckCircle, Shield, Truck } from "lucide-react";
-import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-
+import z from "zod";
+import {
+  RadioGroup,
+  RadioGroupItem
+} from "@/components/ui/radio-group";
+import { useState } from "react";
+import { useCart } from "@/contexts/CartContext";
 const Checkout = () => {
   const { toast } = useToast();
-  const { t } = useTranslation();
-  const [orderComplete, setOrderComplete] = useState(false);
-  const cartItems = JSON.parse(localStorage.getItem("cart_items")) || []
-  const subtotal = cartItems.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
-  const shipping = 8.99;
-  const tax = subtotal * 0.08;
-  const total = subtotal + shipping + tax;
-  console.log(cartItems, "cartItems");
+  const { t, i18n } = useTranslation();
+  const { clearCart, items } = useCart();
+  const subtotal = items.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
+  const { data } = useGetAdresses(i18n.language);
+  const schema = checkoutSchema(t);
+  const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">("delivery");
+  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [paymentType, setpaymentType] = useState<"cash" | "visa">("cash");
+  const [cityPrice, setCityPrice] = useState<number>(0);
+  const total = subtotal + cityPrice;
 
-  const handlePlaceOrder = () => {
-    if (!cartItems.length) return
-    setOrderComplete(true);
-    toast({
-      title: "Order placed successfully!",
-      description: "You will receive a confirmation email shortly.",
-    });
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      deliveryType: "delivery",
+    },
+
+  });
+  const { register, handleSubmit, formState: { errors } } = form;
+
+  const { mutateAsync, isPending } = usePostCheckout();
+
+  const handlePlaceOrder = async (data: z.infer<typeof schema>) => {
+    try {
+      const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
+      const formData = new FormData();
+      formData.append("first_name", "data.firstName");
+      formData.append("last_name", data.lastName);
+      formData.append("phone", data.phone);
+      formData.append("email", data.email);
+      formData.append("region_id", data.region_id); // أو id المدينة
+      formData.append("home_address", data.address);
+      formData.append("payment_method", paymentType); // "cash" أو "visa"
+      formData.append("read_conditions", "1"); // ثابت
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      cartItems.forEach((item: any, index: number) => {
+        formData.append(`item[${index}][product_id]`, item.id);
+        formData.append(`item[${index}][quantity]`, item.quantity);
+      });
+      await mutateAsync(formData);
+      toast({
+        title: t("orderPlaced"),
+        description: t("orderPlacedDesc"),
+        className: "border-2 border-green-500",
+      });
+      setOrderPlaced(true);
+      scrollTo(0, 0);
+      clearCart()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast({
+        title: t("error"),
+        description: error.message || t("somethingWentWrong"),
+        className: "border-2 shadow-red-100 border-red-500",
+      });
+    }
   };
 
-  if (orderComplete) {
+
+  if (orderPlaced) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background py-32">
         <main className="container mx-auto px-2 lg:px-6  py-16">
           <div className="max-w-md mx-auto text-center space-y-6">
             <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
@@ -57,7 +116,6 @@ const Checkout = () => {
 
   return (
     <div className="min-h-screen bg-background">
-
       <main className="container mx-auto px-2 lg:px-6  py-32">
         {/* Breadcrumb */}
         <div className="mb-6">
@@ -69,105 +127,143 @@ const Checkout = () => {
             {t("backToShop")}
           </Link>
         </div>
-
         <h1 className="text-3xl font-bold mb-8">{t("checkout")}</h1>
-
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Checkout Form */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Shipping Information */}
-            <Card className="card-elegant">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Truck className="h-5 w-5 text-rose-gold" />
-                  {t("shippingInformation")}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">{t("firstName")}</Label>
-                    <Input id="firstName" placeholder={t("enterFirstName")} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">{t("lastName")}</Label>
-                    <Input id="lastName" placeholder={t("enterLastName")} />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">{t("email")}</Label>
-                  <Input id="email" type="email" placeholder={t("enterEmail")} />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="address">{t("address")}</Label>
-                  <Input id="address" placeholder={t("enterAddress")} />
-                </div>
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="city">{t("city")}</Label>
-                    <Input id="city" placeholder={t("enterCity")} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="state">{t("state")}</Label>
-                    <Input id="state" placeholder={t("enterState")} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="zip">{t("zip")}</Label>
-                    <Input id="zip" placeholder={t("enterZipCode")} />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Payment Information */}
-            {/* <Card className="card-elegant">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <CreditCard className="h-5 w-5 text-rose-gold" />
-                  {t("paymentInformation")}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Tabs defaultValue="card" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="card">Credit Card</TabsTrigger>
-                    <TabsTrigger value="paypal">PayPal</TabsTrigger>
-                  </TabsList>
-
-                  <TabsContent value="card" className="space-y-4 mt-4">
+            <form id="checkout-form" onSubmit={handleSubmit(handlePlaceOrder)}>
+              <Card className="card-elegant">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Truck className="h-5 w-5 text-rose-gold" />
+                    {t("shippingInformation")}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="cardNumber">Card Number</Label>
-                      <Input id="cardNumber" placeholder="1234 5678 9012 3456" />
+                      <Label htmlFor="firstName">{t("firstName")}</Label>
+                      <Input id="firstName" {...register("firstName")} placeholder={t("enterFirstName")} />
+                      {errors.firstName && (
+                        <p className="text-red-500 text-sm">{errors.firstName.message}</p>
+                      )}
                     </div>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="col-span-2 space-y-2">
-                        <Label htmlFor="expiry">Expiry Date</Label>
-                        <Input id="expiry" placeholder="MM/YY" />
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName">{t("lastName")}</Label>
+                      <Input id="lastName" {...register("lastName")} placeholder={t("enterLastName")} />
+                      {errors.lastName && (
+                        <p className="text-red-500 text-sm">{errors.lastName.message}</p>
+                      )}
+                    </div>
+                  </div>
+
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="email">{t("email")}</Label>
+                      <Input id="email" type="email" {...register("email")} placeholder={t("enterEmail")} />
+                      {errors.email && (
+                        <p className="text-red-500 text-sm">{errors.email.message}</p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">{t("phone")}</Label>
+                      <Input id="phone" {...register("phone")} placeholder={t("enterphone")} />
+                      {errors.phone && (
+                        <p className="text-red-500 text-sm">{errors.phone.message}</p>
+                      )}
+                    </div>
+                  </div>
+                  {/* Delivery Type */}
+                  <div className="flex gap-2 items-center">
+                    <Label>{t("deliveryType")}{" : "}</Label>
+                    <RadioGroup
+                      defaultValue="delivery"
+                      onValueChange={(value: "delivery" | "pickup") => {
+                        setDeliveryType(value);
+                        form.setValue("deliveryType", value);
+                      }}
+                      className="flex gap-6"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="delivery" id="delivery" />
+                        <Label htmlFor="delivery">{t("delivery")}</Label>
                       </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="pickup" id="pickup" />
+                        <Label htmlFor="pickup">{t("pickupFromShop")}</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                  {deliveryType === "delivery" && (
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <Controller
+                        name="region_id"
+                        control={form.control}
+                        render={({ field }) => (
+                          <div className="space-y-2">
+                            <Label htmlFor="region_id">{t("region")}</Label>
+                            <Select
+                              value={field.value}
+                              onValueChange={(value) => {
+                                field.onChange(value);
+                                const selectedCity = data?.data?.find((c: IAdrress) => String(c.id) === value);
+                                setCityPrice(selectedCity ? Number(selectedCity.price) : 0);
+                              }}
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder={t("selectRegion")} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  {data?.data?.map((city: IAdrress) => (
+                                    <SelectItem key={city.id} value={String(city.id)} className="capitalize">
+                                      {city.title} {" : "} {city.price}
+                                    </SelectItem>
+                                  ))}
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                            {errors.region_id && (
+                              <p className="text-red-500 text-sm">{errors.region_id.message}</p>
+                            )}
+                          </div>
+                        )}
+                      />
+
+                      {/* Address */}
                       <div className="space-y-2">
-                        <Label htmlFor="cvv">CVV</Label>
-                        <Input id="cvv" placeholder="123" />
+                        <Label htmlFor="address">{t("address")}</Label>
+                        <Input id="address" {...register("address")} placeholder={t("enterAddress")} />
+                        {errors.address && (
+                          <p className="text-red-500 text-sm">{errors.address.message}</p>
+                        )}
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="cardName">Name on Card</Label>
-                      <Input id="cardName" placeholder="Enter name as shown on card" />
-                    </div>
-                  </TabsContent>
+                  )}
+                  {/* Delivery Type */}
+                  <div className=" flex gap-2 items-center mt-5">
+                    <Label>{t("paymentType")}{" : "}</Label>
+                    <RadioGroup
+                      defaultValue="cash"
+                      onValueChange={(value: "cash" | "visa") => setpaymentType(value)}
+                      className="flex gap-6"
+                    >
 
-                  <TabsContent value="paypal" className="mt-4">
-                    <div className="text-center py-8">
-                      <p className="text-muted-foreground mb-4">
-                        You will be redirected to PayPal to complete your payment.
-                      </p>
-                      <Button variant="outline" className="w-full">
-                        Continue with PayPal
-                      </Button>
-                    </div>
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card> */}
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="cash" id="cash" />
+                        <Label htmlFor="cash">{t("cash")}</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="visa" disabled id="visa" />
+                        <Label htmlFor="visa">{t("visa")}</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                </CardContent>
+              </Card>
+            </form>
 
             {/* Security Notice */}
             <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
@@ -202,7 +298,7 @@ const Checkout = () => {
               <CardContent className="space-y-4">
                 {/* Cart Items */}
                 <div className="space-y-3">
-                  {cartItems.map((item) => (
+                  {items.map((item) => (
                     <div key={item.id} className="flex gap-3">
                       <img
                         src={item.image}
@@ -222,22 +318,17 @@ const Checkout = () => {
                 </div>
 
                 <Separator />
-
                 {/* Price Breakdown */}
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span>{t("subtotal")}</span>
                     <span>${subtotal.toFixed(2)}</span>
                   </div>
+
                   <div className="flex justify-between">
                     <span>{t("shipping")}</span>
-                    <span>${shipping.toFixed(2)}</span>
+                    <span>${cityPrice.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span>{t("tax")}</span>
-                    <span>${tax.toFixed(2)}</span>
-                  </div>
-
                   <Separator />
 
                   <div className="flex justify-between font-bold text-lg">
@@ -247,11 +338,13 @@ const Checkout = () => {
                 </div>
 
                 <Button
-                  onClick={handlePlaceOrder}
+                  form="checkout-form"
+                  type="submit"
+                  disabled={items.length === 0 || isPending}
                   className="w-full btn-gradient text-white hover:shadow-glow"
                   size="lg"
                 >
-                  {t("placeOrder")}
+                  {isPending ? t("loading") : t("placeOrder")}
                 </Button>
 
                 {/* Shipping Info */}

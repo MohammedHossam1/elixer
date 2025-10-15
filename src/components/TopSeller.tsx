@@ -11,17 +11,16 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Link } from "react-router-dom";
-import { useGetProducts } from "@/hooks/fetch-hooks";
 import Image from "./shared/Image";
+import { IProduct } from "@/types/Index";
 
 
 
-const TopSeller = () => {
+const TopSeller = ({data}: {data: IProduct[]}) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
   const { t, i18n } = useTranslation();
-  const { data } = useGetProducts(i18n.language, 1);
 
   // 🔹 sync carousel state
   const handleApi = (api: CarouselApi) => {
@@ -55,7 +54,7 @@ const TopSeller = () => {
           className="w-full max-w-6xl mx-auto"
         >
           <CarouselContent>
-            {data?.data.items.map((item) => (
+            {data.map((item) => (
               <CarouselItem
                 key={item.id}
                 className="basis-1/2 md:basis-1/3 py-10"

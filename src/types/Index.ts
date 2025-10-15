@@ -1,4 +1,3 @@
-// types.ts
 
 export type Lang = "ar" | "he";
 
@@ -124,11 +123,7 @@ export interface ITestimonial {
 
 }
 
-type TPlatform = "phone" | "email" | "address" | "facebook" | "instagram" | "whats" | "locationAr" | "locationHe" | "fax";
-export interface IContact {
-  platform: TPlatform;
-  url: string;
-}
+
 export interface ISlider {
   id: number;
   title: string;
@@ -179,10 +174,16 @@ export interface IHeroSlider {
   image: string
   title: string
 }
+export interface ICompare {
+  image_before: string
+  image_after: string
+
+}
 export interface ISettings {
   years_of_experience: number | null;
   logo: string;
   address: string;
+  see_the_transformation: ICompare;
   contact: {
     mobile: string;
     email: string;
@@ -201,6 +202,27 @@ export interface ISettings {
   }
 
 }
+export interface IContact {
+  name?: string;
+  email?: string;
+  phone?: string;
+  subject?: string;
+  message?: string;
+}
+export interface IResult {
+  id: number
+  name: string
+  description: string
+  image_before: string
+  image_after: string
+  duration: string
+  products: {
+    id: number
+    name: string
+    image: string
+  }[]
+}
+
 export type HomePageData = {
   settings: ISettings
   categories: Category[];
@@ -210,6 +232,8 @@ export type HomePageData = {
   about_office: IAbout;
   services: IService[];
   how_we_works: IWhyChooseUs[];
+  top_products: IProduct[];
+  real_results: IResult[];
   appointment_types: string[];
   customer_rates: ITestimonial[];
   why_choose_us: IWhyChooseUs[];
@@ -244,3 +268,9 @@ export type TArticle = {
   article_type: TArticleType;
   article_contents: TArticleContent[];
 };
+
+export interface IAdrress {
+  id: number,
+  title: string,
+  price: string,
+}

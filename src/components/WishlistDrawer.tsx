@@ -49,7 +49,7 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
       toast({
         title: t("addedToCart", { name: item.name }),
         description: t("addedToCartDescription", { name: item.name }),
-        className: "border border-green-500",
+        className: "border-2 border-green-500",
       });
     }
   };
