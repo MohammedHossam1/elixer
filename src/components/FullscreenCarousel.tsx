@@ -25,7 +25,7 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
       return () => clearInterval(interval);
     }
   }, [isAutoPlaying]);
-  const finalData = data.length > 1 ? data : [
+  const finalData = data.length > 0 ? data : [
     {
       image: placeholder,
       title: "",
