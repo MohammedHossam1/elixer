@@ -60,7 +60,7 @@ const FilteredProductsCategories = ({ params, centered = false }: { params: stri
             </p> :
                 finalCategories.map((category) => (
                     <TabsContent key={category.id} value={String(category.id)} className="mt-8">
-                        {getFilteredProducts(String(category.id)).length > 0 ? <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-2 lg:gap-4">
+                        {getFilteredProducts(String(category.id)).length > 0 ? <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 lg:gap-4">
                             {getFilteredProducts(String(category.id)).map((product, ind) => (
                                 <ProductCard key={ind} {...product} />
                             ))}

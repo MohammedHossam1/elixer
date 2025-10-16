@@ -10,52 +10,31 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useGetHomePage, usePostContact } from "@/hooks/fetch-hooks";
-import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { LoaderCircle, Mail, MapPin, Phone, Send } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import * as z from "zod";
 import { useTranslation } from "react-i18next";
+import { contactSchema } from "@/schemas";
+import toast from "react-hot-toast";
 
-const contactSchema = z.object({
-  name: z.string()
-    .trim()
-    .min(2, { message: "Name must be at least 2 characters" })
-    .max(100, { message: "Name must be less than 100 characters" }),
-  email: z.string()
-    .trim()
-    .email({ message: "Invalid email address" })
-    .max(255, { message: "Email must be less than 255 characters" }),
-  phone: z.string()
-    .trim()
-    .min(10, { message: "Phone number must be at least 10 digits" })
-    .max(20, { message: "Phone number must be less than 20 characters" })
-    .optional()
-    .or(z.literal("")),
-  subject: z.string()
-    .trim()
-    .min(3, { message: "Subject must be at least 3 characters" })
-    .max(200, { message: "Subject must be less than 200 characters" }),
-  message: z.string()
-    .trim()
-    .min(10, { message: "Message must be at least 10 characters" })
-    .max(1000, { message: "Message must be less than 1000 characters" }),
-});
 
-type ContactFormData = z.infer<typeof contactSchema>;
+
 
 const ContactUs = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
   const { t, i18n } = useTranslation();
   const lang = i18n.language
   const { data } = useGetHomePage(lang)
   const mutation = usePostContact()
   const contactData = data?.data?.settings
+  const schema = contactSchema(t)
+  type ContactFormData = z.infer<typeof schema>;
+
   const form = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       name: "",
       email: "",
@@ -73,11 +52,7 @@ const ContactUs = () => {
 
     // Simulate form submission
     setTimeout(() => {
-      toast({
-        title: t('contact.toast.successTitle'),
-        description: t('contact.toast.successDesc'),
-        className: "border border-green-500 ",
-      });
+      toast.success(t('contact.toast.successDesc'), { duration: 3000 });
       form.reset();
       setIsSubmitting(false);
     }, 1000);
@@ -240,7 +215,7 @@ const ContactUs = () => {
                   className="w-full btn-gradient"
                 >
                   {isSubmitting ? (
-                    t('contact.form.sending')
+                    <LoaderCircle className="h-4 w-4 mr-2 animate-spin" />
                   ) : (
                     <>
                       <Send className="h-4 w-4 mr-2" />

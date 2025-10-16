@@ -4,8 +4,9 @@ export interface CartItem {
   id: string;
   name: string;
   price: number;
-  quantity: number;
   image: string;
+  slug: string;
+  quantity: number;
 }
 
 interface CartContextType {

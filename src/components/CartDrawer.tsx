@@ -1,53 +1,61 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Plus, Minus, Trash2 } from 'lucide-react';
+import { ShoppingBag, Plus, Minus, Trash2, LoaderCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
-import { useToast } from '@/hooks/use-toast';
 import { useCart } from '@/contexts/CartContext';
 import { useTranslation } from 'react-i18next';
 import Image from './shared/Image';
 import { useAddToCart } from '@/hooks/useAddToCart';
 import { IProduct } from '@/types/Index';
+import toast from 'react-hot-toast';
+import { useGetSingleProduct } from '@/hooks/fetch-hooks';
 
 interface CartDrawerProps {
   children: React.ReactNode;
 }
 
 const CartDrawer = ({ children }: CartDrawerProps) => {
-  const { items, updateQuantity, removeItem, totalItems, totalPrice } = useCart();
-  const { toast } = useToast();
+  const { items, removeItem, totalItems, totalPrice } = useCart();
   const [isOpen, setIsOpen] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { addToCart } = useAddToCart();
-
+  const [slug, setSlug] = useState<string>("");
+  const { refetch, isLoading } = useGetSingleProduct(slug, i18n.language, false);
   const handleRemoveItem = (id: string, name: string) => {
     removeItem(id);
-    toast({
-      title: "Item removed",
-      description: `${name} has been removed from your cart.`,
-      variant: "destructive",
-    });
+    toast.error(`${name} has been removed from your cart.`, { duration: 3000 });
   };
 
-  const handleQuantityChange = (item: IProduct, newQuantity: number) => {
-    // const existingItem = items.find(item => item.id === id);
-    // console.log("existingItem", existingItem);
-    // console.log("newQuantity", newQuantity);
-    // if (newQuantity > existingItem?.quantity) return;
-    // updateQuantity(id, newQuantity);
-    // addToCart(item.id, item.name, Number(item.price), item.image, newQuantity);
-    addToCart(
-      item?.id,
-      item.name,
-      Number(item.price),
-      item?.image,
-      item.quantity,
-      newQuantity
-    );
+  const handleQuantityChange = async (item: Partial<IProduct> , newQuantity: number) => {
+    if (newQuantity < 1) {
+      handleRemoveItem(item.id, item.name);
+      return;
+    }
+    setSlug(item.slug);
+    const res = await refetch();
+    const product = res.data;
+    if (!product) {
+      toast.error(t("productNotFound") || "Product not found");
+      return;
+    }
+    if (newQuantity > product.data.quantity) {
+      toast.error(
+        `${t("only")} ${product.data.quantity} ${t("itemsAvailable") || "items available only."}`
+      );
+      return;
+    }
+    addToCart({
+      id: item.id,
+      name: item.name,
+      price: Number(item.price),
+      image: item.image,
+      slug: item.slug,
+      quantity: product.data.quantity,
+      quantityToAdd: newQuantity
+    });
   };
-  const { i18n } = useTranslation();
 
 
   return (
@@ -101,6 +109,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                           onClick={() => handleQuantityChange(item, item.quantity - 1)}
                         >
                           <Minus className="h-3 w-3" />
+                          
                         </Button>
                         <span className="w-8 text-center text-sm font-medium">
                           {item.quantity}
@@ -111,7 +120,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                           className="h-8 w-8"
                           onClick={() => handleQuantityChange(item, item.quantity + 1)}
                         >
-                          <Plus className="h-3 w-3" />
+                          {isLoading ? <LoaderCircle className="h-3 w-3 animate-spin" /> : <Plus className="h-3 w-3" />}
                         </Button>
                       </div>
                     </div>

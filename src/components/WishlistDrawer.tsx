@@ -41,7 +41,14 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
     const quantity = item.quantity ?? 1;
 
     // نحاول نضيف للسلة
-    const result = addToCart(item.id, item.name, item.price, item.image, quantity);
+    const result = addToCart({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      image: item.image,
+      slug: item.category.name,
+      quantity,
+    });
 
     // addToCart ممكن ترجّع true/false عشان نعرف العملية تمت ولا لأ
     if (result) {

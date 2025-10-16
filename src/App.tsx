@@ -1,5 +1,5 @@
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from 'react-hot-toast';
+
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Suspense, lazy } from "react";
@@ -35,8 +35,8 @@ const App = () => (
     <TooltipProvider>
       <WishlistProvider>
         <CartProvider>
+          
           <Toaster />
-          <Sonner />
           <BrowserRouter>
             <StartPageTop />
             <Suspense fallback={<Loader />}>

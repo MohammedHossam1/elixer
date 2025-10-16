@@ -1,7 +1,12 @@
+import CouponCheck from "@/components/Checkout/CouponCheck";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  RadioGroup,
+  RadioGroupItem
+} from "@/components/ui/radio-group";
 import {
   Select,
   SelectContent,
@@ -11,34 +16,31 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useCart } from "@/contexts/CartContext";
 import { useGetAdresses, usePostCheckout } from "@/hooks/fetch-hooks";
-import { useToast } from "@/hooks/use-toast";
 import { checkoutSchema } from "@/schemas";
 import { IAdrress } from "@/types/Index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, CheckCircle, Shield, Truck } from "lucide-react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import z from "zod";
-import {
-  RadioGroup,
-  RadioGroupItem
-} from "@/components/ui/radio-group";
-import { useState } from "react";
-import { useCart } from "@/contexts/CartContext";
 const Checkout = () => {
-  const { toast } = useToast();
   const { t, i18n } = useTranslation();
   const { clearCart, items } = useCart();
+  const [coupon, setCoupon] = useState<number | null>(null);
+  const [cityPrice, setCityPrice] = useState<number>(0);
   const subtotal = items.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
+  const total = subtotal + cityPrice - coupon;
   const { data } = useGetAdresses(i18n.language);
   const schema = checkoutSchema(t);
   const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">("delivery");
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [paymentType, setpaymentType] = useState<"cash" | "visa">("cash");
-  const [cityPrice, setCityPrice] = useState<number>(0);
-  const total = subtotal + cityPrice;
+
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -55,38 +57,31 @@ const Checkout = () => {
     try {
       const cartItems = JSON.parse(localStorage.getItem("cart_items")) || [];
       const formData = new FormData();
-      formData.append("first_name", "data.firstName");
+      formData.append("first_name", data.firstName);
       formData.append("last_name", data.lastName);
       formData.append("phone", data.phone);
       formData.append("email", data.email);
-      formData.append("region_id", data.region_id); // أو id المدينة
-      formData.append("home_address", data.address);
-      formData.append("payment_method", paymentType); // "cash" أو "visa"
-      formData.append("read_conditions", "1"); // ثابت
+      if (deliveryType === "delivery") formData.append("region_id", data.region_id);
+      if (deliveryType === "delivery") formData.append("address", data.address);
+      formData.append("delivery_method", deliveryType);
+      formData.append("payment_method", paymentType);
+      if (coupon) formData.append("coupon", String(coupon));
+      formData.append("read_conditions", "1");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       cartItems.forEach((item: any, index: number) => {
         formData.append(`item[${index}][product_id]`, item.id);
         formData.append(`item[${index}][quantity]`, item.quantity);
       });
       await mutateAsync(formData);
-      toast({
-        title: t("orderPlaced"),
-        description: t("orderPlacedDesc"),
-        className: "border-2 border-green-500",
-      });
+      toast.success(t("orderPlacedDesc"), { duration: 3000 });
       setOrderPlaced(true);
       scrollTo(0, 0);
       clearCart()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast({
-        title: t("error"),
-        description: error.message || t("somethingWentWrong"),
-        className: "border-2 shadow-red-100 border-red-500",
-      });
+      toast.error(error.message || t("somethingWentWrong"));
     }
   };
-
 
   if (orderPlaced) {
     return (
@@ -102,7 +97,7 @@ const Checkout = () => {
             </p>
             <div className="space-y-3">
               <Button asChild className="w-full btn-gradient text-white">
-                <Link to="/">{t("continueShopping")}</Link>
+                <Link to="/shop">{t("continueShopping")}</Link>
               </Button>
               <Button variant="outline" className="w-full">
                 {t("trackOrder")}
@@ -123,7 +118,7 @@ const Checkout = () => {
             to="/"
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className={`h-4 w-4 ${i18n.language != "en" && "rotate-180"}`} />
             {t("backToShop")}
           </Link>
         </div>
@@ -280,17 +275,7 @@ const Checkout = () => {
           {/* Order Summary */}
           <div className="lg:col-span-1">
 
-            <Card className="card-elegant mb-4 ">
-              <CardHeader>
-                <CardTitle>Coupon</CardTitle>
-              </CardHeader>
-              <CardContent >
-                <form className="flex gap-2">
-                  <Input id="firstName" required placeholder={t("enterCoupon")} />
-                  <Button>{t("apply")}</Button>
-                </form>
-              </CardContent>
-            </Card>
+            <CouponCheck setCoupon={setCoupon} />
             <Card className="card-elegant sticky top-8">
               <CardHeader>
                 <CardTitle>Order Summary</CardTitle>
@@ -329,6 +314,12 @@ const Checkout = () => {
                     <span>{t("shipping")}</span>
                     <span>${cityPrice.toFixed(2)}</span>
                   </div>
+                  {coupon > 0 &&
+                    <div className="flex justify-between">
+                      <span>{t("coupon")}</span>
+                      <span>{" - "}{coupon}</span>
+                    </div>
+                  }
                   <Separator />
 
                   <div className="flex justify-between font-bold text-lg">

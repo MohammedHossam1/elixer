@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { Heart, ShoppingBag, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useTranslation } from "react-i18next";
 import { IProduct } from "@/types/Index";
 import Image from "./shared/Image";
 import { useAddToCart } from "@/hooks/useAddToCart";
+import toast from "react-hot-toast";
 
 const ProductCard = ({
   id,
@@ -18,29 +18,23 @@ const ProductCard = ({
   discount,
   slug,
   image,
-  rating,
+  rate_count,
   quantity,
 }: IProduct) => {
   const [isHovered, setIsHovered] = useState(false);
   const { addToCart } = useAddToCart();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
-  const { toast } = useToast();
   const isWishlisted = isInWishlist(id);
   const { t } = useTranslation();
-
+  console.log("rate_count", rate_count);
   const handleToggleWishlist = () => {
     if (isWishlisted) {
       removeFromWishlist(id);
-      toast({
-        title: "Removed from wishlist",
-        description: `${name} has been removed from your wishlist.`,
-      });
+      toast.error(`${name} has been removed from your wishlist.`,
+        { duration: 3000 });
     } else {
       addToWishlist({ id, name, price, image, category });
-      toast({
-        title: "Added to wishlist",
-        description: `${name} has been added to your wishlist.`,
-      });
+      toast.success(`${name} has been added to your wishlist.`, { duration: 3000 });
     }
   };
 
@@ -113,9 +107,9 @@ const ProductCard = ({
           {[...Array(5)].map((_, i) => (
             <Star
               key={i}
-              className={`h-3 w-3 ${i < Math.floor(rating)
-                  ? "fill-rose-gold text-rose-gold"
-                  : "text-muted"
+              className={`h-3 w-3 ${i < Math.floor(rate_count)
+                ? "fill-rose-gold text-rose-gold"
+                : "text-muted"
                 }`}
             />
           ))}
@@ -134,11 +128,11 @@ const ProductCard = ({
         </div>
 
         <Button
-          onClick={() => addToCart(id, name, price, image, quantity)}
+          onClick={() => addToCart({ id, name, price, image, slug, quantity })}
           disabled={quantity === 0}
           className={`w-full transition-all duration-300 ${quantity === 0
-              ? "bg-muted text-muted-foreground cursor-not-allowed"
-              : "btn-gradient text-white hover:shadow-glow"
+            ? "bg-muted text-muted-foreground cursor-not-allowed"
+            : "btn-gradient text-white hover:shadow-glow"
             }`}
         >
           <ShoppingBag className="size-4 mr-2" />

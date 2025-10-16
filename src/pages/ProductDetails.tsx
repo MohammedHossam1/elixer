@@ -34,15 +34,17 @@ const ProductDetail = () => {
 
 
   const handleAddToCart = () => {
+    console.log("quantity", quantity);
     if (product.quantity == 0) return;
-    addToCart(
-      product?.id,
-      product.name,
-      Number(product.price),
-      product?.image,
-      product.quantity,
-      quantity
-    );
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: Number(product.price),
+      image: product.image,
+      slug: product.slug,
+      quantity: product.quantity,
+      quantityToAdd: quantity
+    });
 
   };
 
@@ -134,7 +136,7 @@ const ProductDetail = () => {
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`h-4 w-4 ${i < Math.floor(product.rating)
+                      className={`h-4 w-4 ${i < Math.floor(product.rate_count)
                         ? "fill-rose-gold text-rose-gold"
                         : "text-muted "
                         }`}
@@ -210,34 +212,25 @@ const ProductDetail = () => {
           <Tabs defaultValue="details" className="w-full ">
             <TabsList className="grid lg:w-1/2 grid-cols-2 ">
               <TabsTrigger value="details" className="w-full">{t("details")}</TabsTrigger>
-              <TabsTrigger value="howto" className="w-full">How to Use</TabsTrigger>
+              <TabsTrigger value="howto" className="w-full">{t("howToUse")}</TabsTrigger>
             </TabsList>
             <TabsContent value="details" className="mt-6">
               <div className="card-elegant rounded-xl p-6">
-                <h3 className="font-semibold mb-4">Product Benefits</h3>
-                {/* <ul className="space-y-2">
-                  {product.benefits.map((benefit, index) => (
-                    <li key={index} className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-rose-gold rounded-full"></div>
-                      <span>{benefit}</span>
-                    </li>
-                  ))}
-                </ul> */}
+                <h3 className="font-semibold mb-4">{t("details")}</h3>
+                <p className="text-muted-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: product.description }} />
               </div>
             </TabsContent>
             {/* howToUse */}
             <TabsContent value="howto" className="mt-6">
               <div className="card-elegant rounded-xl p-6">
-                <h3 className="font-semibold mb-4">How to Use</h3>
-                {/* <p className="text-muted-foreground leading-relaxed">
-                  {product.howToUse}
-                </p> */}
+                <h3 className="font-semibold mb-4">{t("howToUse")}</h3>
+                <p className="text-muted-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: product.how_to_use }} />
               </div>
             </TabsContent>
           </Tabs>
         </div>
-      </main>
-    </div>
+      </main >
+    </div >
   );
 };
 export default ProductDetail;

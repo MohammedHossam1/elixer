@@ -1,56 +1,51 @@
 import { useCart } from "@/contexts/CartContext";
-import { useToast } from "@/hooks/use-toast";
+import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-
+interface IProduct {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    slug: string;
+    quantity: number;
+    quantityToAdd?: number;
+}
 export const useAddToCart = () => {
     const { addItem, items, updateQuantity } = useCart();
-    const { toast } = useToast();
     const { t } = useTranslation();
 
     const addToCart = (
-        id: string,
-        name: string,
-        price: number,
-        image: string,
-        quantity: number,
-        quantityToAdd?: number
+        {
+            id,
+            name,
+            price,
+            image,
+            slug,
+            quantity,
+            quantityToAdd,
+        }: IProduct
     ) => {
+    
         if (quantity === 0) {
-            toast({
-                title: t("outOfStock"),
-                description: t("unavailableDescription", { name }),
-                className: "border border-yellow-500",
-            });
+            toast.error(t("unavailableDescription"),);
             return false;
         }
         if (quantityToAdd && quantityToAdd <= quantity) {
             console.log("quantityToAdd", quantityToAdd);
-            addItem({ id, name, price, image });
+            addItem({ id, name, price, image, slug });
             updateQuantity(id, quantityToAdd);
-            toast({
-                title: t("addedToCart", { name }),
-                description: t("addedToCartDescription", { name }),
-                className: "border border-green-500",
-            });
+            toast.success(t("addedToCartDescription"));
             return true;
         }
 
         const existingItem = items.find((item) => item.id === id);
 
         if (!existingItem || existingItem?.quantity < quantity) {
-            addItem({ id, name, price, image });
-            toast({
-                title: t("addedToCart", { name }),
-                description: t("addedToCartDescription", { name }),
-                className: "border border-green-500",
-            });
+            addItem({ id, name, price, image, slug });
+            toast.success(t("addedToCartDescription"));
             return true;
         } else {
-            toast({
-                title: t("quantityReachedTitle"),
-                description: t("quantityReachedDescription", { name }),
-                className: "border border-yellow-500",
-            });
+            toast.error(t("quantityReachedDescription"));
             return false;
         }
     };

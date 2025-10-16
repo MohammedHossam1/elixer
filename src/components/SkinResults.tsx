@@ -1,6 +1,5 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { results } from "@/data/Index";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { IResult } from "@/types/Index";
 import { useTranslation } from "react-i18next";
@@ -104,7 +103,7 @@ const SkinResults = ({ data }: { data: IResult[] }) => {
                     ))}
                   </div>
                 </div>
-                {index == results.length - 1 && isMobile &&
+                {index == data.length - 1 && isMobile &&
                   <Link to="/contact" className="pt-4 block mx-auto  w-fit">
                     <Button
                       size="lg"

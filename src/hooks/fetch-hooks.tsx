@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApiResponse, fetcher } from "@/lib/fetch-methods";
-import { HomePageData, IAdrress, IContact, IFAQ, IProduct, TArticle, appointmentType } from "@/types/Index";
+import { HomePageData, IAdrress, IContact, ICoupon, IFAQ, IProduct, TArticle, appointmentType } from "@/types/Index";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
@@ -52,10 +52,10 @@ export const useGetProducts = (lang: string, page?: number, category_id?: number
     queryKey: ["products", lang, page, category_id],
     queryFn: () =>
       fetcher<IProductsResponse>({
-        url: `/products?page=${page}&category_id=${category_id}`,
+        url: `/products?page=${page}&category_id=${category_id ?? ""}`,
         lang,
       }),
-    suspense: category_id ? false : true, // ✅ Never suspend for search results
+    suspense: category_id ? false : true,
 
     staleTime: 1000 * 60 * 60,
   } as any);
@@ -70,8 +70,8 @@ export const useGetProductsSearch = (lang: string, page: number, search?: string
         url: `/products?page=${page}&search=${encodeURIComponent(search || "")}`,
         lang,
       }),
-    enabled: shouldFetch, // ✅ Only fetch if search has non-empty text
-    suspense: false, // ✅ Never suspend for search results
+    enabled: shouldFetch,
+    suspense: false,
   } as any);
 };
 
@@ -107,14 +107,27 @@ export const useGetSingleBlog = (id: number, lang: string) => {
 };
 
 
-export const useGetSingleProduct = (slug: string, lang: string) => {
+export const useGetSingleProducct = (slug: string, lang: string, suspense?: boolean) => {
   //hanlde react query fetch
   const query = useQuery({
     queryKey: ["product", slug, lang],
-    queryFn: () => fetcher<IProduct>({ url: `/products/${slug}`, lang }),
+    queryFn: () => fetcher<ApiResponse<IProductsResponse>>({ url: `/products/${slug}`, lang }),
     staleTime: 1000 * 60 * 60,
-  })
+    suspense: suspense ?? true
+  } as any)
+
   return query
+};
+
+
+export const useGetSingleProduct = (slug: string, lang: string, suspense?: boolean) => {
+  return useQuery<ApiResponse<IProduct>>({
+    queryKey: ["product", slug, lang],
+    queryFn: () =>
+      fetcher<IProduct>({ url: `/products/${slug}`, lang }),
+    staleTime: 1000 * 60 * 60,
+    suspense: suspense ?? true
+  } as any);
 };
 export const useGetAdresses = (lang: string) => {
   //hanlde react query fetch
@@ -150,6 +163,18 @@ export const usePostCheckout = () => {
         method: "POST",
         body: data,
       });
+    },
+  });
+};
+export const usePostCoupon = () => {
+  return useMutation<ICoupon, Error, { coupon_code?: string }>({
+    mutationFn: async (data) => {
+      const res = await fetcher<ICoupon>({
+        url: "/orders/coupon-check",
+        method: "POST",
+        body: data,
+      });
+      return res.data;
     },
   });
 };

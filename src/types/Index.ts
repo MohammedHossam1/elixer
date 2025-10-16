@@ -39,8 +39,9 @@ export interface IProduct {
   featured: boolean,
   active: boolean,
   order: number,
-  rating: number,
+  rate_count: number,
   quantity: number
+  how_to_use: string,
   attachments: {
     id: number,
     file_name: string,
@@ -111,7 +112,17 @@ export interface IAbout {
   image: string;
 }
 
-
+export interface ICoupon {
+  id: number;
+  code: string;
+  discount: string;
+  expiry_date: string;
+  active: boolean;
+  created_at: string;
+  deleted_at: string;
+  updated_at: string;
+  message: string;
+}
 export interface ITestimonial {
   id: number;
   name: string;

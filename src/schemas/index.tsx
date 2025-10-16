@@ -42,3 +42,37 @@ export const checkoutSchema = (t: any) =>
         }
       }
     });
+export const couponSchema = (t: any) =>
+  z
+    .object({
+
+      coupon_code: z
+        .string()
+        .min(3, t("validation.couponMin"))
+        .max(20, t("validation.couponMax")),
+    })
+export const contactSchema = (t: any) =>
+  z.object({
+    name: z.string()
+      .trim()
+      .min(2, { message: t("validation.contactMin") })
+      .max(100, { message: t("validation.contactMax") }),
+    email: z.string()
+      .trim()
+      .email({ message: t("validation.emailInvalid") })
+      .max(255, { message: t("validation.emailMax") }),
+    phone: z.string()
+      .trim()
+      .min(10, { message: t("validation.phoneMin") })
+      .max(20, { message: t("validation.phoneMax") })
+      .optional()
+      .or(z.literal("")),
+    subject: z.string()
+      .trim()
+      .min(1, { message: t("validation.required") })
+      .max(200, { message: t("validation.subjectMax") }),
+    message: z.string()
+      .trim()
+      .min(10, { message: t("validation.messageMin") })
+      .max(1000, { message: t("validation.messageMax") }),
+  })
