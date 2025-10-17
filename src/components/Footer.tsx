@@ -68,7 +68,7 @@ const Footer = ({ data }: { data: ISettings }) => {
 
         {/* Bottom Section */}
         <div className=" relative py-6 border-t border-border">
-          <div className="absolute left-1/2 -top-5">
+          <div className="absolute left-1/2 -top-5 -translate-x-1/2">
             <ScrollToTop />
           </div>
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">

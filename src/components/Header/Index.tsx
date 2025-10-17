@@ -55,10 +55,10 @@ const Header = ({ data: settings }: { data: ISettings }) => {
     { name: t("nav.shop"), href: "/shop" },
     ...(Array.isArray(data?.data)
       ? data.data.slice(0, 4).map((cat: { id: number; name: string }) => ({
-          name: cat.name.toUpperCase(),
-          href: `/shop?category=${encodeURIComponent(cat.id)}`,
-          categoryId: String(cat.id),
-        }))
+        name: cat.name.toUpperCase(),
+        href: `/shop?category=${encodeURIComponent(cat.id)}`,
+        categoryId: String(cat.id),
+      }))
       : []),
     { name: t("nav.contact"), href: "/contact" },
   ];
@@ -78,17 +78,16 @@ const Header = ({ data: settings }: { data: ISettings }) => {
     <header className="fixed inset-x-0 z-40 bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/95 border-b border-border/50 shadow">
       <div className="container mx-auto px-2 lg:px-6">
         <div
-          className={`flex items-center justify-between ${
-            isScrolled ? "h-16" : "h-20"
-          } transition-all duration-300`}
+          className={`flex items-center justify-between ${isScrolled ? "h-16" : "h-20"
+            } transition-all duration-300`}
         >
           {/* ✅ Mobile Menu */}
           <div className="lg:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild className="lg:hidden">
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-8 w-8" />
-                </Button>
+                <button className="">
+                  <Menu className="w-10" />
+                </button>
               </SheetTrigger>
 
               <SheetContent side={i18n.language === "en" ? "left" : "right"} className="w-80">
@@ -108,7 +107,7 @@ const Header = ({ data: settings }: { data: ISettings }) => {
                 </SheetHeader>
 
                 <div className="lg:hidden mt-8 mb-2">
-                  <SearchComponent />
+                  <SearchComponent setIsOpen={setIsOpen} />
                 </div>
 
                 <nav className="flex flex-col gap-4">
