@@ -1,15 +1,7 @@
+import { WishlistItem } from "@/types/Index";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
-interface WishlistItem {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  category: {
-    id: number;
-    name: string;
-  };
-}
+
 
 interface WishlistContextType {
   items: WishlistItem[];

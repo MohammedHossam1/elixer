@@ -28,16 +28,20 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
     toast.error(`${name} has been removed from your cart.`, { duration: 3000 });
   };
 
-  const handleQuantityChange = async (item: Partial<IProduct> , newQuantity: number) => {
+  const handleQuantityChange = async (item: Partial<IProduct>, newQuantity: number) => {
     if (newQuantity < 1) {
       handleRemoveItem(item.id, item.name);
       return;
     }
+    if (!item.slug) return; 
+
     setSlug(item.slug);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
     const res = await refetch();
-    const product = res.data;
+    const product =  res.data;
     if (!product) {
-      toast.error(t("productNotFound") || "Product not found");
+      toast.error(t("productNotFound"));
       return;
     }
     if (newQuantity > product.data.quantity) {
@@ -51,6 +55,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
       name: item.name,
       price: Number(item.price),
       image: item.image,
+      price_after_discount: item.price_after_discount,
       slug: item.slug,
       quantity: product.data.quantity,
       quantityToAdd: newQuantity
@@ -96,9 +101,17 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                     />
                     <div className="flex-1 min-w-0">
                       <h4 className="font-semibold text-sm truncate">{item.name}</h4>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        ${Number(item.price).toFixed(2)} {t("cartDrawer.each")}
-                      </p>
+                      <div className="flex items-center gap-2">
+
+                        {item.price_after_discount && <p className="text-sm text-muted-foreground mb-2">
+                          ${item.price_after_discount}
+                        </p>
+                        }
+                        <p className={`text-sm text-muted-foreground mb-2 ${item.price_after_discount && 'line-through'}`}>
+                          ${Number(item.price).toFixed(2)} 
+                        </p>
+                        <span className='text-sm text-muted-foreground mb-2'>{t("each")}</span>
+                      </div>
 
                       {/* Quantity Controls */}
                       <div className="flex items-center gap-2">
@@ -109,7 +122,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                           onClick={() => handleQuantityChange(item, item.quantity - 1)}
                         >
                           <Minus className="h-3 w-3" />
-                          
+
                         </Button>
                         <span className="w-8 text-center text-sm font-medium">
                           {item.quantity}
@@ -120,7 +133,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                           className="h-8 w-8"
                           onClick={() => handleQuantityChange(item, item.quantity + 1)}
                         >
-                          {isLoading ? <LoaderCircle className="h-3 w-3 animate-spin" /> : <Plus className="h-3 w-3" />}
+                          {isLoading && item.slug == slug ? <LoaderCircle className="h-3 w-3 animate-spin" /> : <Plus className="h-3 w-3" />}
                         </Button>
                       </div>
                     </div>
@@ -188,7 +201,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
           )}
         </div>
       </SheetContent>
-    </Sheet>
+    </Sheet >
   );
 };
 

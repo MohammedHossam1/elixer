@@ -57,12 +57,12 @@ const TopSeller = ({data}: {data: IProduct[]}) => {
             {data.map((item) => (
               <CarouselItem
                 key={item.id}
-                className="basis-1/2 md:basis-1/3 py-10"
+                className=" basis-1/3 py-10"
               >
                 <Link to={`/product/${item.slug}`} className="group text-center cursor-pointer transition-all duration-300 hover:scale-105">
                   {/* Circle Image */}
                   <div className="relative mb-6">
-                    <div className="w-40 h-40 sm:w-60 sm:h-60 lg:w-80 lg:h-80 mx-auto rounded-full bg-gradient-to-br from-muted/30 to-muted/60 p-6 sm:p-8 transition-all duration-300 group-hover:shadow-elegant">
+                    <div className="sm:w-40 sm:h-40 md:w-60 md:h-60 lg:w-80 lg:h-80 mx-auto rounded-full bg-gradient-to-br from-muted/30 to-muted/60 p-6 sm:p-8 transition-all duration-300 group-hover:shadow-elegant">
                       <div className="w-full h-full flex items-center justify-center">
                         <Image
                           src={item.image}

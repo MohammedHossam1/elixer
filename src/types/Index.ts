@@ -41,6 +41,7 @@ export interface IProduct {
   order: number,
   rate_count: number,
   quantity: number
+  price_after_discount: string,
   how_to_use: string,
   attachments: {
     id: number,
@@ -49,6 +50,19 @@ export interface IProduct {
     created_at: string
   }[]
 
+}
+export interface WishlistItem {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  slug: string;
+  price_after_discount: string;
+  quantity: number;
+  category: {
+    id: number;
+    name: string;
+  }
 }
 export interface IFAQ {
 

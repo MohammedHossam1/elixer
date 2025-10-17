@@ -7,6 +7,7 @@ interface IProduct {
     price: number;
     image: string;
     slug: string;
+    price_after_discount: string;
     quantity: number;
     quantityToAdd?: number;
 }
@@ -21,6 +22,7 @@ export const useAddToCart = () => {
             price,
             image,
             slug,
+            price_after_discount,
             quantity,
             quantityToAdd,
         }: IProduct
@@ -32,7 +34,7 @@ export const useAddToCart = () => {
         }
         if (quantityToAdd && quantityToAdd <= quantity) {
             console.log("quantityToAdd", quantityToAdd);
-            addItem({ id, name, price, image, slug });
+            addItem({ id, name, price, image, slug ,price_after_discount});
             updateQuantity(id, quantityToAdd);
             toast.success(t("addedToCartDescription"));
             return true;
@@ -41,10 +43,13 @@ export const useAddToCart = () => {
         const existingItem = items.find((item) => item.id === id);
 
         if (!existingItem || existingItem?.quantity < quantity) {
-            addItem({ id, name, price, image, slug });
+            addItem({ id, name, price, image, slug,price_after_discount });
             toast.success(t("addedToCartDescription"));
             return true;
         } else {
+            console.log("existingItem", existingItem);
+            console.log("quantity", quantity);
+            console.log("existingItem?.quantity", existingItem?.quantity);
             toast.error(t("quantityReachedDescription"));
             return false;
         }

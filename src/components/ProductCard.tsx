@@ -19,6 +19,7 @@ const ProductCard = ({
   slug,
   image,
   rate_count,
+  price_after_discount,
   quantity,
 }: IProduct) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -33,7 +34,7 @@ const ProductCard = ({
       toast.error(`${name} has been removed from your wishlist.`,
         { duration: 3000 });
     } else {
-      addToWishlist({ id, name, price, image, category });
+      addToWishlist({ id, name, price, image, category, slug, quantity ,price_after_discount});
       toast.success(`${name} has been added to your wishlist.`, { duration: 3000 });
     }
   };
@@ -128,7 +129,7 @@ const ProductCard = ({
         </div>
 
         <Button
-          onClick={() => addToCart({ id, name, price, image, slug, quantity })}
+          onClick={() => addToCart({ id, name, price, image, slug, quantity ,price_after_discount})}
           disabled={quantity === 0}
           className={`w-full transition-all duration-300 ${quantity === 0
             ? "bg-muted text-muted-foreground cursor-not-allowed"

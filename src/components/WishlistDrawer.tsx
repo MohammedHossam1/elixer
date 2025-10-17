@@ -9,55 +9,36 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useWishlist } from "@/contexts/WishlistContext";
-import { useToast } from "@/hooks/use-toast";
+import { useAddToCart } from "@/hooks/useAddToCart";
+import { WishlistItem } from "@/types/Index";
 import { Heart, ShoppingBag, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Image from "./shared/Image";
-import { useAddToCart } from "@/hooks/useAddToCart"; // تأكد إن المسار صح
 
-interface WishlistItem {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  category: {
-    id: number;
-    name: string;
-  };
-  quantity?: number; // في حالة كانت متوفرة
-}
+
 interface WishlistDrawerProps {
   children: React.ReactNode;
 }
 
 const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
   const { items, removeItem } = useWishlist();
-  const { toast } = useToast();
   const { t, i18n } = useTranslation();
   const { addToCart } = useAddToCart();
 
   const handleAddToCart = (item: WishlistItem) => {
-    // 👇 نمرر الكمية (أو 1 لو غير محددة)
-    const quantity = item.quantity ?? 1;
-
-    // نحاول نضيف للسلة
     const result = addToCart({
       id: item.id,
       name: item.name,
       price: item.price,
       image: item.image,
-      slug: item.category.name,
-      quantity,
+      slug: item.slug,
+      quantity: item.quantity,
+      price_after_discount: item.price_after_discount
     });
 
-    // addToCart ممكن ترجّع true/false عشان نعرف العملية تمت ولا لأ
     if (result) {
       removeItem(item.id);
-      toast({
-        title: t("addedToCart", { name: item.name }),
-        description: t("addedToCartDescription", { name: item.name }),
-        className: "border-2 border-green-500",
-      });
+      ;
     }
   };
 

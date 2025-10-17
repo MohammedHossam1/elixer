@@ -187,7 +187,7 @@
   "close": "Close",
   "checkout": "Checkout",
   "remove": "Remove",
-  "each": "Each",
+  "each": "each",
   "total": "Total",
   "subtotal": "Sub total",
   "continueShopping": "Continue Shopping",
@@ -309,5 +309,6 @@
   "details":"Details",
   "quantity":"Quantity",
   "howToUse":"How to Use",
-  "wishlistCount":"Wishlist Count"
+  "wishlistCount":"Wishlist Count",
+  "productNotFound":"Product not found."
 }
