@@ -310,5 +310,9 @@
   "quantity": "الكمية",
   "howToUse": "طريقة الاستخدام",
   "wishlistCount": "عدد المفضلات",
-  "productNotFound": "المنتج غير موجود."
+  "productNotFound": "المنتج غير موجود.",
+  "orderSummary":"ملخص الطلب",
+  "coupon":"كوبون",
+  "read_conditions":"لقد قرت وقبلت الشروط والاحكام.",
+  "pleaseAcceptConditions":"يرجى قبول الشروط والاحكام."
 }

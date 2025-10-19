@@ -310,5 +310,9 @@
   "quantity": "כמות",
   "howToUse": "אופן השימוש",
   "wishlistCount": "מספר פריטים ברשימת המשאלות",
-  "productNotFound": "המוצר לא נמצא."
+  "productNotFound": "המוצר לא נמצא.",
+  "orderSummary": "סיכום הזמנה",
+  "coupon": "קופון",
+  "readConditions": "קראתי ואשרתי את התנאיים.",
+  "pleaseAcceptConditions": "אנא אשר את התנאיים."
 }

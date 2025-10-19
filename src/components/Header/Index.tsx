@@ -108,15 +108,15 @@ const Header = ({ data: settings }: { data: ISettings }) => {
                   <SearchComponent setIsOpen={setIsOpen} />
                 </div>
 
-                <nav className="flex flex-col gap-4">
+                <nav className="flex flex-col gap-4 mt-10 items-center">
                   {navigationItems.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}
                       onClick={() => setIsOpen(false)}
                       className={clsx(
-                        "relative uppercase flex items-center gap-3 text-lg font-medium hover:text-primary transition-colors",
-                        isActive(item) && "text-primary font-bold"
+                        "relative uppercase flex items-center tracking-widest gap-3 text-lg font-medisum hover:text-primary transition-colors",
+                        isActive(item) && "text-primary font-medium"
                       )}
                     >
                       {item.name}
@@ -156,7 +156,7 @@ const Header = ({ data: settings }: { data: ISettings }) => {
               alt="logo"
               width={100}
               height={100}
-              className="w-24 p-4 lg:w-32 "
+              className="w-24 p-1 lg:p-3 lg:w-32 "
             />
           </Link>
 

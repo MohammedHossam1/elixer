@@ -1,6 +1,8 @@
 import CouponCheck from "@/components/Checkout/CouponCheck";
+import Image from "@/components/shared/Image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -34,13 +36,12 @@ const Checkout = () => {
   const [coupon, setCoupon] = useState<{ code: string, discount: number }>(null);
   const [cityPrice, setCityPrice] = useState<number>(0);
   const subtotal = items.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
-  const total = subtotal + cityPrice - (coupon?.discount || 0);
+  const total = subtotal + cityPrice - ((coupon?.discount / 100 || 0) * subtotal || 0);
   const { data } = useGetAdresses(i18n.language);
   const schema = checkoutSchema(t);
   const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">("delivery");
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [paymentType, setpaymentType] = useState<"cash" | "visa">("cash");
-console.log("total", total);
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -97,9 +98,6 @@ console.log("total", total);
             <div className="space-y-3">
               <Button asChild className="w-full btn-gradient text-white">
                 <Link to="/shop">{t("continueShopping")}</Link>
-              </Button>
-              <Button variant="outline" className="w-full">
-                {t("trackOrder")}
               </Button>
             </div>
           </div>
@@ -169,7 +167,7 @@ console.log("total", total);
                     </div>
                   </div>
                   {/* Delivery Type */}
-                  <div className="flex gap-2 items-center">
+                  <div className="flex gap-2 py-5 items-center">
                     <Label>{t("deliveryType")}{" : "}</Label>
                     <RadioGroup
                       defaultValue="delivery"
@@ -191,7 +189,7 @@ console.log("total", total);
                   </div>
                   {deliveryType === "delivery" && (
 
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid md:grid-cols-2 pb-5 gap-4">
                       <Controller
                         name="region_id"
                         control={form.control}
@@ -200,6 +198,7 @@ console.log("total", total);
                             <Label htmlFor="region_id">{t("region")}</Label>
                             <Select
                               value={field.value}
+                              dir={i18n.language === "en" ? "ltr" : "rtl"}
                               onValueChange={(value) => {
                                 field.onChange(value);
                                 const selectedCity = data?.data?.find((c: IAdrress) => String(c.id) === value);
@@ -237,7 +236,7 @@ console.log("total", total);
                     </div>
                   )}
                   {/* Delivery Type */}
-                  <div className=" flex gap-2 items-center mt-5">
+                  <div className=" flex gap-2 items-center ">
                     <Label>{t("paymentType")}{" : "}</Label>
                     <RadioGroup
                       defaultValue="cash"
@@ -255,6 +254,33 @@ console.log("total", total);
                       </div>
                     </RadioGroup>
                   </div>
+                  {/* read_conditions */}
+                  <Controller
+                    name="read_conditions"
+                    control={form.control}
+                    render={({ field }) => (
+                      <div className="space-y-1 pt-5">
+                        <div className="flex items-center gap-2">
+                          <Checkbox
+                            id="read_conditions"
+                            checked={field.value || false}
+                            onCheckedChange={(checked) => field.onChange(checked === true)}
+                          />
+                          <label
+                            htmlFor="read_conditions"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
+                            {t("readConditions")}
+                          </label>
+                        </div>
+                        {errors.read_conditions && (
+                          <p className="text-red-500 text-sm">{errors.read_conditions.message}</p>
+                        )}
+                      </div>
+                    )}
+                  />
+
+
                 </CardContent>
               </Card>
             </form>
@@ -275,27 +301,30 @@ console.log("total", total);
           <div className="lg:col-span-1">
 
             <CouponCheck setCoupon={setCoupon} />
-            <Card className="card-elegant sticky top-8">
+            <Card className="card-elegant sticky top-20">
               <CardHeader>
                 <CardTitle>{t("orderSummary")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Cart Items */}
-                <div className="space-y-3">
+                <div className="space-y-3  max-h-[400px] overflow-y-auto">
                   {items.map((item) => (
-                    <div key={item.id} className="flex gap-3">
-                      <img
+                    <div key={item.id} className="flex gap-3 items-center">
+                      <Image
                         src={item.image}
                         alt={item.name}
                         loading="lazy"
                         className="w-16 h-16 rounded-lg object-cover bg-muted"
                       />
-                      <div className="flex-1 min-w-0">
+                      <div className="flex-1 min-w-0" >
                         <h4 className="font-semibold text-sm truncate">{item.name}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {t("quantity")}: {item.quantity}
-                        </p>
-                        <p className="font-semibold">${item.price}</p>
+                        <div className="flex gap-2 items-center ">
+                          <p className="font-semibold">${item.price}</p>
+
+                          <p className="text-sm text-muted-foreground">
+                            {t("quantity")}: {item.quantity}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -316,7 +345,7 @@ console.log("total", total);
                   {coupon?.discount > 0 &&
                     <div className="flex justify-between">
                       <span>{t("coupon")}</span>
-                      <span>{" - "}{coupon?.discount}</span>
+                      <span>{" - "} {coupon?.discount} {"%"}</span>
                     </div>
                   }
                   <Separator />
@@ -336,13 +365,6 @@ console.log("total", total);
                 >
                   {isPending ? t("loading") : t("placeOrder")}
                 </Button>
-
-                {/* Shipping Info */}
-                <div className="text-sm text-muted-foreground space-y-1">
-                  <p>• Free shipping on orders over $75</p>
-                  <p>• Estimated delivery: 3-5 business days</p>
-                  <p>• 30-day return policy</p>
-                </div>
               </CardContent>
             </Card>
           </div>

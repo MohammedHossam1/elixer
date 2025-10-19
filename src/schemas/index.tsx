@@ -23,6 +23,9 @@ export const checkoutSchema = (t: any) =>
       address: z.string().optional(),
       region_id: z.string().optional(),
       deliveryType: z.enum(["delivery", "pickup"]),
+      read_conditions: z.literal(true, {
+        errorMap: () => ({ message: t("pleaseAcceptConditions") }),
+      }),
     })
     .superRefine((data, ctx) => {
       if (data.deliveryType === "delivery") {
@@ -74,5 +77,7 @@ export const contactSchema = (t: any) =>
     message: z.string()
       .trim()
       .min(10, { message: t("validation.messageMin") })
-      .max(1000, { message: t("validation.messageMax") }),
+      .max(1000, { message: t("validation.messageMax") })
+  
+      
   })

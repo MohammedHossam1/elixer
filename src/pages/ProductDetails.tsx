@@ -34,7 +34,6 @@ const ProductDetail = () => {
 
 
   const handleAddToCart = () => {
-    console.log("quantity", quantity);
     if (product.quantity == 0) return;
     addToCart({
       id: product.id,
@@ -43,7 +42,9 @@ const ProductDetail = () => {
       image: product.image,
       slug: product.slug,
       quantity: product.quantity,
+      price_after_discount: product.price_after_discount,
       quantityToAdd: quantity
+
     });
 
   };
@@ -62,6 +63,9 @@ const ProductDetail = () => {
         price: Number(product.price),
         image: product.image,
         category: product.category,
+        slug: product.slug,
+        quantity: product.quantity,
+        price_after_discount: product.price_after_discount
       });
       toast({
         title: t("addedToWishlist"),
@@ -168,21 +172,22 @@ const ProductDetail = () => {
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="h-10 w-10"
-                  >
-                    <Minus className="h-4 w-4" />
-                  </Button>
-                  <span className="px-4 py-2 min-w-[3rem] text-center">
-                    {quantity}
-                  </span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
                     onClick={() => setQuantity(quantity + 1)}
                     className="h-10 w-10"
                   >
                     <Plus className="h-4 w-4" />
+                  </Button>
+                  <span className="px-4 py-2 min-w-[3rem] text-center">
+                    {quantity}
+                  </span>
+
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="h-10 w-10"
+                  >
+                    <Minus className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
@@ -209,7 +214,7 @@ const ProductDetail = () => {
         </div>
         {/* Product Details Tabs */}
         <div className="mt-12">
-          <Tabs defaultValue="details" className="w-full ">
+          <Tabs defaultValue="details" dir={isArOrHe ? "rtl" : "ltr"} className="w-full ">
             <TabsList className="grid lg:w-1/2 grid-cols-2 ">
               <TabsTrigger value="details" className="w-full">{t("details")}</TabsTrigger>
               <TabsTrigger value="howto" className="w-full">{t("howToUse")}</TabsTrigger>

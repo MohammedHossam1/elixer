@@ -72,7 +72,7 @@ const CouponCheck = ({ setCoupon }: { setCoupon: ({ code, discount }: { code: st
                             )}
                         />
 
-                        <Button type="submit" disabled={isPending}>
+                        <Button type="submit" className="text-white" disabled={isPending}>
                             {isPending ? <LoaderCircle className="animate-spin" /> : t("apply")}
                         </Button>
                     </form>
