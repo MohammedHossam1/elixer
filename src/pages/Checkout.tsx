@@ -34,13 +34,13 @@ const Checkout = () => {
   const [coupon, setCoupon] = useState<{ code: string, discount: number }>(null);
   const [cityPrice, setCityPrice] = useState<number>(0);
   const subtotal = items.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
-  const total = subtotal + cityPrice - coupon?.discount;
+  const total = subtotal + cityPrice - (coupon?.discount || 0);
   const { data } = useGetAdresses(i18n.language);
   const schema = checkoutSchema(t);
   const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">("delivery");
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [paymentType, setpaymentType] = useState<"cash" | "visa">("cash");
-
+console.log("total", total);
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),

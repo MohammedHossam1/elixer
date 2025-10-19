@@ -38,10 +38,8 @@ const Header = ({ data: settings }: { data: ISettings }) => {
   const activeCategory = searchParams.get("category");
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // ✅ حالة التحكم في إغلاق وفتح الـ Sheet
   const [isOpen, setIsOpen] = useState(false);
 
-  // ✅ Detect scroll
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 120);
@@ -83,7 +81,7 @@ const Header = ({ data: settings }: { data: ISettings }) => {
         >
           {/* ✅ Mobile Menu */}
           <div className="lg:hidden">
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <Sheet open={isOpen} onOpenChange={setIsOpen} >
               <SheetTrigger asChild className="lg:hidden">
                 <button className="">
                   <Menu className="w-10" />
@@ -169,7 +167,7 @@ const Header = ({ data: settings }: { data: ISettings }) => {
             </div>
 
             {/* Language Switcher */}
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
