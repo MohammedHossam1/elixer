@@ -31,10 +31,10 @@ import z from "zod";
 const Checkout = () => {
   const { t, i18n } = useTranslation();
   const { clearCart, items } = useCart();
-  const [coupon, setCoupon] = useState<number | null>(null);
+  const [coupon, setCoupon] = useState<{ code: string, discount: number }>(null);
   const [cityPrice, setCityPrice] = useState<number>(0);
   const subtotal = items.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
-  const total = subtotal + cityPrice - coupon;
+  const total = subtotal + cityPrice - coupon?.discount;
   const { data } = useGetAdresses(i18n.language);
   const schema = checkoutSchema(t);
   const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">("delivery");
@@ -50,7 +50,6 @@ const Checkout = () => {
 
   });
   const { register, handleSubmit, formState: { errors } } = form;
-
   const { mutateAsync, isPending } = usePostCheckout();
 
   const handlePlaceOrder = async (data: z.infer<typeof schema>) => {
@@ -65,7 +64,7 @@ const Checkout = () => {
       if (deliveryType === "delivery") formData.append("address", data.address);
       formData.append("delivery_method", deliveryType);
       formData.append("payment_method", paymentType);
-      if (coupon) formData.append("coupon", String(coupon));
+      if (coupon?.code) formData.append("coupon", String(coupon.code));
       formData.append("read_conditions", "1");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       cartItems.forEach((item: any, index: number) => {
@@ -278,7 +277,7 @@ const Checkout = () => {
             <CouponCheck setCoupon={setCoupon} />
             <Card className="card-elegant sticky top-8">
               <CardHeader>
-                <CardTitle>Order Summary</CardTitle>
+                <CardTitle>{t("orderSummary")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Cart Items */}
@@ -294,7 +293,7 @@ const Checkout = () => {
                       <div className="flex-1 min-w-0">
                         <h4 className="font-semibold text-sm truncate">{item.name}</h4>
                         <p className="text-sm text-muted-foreground">
-                          Qty: {item.quantity}
+                          {t("quantity")}: {item.quantity}
                         </p>
                         <p className="font-semibold">${item.price}</p>
                       </div>
@@ -314,10 +313,10 @@ const Checkout = () => {
                     <span>{t("shipping")}</span>
                     <span>${cityPrice.toFixed(2)}</span>
                   </div>
-                  {coupon > 0 &&
+                  {coupon?.discount > 0 &&
                     <div className="flex justify-between">
                       <span>{t("coupon")}</span>
-                      <span>{" - "}{coupon}</span>
+                      <span>{" - "}{coupon?.discount}</span>
                     </div>
                   }
                   <Separator />

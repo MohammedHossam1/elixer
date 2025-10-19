@@ -22,7 +22,7 @@ import { z } from "zod";
 
 
 
-const CouponCheck = ({ setCoupon }: { setCoupon: (count: number | null) => void }) => {
+const CouponCheck = ({ setCoupon }: { setCoupon: ({ code, discount }: { code: string, discount: number }) => void }) => {
     const { t } = useTranslation();
     const { mutate, isPending, isSuccess, isError, error } = usePostCoupon();
     const schema = couponSchema(t);
@@ -38,7 +38,7 @@ const CouponCheck = ({ setCoupon }: { setCoupon: (count: number | null) => void 
     const onSubmit = (values: CouponFormValues) => {
         mutate(values, {
             onSuccess: (data) => {
-                setCoupon(Number(data.code));
+                setCoupon({ code: data.code, discount: Number(data.discount) });
             },
         });
     };
@@ -67,7 +67,7 @@ const CouponCheck = ({ setCoupon }: { setCoupon: (count: number | null) => void 
                                             disabled={isPending}
                                         />
                                     </FormControl>
-                                    <FormMessage /> {/* ✅ رسالة الخطأ من Zod */}
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

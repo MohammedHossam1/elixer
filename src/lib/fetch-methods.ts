@@ -30,34 +30,28 @@ export const fetcher = async <T>({
   const baseUrl = import.meta.env.VITE_BASE_URL as string;
 
   try {
-    // ✅ إعداد الهيدر الأساسي
     const headers: Record<string, string> = {
       "Content-Language": lang,
       ...(options?.headers as Record<string, string>),
     };
 
-    // ✅ لا تضف Content-Type لو body هو FormData
     if (!(body instanceof FormData)) {
       headers["Content-Type"] = "application/json";
     }
 
-    // ✅ بناء خيارات الفetch
     const fetchOptions: RequestInit = {
       method,
       headers,
       ...options,
     };
 
-    // ✅ تجهيز البودي
     if (body !== undefined) {
       fetchOptions.body =
         body instanceof FormData ? body : JSON.stringify(body);
     }
 
-    // ✅ تنفيذ الطلب
     const res = await fetch(baseUrl + url, fetchOptions);
 
-    // ✅ محاولة قراءة JSON
     let data: ApiResponse<T>;
     try {
       data = (await res.json()) as ApiResponse<T>;
@@ -65,7 +59,6 @@ export const fetcher = async <T>({
       throw new ApiError("Invalid JSON response", res.status);
     }
 
-    // ✅ التحقق من النجاح
     if (!res.ok || !data.success) {
       throw new ApiError(data.message || "Error fetching data", res.status);
     }
