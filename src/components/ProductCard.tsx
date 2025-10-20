@@ -27,15 +27,14 @@ const ProductCard = ({
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
   const isWishlisted = isInWishlist(id);
   const { t } = useTranslation();
-  console.log("rate_count", rate_count);
   const handleToggleWishlist = () => {
     if (isWishlisted) {
       removeFromWishlist(id);
-      toast.error(`${name} has been removed from your wishlist.`,
+      toast.error(t("removedFromWishlist"),
         { duration: 3000 });
     } else {
-      addToWishlist({ id, name, price, image, category, slug, quantity ,price_after_discount});
-      toast.success(`${name} has been added to your wishlist.`, { duration: 3000 });
+      addToWishlist({ id, name, price, image, category, slug, quantity, price_after_discount });
+      toast.success(t("addedToWishlist"), { duration: 3000 });
     }
   };
 
@@ -81,7 +80,7 @@ const ProductCard = ({
         <Image
           src={image}
           alt={name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
         />
 
         <div
@@ -129,7 +128,7 @@ const ProductCard = ({
         </div>
 
         <Button
-          onClick={() => addToCart({ id, name, price, image, slug, quantity ,price_after_discount})}
+          onClick={() => addToCart({ id, name, price, image, slug, quantity, price_after_discount })}
           disabled={quantity === 0}
           className={`w-full transition-all duration-300 ${quantity === 0
             ? "bg-muted text-muted-foreground cursor-not-allowed"

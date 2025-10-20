@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { ICompare } from "@/types/Index";
 
 const BeforeAfterComparison = ({ data }: { data: ICompare }) => {
-  const { t } = useTranslation();
+  const { t , i18n} = useTranslation();
   if (!data || data.image_after == null || data.image_before == null) return null
 
   return (
@@ -17,7 +17,7 @@ const BeforeAfterComparison = ({ data }: { data: ICompare }) => {
         <div className="text-center mb-12 lg:mb-16">
           <h2 className="text-3xl lg:text-5xl font-bold text-foreground mb-4">
             {t('beforeAfterComparison.title')}
-            <span className="block text-primary font-script text-4xl lg:text-6xl">
+            <span className={`block text-primary ${i18n.language === 'en' && "font-script"}  text-4xl lg:text-6xl`}>
               {t('beforeAfterComparison.titleScript')}
             </span>
           </h2>
@@ -36,6 +36,7 @@ const BeforeAfterComparison = ({ data }: { data: ICompare }) => {
               <h4>{t('beforeAfterComparison.after')}</h4>
             </div>
             <ReactCompareSlider
+            dir="ltr"
               itemOne={
                 <ReactCompareSliderImage
                   src={data?.image_after || transformationImage1}

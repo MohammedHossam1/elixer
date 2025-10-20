@@ -33,7 +33,6 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
       link: ""
     }
   ]
-  console.log(finalData, " finalData");
   const goToPrevious = () => {
     setCurrentIndex(currentIndex === 0 ? finalData.length - 1 : currentIndex - 1);
     setIsAutoPlaying(false);

@@ -50,7 +50,7 @@ const TopSeller = ({data}: {data: IProduct[]}) => {
         {/* data Carousel */}
         <Carousel
           setApi={handleApi}
-          opts={{ align: "start", loop: false }}
+          opts={{ align: "start", loop: false ,direction: isArOrHe ? "rtl" : "ltr"}}
           className="w-full max-w-6xl mx-auto"
         >
           <CarouselContent>
@@ -67,7 +67,7 @@ const TopSeller = ({data}: {data: IProduct[]}) => {
                         <Image
                           src={item.image}
                           alt={t(item.name)}
-                          className="w-full h-full !object-cover rounded-full transition-all duration-300 group-hover:scale-110"
+                          className="w-full h-full !object-contain rounded-full transition-all duration-300 group-hover:scale-110"
                         />
                       </div>
                     </div>
@@ -90,7 +90,7 @@ const TopSeller = ({data}: {data: IProduct[]}) => {
         </Carousel>
 
         {/* 🔹 Dots Indicators */}
-        <div className="flex justify-center mt-6 space-x-2">
+        <div className="flex justify-center mt-6 gap-x-2">
           {Array.from({ length: count }).map((_, index) => (
             <button
               key={index}

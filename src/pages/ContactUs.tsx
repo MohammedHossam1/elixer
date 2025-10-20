@@ -46,10 +46,7 @@ const ContactUs = () => {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-
     mutation.mutate(data)
-    console.log(data, "data");
-
     // Simulate form submission
     setTimeout(() => {
       toast.success(t('contact.toast.successDesc'), { duration: 3000 });

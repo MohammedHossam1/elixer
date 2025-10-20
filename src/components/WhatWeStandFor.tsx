@@ -2,7 +2,6 @@ import { IWhyChooseUs } from '@/types/Index';
 import { useTranslation } from "react-i18next";
 import Image from './shared/Image';
 const WhatWeStandFor = ({ data }: { data: IWhyChooseUs[] }) => {
-    console.log(data, "data");
     const { t } = useTranslation();
     if (!data || !data.length) return null
     return (

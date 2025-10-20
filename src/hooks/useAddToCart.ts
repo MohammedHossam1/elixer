@@ -33,7 +33,6 @@ export const useAddToCart = () => {
             return false;
         }
         if (quantityToAdd && quantityToAdd <= quantity) {
-            console.log("quantityToAdd", quantityToAdd);
             addItem({ id, name, price, image, slug ,price_after_discount});
             updateQuantity(id, quantityToAdd);
             toast.success(t("addedToCartDescription"));
@@ -47,9 +46,6 @@ export const useAddToCart = () => {
             toast.success(t("addedToCartDescription"));
             return true;
         } else {
-            console.log("existingItem", existingItem);
-            console.log("quantity", quantity);
-            console.log("existingItem?.quantity", existingItem?.quantity);
             toast.error(t("quantityReachedDescription"));
             return false;
         }

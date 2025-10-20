@@ -8,7 +8,7 @@ import Image from "./shared/Image";
 
 
 const SkinResults = ({ data }: { data: IResult[] }) => {
-  const { t } = useTranslation();
+  const { t , i18n} = useTranslation();
   const isMobile = useIsMobile();
   if (!data) return null
   return (
@@ -20,7 +20,7 @@ const SkinResults = ({ data }: { data: IResult[] }) => {
             {t('skinResults.badge')}
           </Badge>
           <h2 className="text-3xl lg:text-5xl font-bold text-foreground mb-4">
-            {t('skinResults.title')} <span className="text-primary font-script">{t('skinResults.titleScript')}</span>
+            {t('skinResults.title')} <span className={`text-primary  ${i18n.language === 'en' && "font-script"} `}>{t('skinResults.titleScript')}</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             {t('skinResults.description')}
