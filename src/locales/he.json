@@ -314,5 +314,9 @@
   "orderSummary": "סיכום הזמנה",
   "coupon": "קופון",
   "readConditions": "קראתי ואשרתי את התנאיים.",
-  "pleaseAcceptConditions": "אנא אשר את התנאיים."
+  "pleaseAcceptConditions": "אנא אשר את התנאיים.",
+  "home": {
+    "title": "ELIXIR | חומרי סקייבר וביוטי",
+    "description": "חומרי סקייבר וביוטי מסוגי סקייבר לכל סוגי צבעי הצבע."
+  }
 }

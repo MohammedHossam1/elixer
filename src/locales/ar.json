@@ -311,8 +311,12 @@
   "howToUse": "طريقة الاستخدام",
   "wishlistCount": "عدد المفضلات",
   "productNotFound": "المنتج غير موجود.",
-  "orderSummary":"ملخص الطلب",
-  "coupon":"كوبون",
-  "read_conditions":"لقد قرت وقبلت الشروط والاحكام.",
-  "pleaseAcceptConditions":"يرجى قبول الشروط والاحكام."
+  "orderSummary": "ملخص الطلب",
+  "coupon": "كوبون",
+  "read_conditions": "لقد قرت وقبلت الشروط والاحكام.",
+  "pleaseAcceptConditions": "يرجى قبول الشروط والاحكام.",
+  "home": {
+    "title": "إلكسير | منتجات العناية بالبشرة والجمال",
+    "description": "منتجات فاخرة للعناية بالبشرة والجمال لجميع أنواع البشرة."
+  }
 }

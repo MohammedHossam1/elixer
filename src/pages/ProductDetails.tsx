@@ -10,6 +10,9 @@ import { ArrowLeft, Heart, Minus, Plus, ShoppingBag, Star } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async"; // ← تأكد إنه مستورد
+const SITE_URL = "https://elixir.com"; // ← غيّرها لرابط موقعك الحقيقي
+const SITE_NAME = "ELIXIR";
 
 const ProductDetail = () => {
   const { slug } = useParams();
@@ -21,6 +24,7 @@ const ProductDetail = () => {
   const isWishlisted = isInWishlist(product?.id);
   const isArOrHe = i18n.language === 'ar' || i18n.language === 'he';
   const [quantity, setQuantity] = useState(1);
+  const fullProductURL = `${SITE_URL}/product/${product?.slug}`;
 
   const galleryImages = [
     ...(product?.image
@@ -76,6 +80,62 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background max-w-6xl mx-auto ">
+      {/* 🧠 SEO / Meta */}
+      <Helmet>
+        <title>{`${product?.name} | ${SITE_NAME}`}</title>
+        <meta name="description" content={product?.description?.slice(0, 160)} />
+        <link rel="canonical" href={fullProductURL} />
+
+        {/* Open Graph (Facebook / WhatsApp) */}
+        <meta property="og:type" content="product" />
+        <meta property="og:site_name" content={SITE_NAME} />
+        <meta property="og:title" content={`${product?.name} | ${SITE_NAME}`} />
+        <meta property="og:description" content={product?.description?.slice(0, 160)} />
+        <meta property="og:image" content={product?.image} />
+        <meta property="og:url" content={fullProductURL} />
+        <meta property="og:locale" content={i18n.language === "ar" ? "ar_AR" : "en_US"} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${product?.name} | ${SITE_NAME}`} />
+        <meta name="twitter:description" content={product?.description?.slice(0, 160)} />
+        <meta name="twitter:image" content={product?.image} />
+
+        {/* Schema.org Product Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            name: product?.name,
+            image: galleryImages.map((img) => img.file_path),
+            description:
+              product?.description ||
+              "Premium skincare and beauty products from Elixir.",
+            sku: product?.id,
+            brand: {
+              "@type": "Brand",
+              name: SITE_NAME,
+            },
+            offers: {
+              "@type": "Offer",
+              url: fullProductURL,
+              priceCurrency: "USD",
+              price: product?.price_after_discount || product?.price,
+              availability:
+                product?.quantity > 0
+                  ? "https://schema.org/InStock"
+                  : "https://schema.org/OutOfStock",
+              itemCondition: "https://schema.org/NewCondition",
+              priceValidUntil: "2026-12-31",
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: product?.rate_count || 5,
+            },
+          })}
+        </script>
+      </Helmet>
+
       <main className="container mx-auto px-2 lg:px-6  py-32">
         {/* Breadcrumb */}
         <div className="mb-6">
