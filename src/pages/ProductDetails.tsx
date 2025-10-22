@@ -150,7 +150,7 @@ const ProductDetail = () => {
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12 x ">
           {/* Product Images */}
           <div className="flex gap-4 max-lg:flex-col">
-            <div className=" overflow-hidden h-[500px]   rounded-xl  bg-gradient-to-br from-muted/20 to-muted/5">
+            <div className=" overflow-hidden h-[500px]  w-full rounded-xl  bg-gradient-to-br from-muted/20 to-muted/5">
               <Image
                 src={galleryImages[selectedImage]?.file_path}
                 alt={product.name}
