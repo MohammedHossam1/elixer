@@ -77,7 +77,7 @@ const Footer = ({ data }: { data: ISettings }) => {
               <Link to="https://qadi-tech.com/home" target="_blank">Qadi-tech</Link>
             </div>
             <p className="text-sm text-muted-foreground">
-              © 2025 Qadi-tech . {t('footer.allRightsReserved')}
+              © {new Date().getFullYear()} Elixir . {t('footer.allRightsReserved')}
             </p>
           </div>
 

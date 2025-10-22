@@ -45,7 +45,7 @@ const FilteredProductsCategories = ({ params, centered = false }: { params: stri
                             <CarouselItem key={category.id} className="basis-auto pl-1">
                                 <TabsTrigger
                                     value={String(category.id)}
-                                    className="text-xs sm:text-sm border font-medium data-[state=active]:bg-primary hover:bg-primary hover:text-white data-[state=active]:text-white px-2 py-3 sm:px-4"
+                                    className="text-xs sm:text-sm border min-w-[100px] font-medium data-[state=active]:bg-primary hover:bg-primary hover:text-white data-[state=active]:text-white px-2 py-3 sm:px-4"
                                 >
                                     {category.name}
                                 </TabsTrigger>

@@ -42,7 +42,7 @@ const ProductCard = ({
 
   return (
     <div
-      className="group card-elegant rounded-xl overflow-hidden relative"
+      className="group border card-elegant rounded-xl overflow-hidden relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -72,10 +72,10 @@ const ProductCard = ({
         />
       </button>
 
-      {/* 🖼️ Product Image */}
+      {/* Product Image */}
       <Link
         to={`/product/${slug}`}
-        className="block relative aspect-square overflow-hidden bg-gradient-to-br from-muted/20 to-muted/5"
+        className="block relative aspect-square overflow-hidden p-2 bg-gradient-to-br from-muted/20 to-muted/5"
       >
         <Image
           src={image}
