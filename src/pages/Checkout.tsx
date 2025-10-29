@@ -319,7 +319,7 @@ const Checkout = () => {
                       <div className="flex-1 min-w-0" >
                         <h4 className="font-semibold text-sm truncate">{item.name}</h4>
                         <div className="flex gap-2 items-center ">
-                          <p className="font-semibold">${item.price}</p>
+                          <p className="font-semibold">₪{item.price}</p>
 
                           <p className="text-sm text-muted-foreground">
                             {t("quantity")}: {item.quantity}
@@ -335,12 +335,12 @@ const Checkout = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span>{t("subtotal")}</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>₪{subtotal.toFixed(2)}</span>
                   </div>
 
                   <div className="flex justify-between">
                     <span>{t("shipping")}</span>
-                    <span>${cityPrice.toFixed(2)}</span>
+                    <span>₪{cityPrice.toFixed(2)}</span>
                   </div>
                   {coupon?.discount > 0 &&
                     <div className="flex justify-between">
@@ -352,7 +352,7 @@ const Checkout = () => {
 
                   <div className="flex justify-between font-bold text-lg">
                     <span>{t("total")}</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>₪{total.toFixed(2)}</span>
                   </div>
                 </div>
 

@@ -49,7 +49,7 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
   };
 
   return (
-    <section className="relative w-full  h-[60vh] lg:h-[calc(100dvh)] pt-20 overflow-hidden">
+    <section className="relative w-full  h-[70vh] sm:h-[calc(100dvh)] pt-20 overflow-hidden">
       {/* Image Container */}
       <div className="relative w-full h-full">
         {finalData.map((image, index) => (
@@ -73,14 +73,14 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
 
       {/* Content Overlay */}
       <div className="absolute inset-0 flex items-center justify-center text-center text-white z-10">
-        <div className="container mx-auto px-2 lg:px-6  sm:px-6 animate-fade-in">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 font-script leading-tight">
+        <div className="container mx-auto px-2 lg:px-6  sm:px-6 animate-fade-in lg:space-y-10">
+          <h1 className="text-2xl sm:text-4xl  lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold mb-4 font-script leading-tight">
             {finalData[currentIndex]?.title}
           </h1>
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 text-white/90 max-w-2xl mx-auto px-4">
             {finalData[currentIndex]?.description}
           </p>
-          <div className="flex  gap-3 sm:gap-4 justify-center px-4">
+          <div className="flex  gap-3 sm:gap-4 justify-center px-4 ">
             <Link to="/shop">
               <Button
                 size="lg"

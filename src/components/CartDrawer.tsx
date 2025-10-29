@@ -104,11 +104,11 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                       <div className="flex items-center gap-2">
 
                         {item.price_after_discount && <p className="text-sm text-muted-foreground mb-2">
-                          ${item.price_after_discount}
+                          ₪{item.price_after_discount}
                         </p>
                         }
                         <p className={`text-sm text-muted-foreground mb-2 ${item.price_after_discount && 'line-through'}`}>
-                          ${Number(item.price).toFixed(2)} 
+                          ₪{Number(item.price).toFixed(2)} 
                         </p>
                         <span className='text-sm text-muted-foreground mb-2'>{t("each")}</span>
                       </div>
@@ -148,7 +148,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                         <Trash2 className="h-4 w-4" />
                       </Button>
                       <p className="font-bold text-sm">
-                        ${(Number(item.price) * item.quantity).toFixed(2)}
+                        ₪{(Number(item.price) * item.quantity).toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -163,7 +163,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span>{t("subtotal")}</span>
-                  <span className="font-semibold">${totalPrice.toFixed(2)}</span>
+                  <span className="font-semibold">₪{totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm text-muted-foreground">
                   <span>{t("shipping")}</span>
@@ -175,7 +175,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
 
               <div className="flex justify-between text-lg font-bold">
                 <span>{t("total")}</span>
-                <span>${totalPrice.toFixed(2)}</span>
+                <span>₪{totalPrice.toFixed(2)}</span>
               </div>
 
               <div className="space-y-2">

@@ -106,7 +106,7 @@ const AboutUs = ({ data }: { data: IAbout }) => {
               viewport={{ once: true }}
               className="space-y-8"
             >
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-3 lg:gap-6 ">
                 {data?.features.map((stat, index) => (
                   <motion.div
                     key={index}
@@ -114,11 +114,11 @@ const AboutUs = ({ data }: { data: IAbout }) => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.2, duration: 0.8 }}
                     viewport={{ once: true }}
-                    className="flex flex-col items-center gap-3"
+                    className="flex flex-col items-center justify-center gap-1 lg:gap-3 h-full"
                   >
 
-                    <div className="text-center card-elegant p-6 rounded-2xl">
-                      <span className="text-3xl lg:text-4xl font-bold text-primary mb-2">
+                    <div className="text-center  w-full  card-elegant p-6 rounded-2xl h-full flex items-center justify-center">
+                      <span className="text-lg md:text-xl lg:text-xl font-bold text-primary mb-2">
                         {stat}
                       </span>
                     </div>

@@ -87,9 +87,11 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
                       <p className="text-xs text-muted-foreground mt-1">
                         {item.category?.name}
                       </p>
-                      <p className="text-primary font-bold mt-2">
-                        ${Number(item.price).toFixed(2)}
-                      </p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-base lg:text-lg font-bold text-foreground">
+                          ₪{Number(item.price).toFixed(2)}
+                        </span>
+                      </div>
                     </div>
                     <div className="flex flex-col gap-2">
                       <Button

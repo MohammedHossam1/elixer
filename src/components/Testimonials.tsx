@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import Image from "./shared/Image";
+import fallbackImg from "../assets/testimonials.jpg";
 import { ITestimonial } from "@/types/Index";
 
 
@@ -10,7 +11,7 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  if (!data.length) return null
+  if (!data?.length) return null
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % data.length);
   };
@@ -47,7 +48,6 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
         {/* Testimonials Content */}
         <div className=" mx-auto">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
-
             {/* Customer Photos Grid */}
             <div className="order-2 lg:order-1">
               <div className="grid grid-cols-4 sm:grid-cols-4 gap-2 sm:gap-4">
@@ -58,6 +58,7 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
                     className="aspect-square rounded-lg overflow-hidden bg-muted hover:transform hover:scale-105 transition-all duration-300 cursor-pointer"
                   >
                     <Image
+                      fallbackSrc={fallbackImg}
                       src={item.image}
                       alt={`Customer ${index + 1}`}
                       className="w-full h-full object-cover"
@@ -76,6 +77,7 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
                   <div className="flex items-center gap-x-4">
                     <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden flex-shrink-0">
                       <Image
+                      fallbackSrc={fallbackImg}
                         src={current?.image}
                         key={current?.name}
                         alt={current.name}

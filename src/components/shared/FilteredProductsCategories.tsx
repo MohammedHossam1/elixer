@@ -1,21 +1,29 @@
 import ProductCard from "@/components/ProductCard";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import { useGetCategories, useGetProducts } from "@/hooks/fetch-hooks";
-import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useGetCategories } from "@/hooks/fetch-hooks";
+import { IProduct } from "@/types/Index";
 import { LoaderCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
-const FilteredProductsCategories = ({ params, centered = false }: { params: string | null, centered?: boolean }) => {
+const FilteredProductsCategories = ({
+    activeCategory,
+    onCategoryChange,
+    centered = false,
+    products,
+    isLoading,
+    onPageChange,
+}: {
+    activeCategory: string | null,
+    onCategoryChange: (category: string) => void,
+    centered?: boolean,
+    products: IProduct[];
+    isLoading: boolean;
+    currentPage: number;
+    onPageChange: (page: number) => void;
+}) => {
     const { t, i18n } = useTranslation();
-    const { data: categories, refetch } = useGetCategories(i18n.language);
-    const [activeTab, setActiveTab] = useState(params || "0");
-    const { data: productsRes, isLoading } = useGetProducts(i18n.language, 1, activeTab == "0" ? "" : activeTab);
-    const products = productsRes?.data?.items
-    useEffect(() => {
-        if (params) setActiveTab(params);
-    }, [params]);
-
+    const { data: categories } = useGetCategories(i18n.language);
     const getFilteredProducts = (categoryId: string) => {
         if (categoryId === "0") return products;
         return products.filter((product) => String(product.category.id) === categoryId);
@@ -25,16 +33,12 @@ const FilteredProductsCategories = ({ params, centered = false }: { params: stri
         { id: 0, name: t("productShowcase.tabs.all") },
         ...(Array.isArray(categories?.data) ? categories.data : []),
     ];
-    // ✅ لما التاب تتغير — يعمل refetch
-    useEffect(() => {
-        refetch();
-    }, [activeTab, refetch]);
-
+ 
 
     return (
         <Tabs
-            value={activeTab}
-            onValueChange={(val) => setActiveTab(val)}
+            value={activeCategory || "0"}
+            onValueChange={(val) => { onCategoryChange(val); onPageChange(1) }}
             dir={i18n.language === "en" ? "ltr" : "rtl"}
             className="w-full"
         >

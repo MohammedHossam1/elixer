@@ -25,7 +25,7 @@ const WhatWeStandFor = ({ data }: { data: IWhyChooseUs[] }) => {
                                             src={value.image}
                                             alt={value.title}
                                             width={100}
-                                            className="w-10 h-10 rounded-full"
+                                            className="size-12 rounded-full"
                                             height={100}
                                         />
                                     </div>

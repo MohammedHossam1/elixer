@@ -118,11 +118,11 @@ const ProductCard = ({
         {/* 💰 Price */}
         <div className="flex items-center gap-2">
           <span className="text-base lg:text-lg font-bold text-foreground">
-            ${finalPrice}
+            {finalPrice} ₪ 
           </span>
           {Number(discount) > 0 && (
             <span className="text-sm text-muted-foreground line-through">
-              ${Number(price).toFixed(2)}
+               {Number(price).toFixed(2)} ₪
             </span>
           )}
         </div>

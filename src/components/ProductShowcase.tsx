@@ -3,15 +3,17 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import FilteredProductsCategories from "./shared/FilteredProductsCategories";
 import { Link } from "react-router-dom";
+import { useGetProducts } from "@/hooks/fetch-hooks";
+import { useState } from "react";
 // Define IProductShowCase interface
 
 
 const ProductShowcase = () => {
   const { t, i18n } = useTranslation();
   const isArOrHe = i18n.language === 'ar' || i18n.language === 'he';
-
-
-
+  const [page, setPage] = useState(1);
+  const [activeCategory, setActiveCategory] = useState("0");
+  const { data: productsRes, isLoading } = useGetProducts(i18n.language, page, activeCategory == "0" ? "" : activeCategory);
   return (
     <section className="py-10 lg:py-12 bg-background overflow-x-hidden">
       <div className="container mx-auto px-2 lg:px-6 ">
@@ -32,7 +34,14 @@ const ProductShowcase = () => {
         </motion.div>
 
         {/* Product Tabs */}
-        <FilteredProductsCategories params="0" centered />
+        <FilteredProductsCategories
+          products={productsRes?.data?.items || []}
+          isLoading={isLoading}
+          activeCategory={activeCategory}
+          onCategoryChange={setActiveCategory}
+          currentPage={page}
+          onPageChange={setPage}
+          centered />
 
         {/* View All Button */}
         <motion.div
@@ -42,7 +51,7 @@ const ProductShowcase = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <Link to="/products" className="mt-5 block"> 
+          <Link to="/shop" className="mt-5 block">
             <Button
               size="lg"
               variant="outline"

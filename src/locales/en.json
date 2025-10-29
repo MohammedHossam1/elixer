@@ -123,8 +123,8 @@
   "addToCartError": "Failed to add to cart",
   "skinResults": {
     "badge": "Real Results",
-    "title": "Proven",
-    "titleScript": "Skin Transformations",
+    "title": "See ",
+    "titleScript": "the difference for yourself",
     "description": "See real before and after results from our customers who trusted ELIXIR skincare products. These transformations speak for themselves - visible results that build confidence.",
     "before": "BEFORE",
     "after": "AFTER",
@@ -135,7 +135,7 @@
     "getSimilarResults": "Get Similar Results"
   },
   "whatWeStandFor": {
-    "title": "What We Stand For",
+    "title": "Why Choose Us",
     "values": {
       "pureIngredients": {
         "title": "Pure Ingredients",
@@ -177,8 +177,8 @@
     "before": "Before",
     "after": "After",
     "cta": {
-      "title": "Ready for Your Own Transformation?",
-      "description": "Join thousands of satisfied customers who have achieved incredible results with our premium skincare collection.",
+      "title": "Are you ready to pamper your skin with luxurious care?",
+      "description": "Join the thousands of clients who tried our products and felt the difference from the very first use",
       "button": "Shop Skincare Collection"
     }
   },
@@ -318,5 +318,13 @@
   "home": {
     "title": "ELIXIR | Skincare & Beauty Products",
     "description": "Premium skincare and beauty products for all skin types."
+  },
+  "ourStoryPage": {
+    "heroTitle": "Our Story",
+    "heroSubtitle": "A journey of passion, science, and dedication to transforming skincare",
+    "chapter1Title": "Where It All Started",
+    "chapter1Paragraph1": "In 2020, our founder discovered the transformative power of combining natural ingredients with modern science. Frustrated by products filled with harsh chemicals and empty promises, she embarked on a mission to create something different.",
+    "chapter1Paragraph2": "What started in a small laboratory with a handful of formulations has grown into a movement. A movement that believes skincare should be effective, sustainable, and accessible to everyone who dreams of healthy, radiant skin.",
+    "chapter1ImageAlt": "Our founder's journey"
   }
 }

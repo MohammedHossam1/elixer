@@ -140,7 +140,7 @@ const ProductDetail = () => {
         {/* Breadcrumb */}
         <div className="mb-6">
           <Link
-            to="/products"
+            to="/shop"
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className={`h-4 w-4 ${isArOrHe && "rotate-180"}`} />

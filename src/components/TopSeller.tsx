@@ -106,7 +106,7 @@ const TopSeller = ({data}: {data: IProduct[]}) => {
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
             {t("topSeller.bottom.copy")}
           </p>
-          <Link to="/products" className="">
+          <Link to="/shop" className="">
             <Button
               size="lg"
               variant="outline"

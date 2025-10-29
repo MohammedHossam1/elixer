@@ -1,5 +1,8 @@
 import heroModel from "@/assets/hero-model.jpg";
+import { useTranslation } from "react-i18next";
+
 const OurStory = () => {
+  const { t } = useTranslation();
   return (
     <main className="min-h-screen bg-background ">
         {/* Hero Section */}
@@ -7,10 +10,10 @@ const OurStory = () => {
           <div className="container mx-auto px-2 lg:px-6 ">
             <div className="text-center ">
               <h1 className="font-script text-5xl lg:text-7xl text-primary mb-6">
-                Our Story
+                {t("ourStoryPage.heroTitle")}
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                A journey of passion, science, and dedication to transforming skincare
+                {t("ourStoryPage.heroSubtitle")}
               </p>
             </div>
           </div>
@@ -21,25 +24,19 @@ const OurStory = () => {
             {/* Chapter 1 */}
             <div className="grid md:grid-cols-2 gap-12 items-start mb-24  mx-auto">
               <div className="order-2 md:order-1">
-                <h2 className="text-4xl font-bold mt-4 mb-6">Where It All Started</h2>
+                <h2 className="text-4xl font-bold mt-4 mb-6">{t("ourStoryPage.chapter1Title")}</h2>
                 <p className="text-muted-foreground mb-4 leading-relaxed">
-                  In 2020, our founder discovered the transformative power of combining
-                  natural ingredients with modern science. Frustrated by products filled
-                  with harsh chemicals and empty promises, she embarked on a mission to
-                  create something different.
+                  {t("ourStoryPage.chapter1Paragraph1")}
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
-                  What started in a small laboratory with a handful of formulations has
-                  grown into a movement. A movement that believes skincare should be
-                  effective, sustainable, and accessible to everyone who dreams of
-                  healthy, radiant skin.
+                  {t("ourStoryPage.chapter1Paragraph2")}
                 </p>
               </div>
               <div className="order-1 md:order-2">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                   <img
                     src={heroModel}
-                    alt="Our founder's journey"
+                    alt={t("ourStoryPage.chapter1ImageAlt")}
                     className="w-full h-[500px] object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>

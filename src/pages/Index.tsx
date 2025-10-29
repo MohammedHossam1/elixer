@@ -111,7 +111,7 @@ const Index = () => {
             <SkinResults data={data?.data?.real_results} />
           </FadeInSection>
           <FadeInSection>
-            <WhatWeStandFor data={data?.data?.how_we_works} />
+            <WhatWeStandFor data={data?.data?.why_choose_us} />
           </FadeInSection>
           <FadeInSection>
             <BeforeAfterComparison data={settings?.see_the_transformation} />
