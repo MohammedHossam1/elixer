@@ -31,7 +31,7 @@ const Image: React.FC<ImageProps> = ({
   const handleError = () => {
     if (!error) {
       setError(true);
-      setImgSrc(fallbackImg);
+      setImgSrc(fallbackSrc);
     }
   };
 
