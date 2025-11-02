@@ -13,15 +13,16 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Image from "./shared/Image";
 import { IProduct } from "@/types/Index";
+import { useName } from "@/hooks/use-name";
 
 
 
-const TopSeller = ({data}: {data: IProduct[]}) => {
+const TopSeller = ({ data }: { data: IProduct[] }) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
   const { t, i18n } = useTranslation();
-
+  const { getName } = useName();
   // 🔹 sync carousel state
   const handleApi = (api: CarouselApi) => {
     setApi(api);
@@ -50,7 +51,7 @@ const TopSeller = ({data}: {data: IProduct[]}) => {
         {/* data Carousel */}
         <Carousel
           setApi={handleApi}
-          opts={{ align: "start", loop: false ,direction: isArOrHe ? "rtl" : "ltr"}}
+          opts={{ align: "start", loop: false, direction: isArOrHe ? "rtl" : "ltr" }}
           className="w-full max-w-6xl mx-auto"
         >
           <CarouselContent>
@@ -66,7 +67,7 @@ const TopSeller = ({data}: {data: IProduct[]}) => {
                       <div className="w-full h-full flex items-center justify-center">
                         <Image
                           src={item.image}
-                          alt={t(item.name)}
+                          alt={getName(item.name)}
                           className="w-full h-full !object-contain rounded-full transition-all duration-300 group-hover:scale-110"
                         />
                       </div>
@@ -79,7 +80,7 @@ const TopSeller = ({data}: {data: IProduct[]}) => {
                   {/* Info */}
                   <div className="space-y-2">
                     <h4 className="text-base sm:text-xl lg:text-2xl font-bold text-foreground uppercase tracking-wide ">
-                      {t(item.name)}
+                      {getName(item.name)}
                     </h4>
                   </div>
                 </Link>

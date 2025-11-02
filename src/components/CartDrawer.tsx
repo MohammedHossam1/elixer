@@ -11,6 +11,7 @@ import { useAddToCart } from '@/hooks/useAddToCart';
 import { IProduct } from '@/types/Index';
 import toast from 'react-hot-toast';
 import { useGetSingleProduct } from '@/hooks/fetch-hooks';
+import { useName } from '@/hooks/use-name';
 
 interface CartDrawerProps {
   children: React.ReactNode;
@@ -22,6 +23,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
   const { t, i18n } = useTranslation();
   const { addToCart } = useAddToCart();
   const [slug, setSlug] = useState<string>("");
+  const { getName } = useName();
   const { refetch, isLoading } = useGetSingleProduct(slug, i18n.language, false);
   const handleRemoveItem = (id: string, name: string) => {
     removeItem(id);
@@ -30,16 +32,16 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
 
   const handleQuantityChange = async (item: Partial<IProduct>, newQuantity: number) => {
     if (newQuantity < 1) {
-      handleRemoveItem(item.id, item.name);
+      handleRemoveItem(item.id, getName(item.name));
       return;
     }
-    if (!item.slug) return; 
+    if (!item.slug) return;
 
     setSlug(item.slug);
     await new Promise((resolve) => setTimeout(resolve, 0));
 
     const res = await refetch();
-    const product =  res.data;
+    const product = res.data;
     if (!product) {
       toast.error(t("productNotFound"));
       return;
@@ -96,11 +98,11 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                   <div key={item.id} className="flex gap-4 p-4 bg-muted/30 rounded-lg">
                     <Image
                       src={item.image}
-                      alt={item.name}
+                      alt={getName(item.name)}
                       className="w-16 h-16 rounded-lg object-cover bg-muted"
                     />
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-sm truncate">{item.name}</h4>
+                      <h4 className="font-semibold text-sm truncate">{getName(item.name)}</h4>
                       <div className="flex items-center gap-2">
 
                         {item.price_after_discount && <p className="text-sm text-muted-foreground mb-2">
@@ -108,7 +110,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                         </p>
                         }
                         <p className={`text-sm text-muted-foreground mb-2 ${item.price_after_discount && 'line-through'}`}>
-                          ₪{Number(item.price).toFixed(2)} 
+                          ₪{Number(item.price).toFixed(2)}
                         </p>
                         <span className='text-sm text-muted-foreground mb-2'>{t("each")}</span>
                       </div>
@@ -143,7 +145,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                         size="icon"
                         variant="ghost"
                         className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                        onClick={() => handleRemoveItem(item.id, item.name)}
+                        onClick={() => handleRemoveItem(item.id, getName(item.name))}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

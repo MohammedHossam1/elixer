@@ -14,6 +14,7 @@ import { WishlistItem } from "@/types/Index";
 import { Heart, ShoppingBag, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Image from "./shared/Image";
+import { useName } from "@/hooks/use-name";
 
 
 interface WishlistDrawerProps {
@@ -24,6 +25,7 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
   const { items, removeItem } = useWishlist();
   const { t, i18n } = useTranslation();
   const { addToCart } = useAddToCart();
+  const { getName } = useName();
 
   const handleAddToCart = (item: WishlistItem) => {
     const result = addToCart({
@@ -77,12 +79,12 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
                   >
                     <Image
                       src={item.image}
-                      alt={item.name}
+                      alt={getName(item.name)}
                       className="w-20 h-20 object-cover rounded"
                     />
                     <div className="flex-1">
                       <h4 className="font-semibold text-sm line-clamp-2">
-                        {item.name}
+                        {getName(item.name)}
                       </h4>
                       <p className="text-xs text-muted-foreground mt-1">
                         {item.category?.name}
@@ -104,9 +106,10 @@ const WishlistDrawer = ({ children }: WishlistDrawerProps) => {
                       </Button>
                       <Button
                         variant="outline"
+                        title={item.quantity === 0 ? "Out of stock" : ""}
                         size="icon"
                         onClick={() => handleAddToCart(item)}
-                        className="h-8 w-8"
+                        className={`h-8 w-8 cursor-not-allowed`}
                       >
                         <ShoppingBag className="h-4 w-4" />
                       </Button>

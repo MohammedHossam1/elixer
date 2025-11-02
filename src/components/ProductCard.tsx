@@ -26,7 +26,11 @@ const ProductCard = ({
   const { addToCart } = useAddToCart();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
   const isWishlisted = isInWishlist(id);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
+  function getName(name: { ar: string; he: string; en: string }): string {
+    return lang === "en" ? name.en : lang === "ar" ? name.ar : name.he;
+  }
   const handleToggleWishlist = () => {
     if (isWishlisted) {
       removeFromWishlist(id);
@@ -79,7 +83,7 @@ const ProductCard = ({
       >
         <Image
           src={image}
-          alt={name}
+          alt={getName(name)}
           className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
         />
 
@@ -99,7 +103,7 @@ const ProductCard = ({
           to={`/product/${slug}`}
           className="font-semibold hover:text-primary text-foreground line-clamp-1 leading-tight"
         >
-          {name}
+          {getName(name)}
         </Link>
 
         {/* ⭐ Rating */}
@@ -118,11 +122,11 @@ const ProductCard = ({
         {/* 💰 Price */}
         <div className="flex items-center gap-2">
           <span className="text-base lg:text-lg font-bold text-foreground">
-            {finalPrice} ₪ 
+            {finalPrice} ₪
           </span>
           {Number(discount) > 0 && (
             <span className="text-sm text-muted-foreground line-through">
-               {Number(price).toFixed(2)} ₪
+              {Number(price).toFixed(2)} ₪
             </span>
           )}
         </div>
@@ -139,7 +143,7 @@ const ProductCard = ({
           {quantity === 0 ? t("outOfStock") : t("addToCart")}
         </Button>
       </div>
-    </div>
+    </div >
   );
 };
 

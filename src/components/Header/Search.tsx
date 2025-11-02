@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useGetProductsSearch } from "@/hooks/fetch-hooks";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useName } from "@/hooks/use-name";
 import { IProduct } from "@/types/Index";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
@@ -10,6 +11,7 @@ import { LoaderCircle, Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import Image from "../shared/Image";
 
 const SearchComponent = ({ setIsOpen }: { setIsOpen?: (isOpen: boolean) => void }) => {
   const searchRef = useRef<HTMLDivElement>(null);
@@ -18,6 +20,7 @@ const SearchComponent = ({ setIsOpen }: { setIsOpen?: (isOpen: boolean) => void 
   const [query, setQuery] = useState("");
   const [filteredResults, setFilteredResults] = useState<IProduct[]>([]);
   const { t, i18n } = useTranslation();
+  const {getName} = useName();
   const { data: searchData, isLoading } = useGetProductsSearch(i18n.language, 1, query);
   // Always open search on mobile
   useEffect(() => {
@@ -86,14 +89,14 @@ const SearchComponent = ({ setIsOpen }: { setIsOpen?: (isOpen: boolean) => void 
                         }}
                         className="flex items-center gap-3 p-3 hover:bg-primary/10 transition-colors"
                       >
-                        <img
+                        <Image
                           src={item.image || item.image}
-                          alt={item.name}
+                          alt={getName(item.name)}
                           className="w-10 h-10 object-cover rounded-md"
                         />
                         <div className="flex flex-col">
                           <span className="font-medium text-sm text-foreground">
-                            {item.name}
+                            {getName(item.name)}
                           </span>
                           <span className="text-xs text-muted-foreground">
                             {item.price ? `$${item.price}` : ""}

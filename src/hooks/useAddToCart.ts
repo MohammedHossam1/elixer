@@ -3,7 +3,11 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 interface IProduct {
     id: string;
-    name: string;
+    name: {
+        en: string;
+        ar: string;
+        he: string;
+    };
     price: number;
     image: string;
     slug: string;
@@ -14,6 +18,7 @@ interface IProduct {
 export const useAddToCart = () => {
     const { addItem, items, updateQuantity } = useCart();
     const { t } = useTranslation();
+
 
     const addToCart = (
         {

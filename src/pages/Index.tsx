@@ -20,7 +20,7 @@ const Index = () => {
   const lang = i18n.language;
   const { data } = useGetHomePage(lang);
 
-  const SITE_URL = "https://elixir.com";
+  const SITE_URL = import.meta.env.VITE_SITE_URL || "https://elixir.com";
   const SITE_NAME = "ELIXIR";
 
   const settings = data?.data?.settings;

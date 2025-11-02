@@ -31,7 +31,11 @@ export interface IProduct {
     id: number,
     name: string
   },
-  name: string,
+  name: {
+    ar: string,
+    he: string,
+    en: string
+  },
   description: string,
   image: string,
   discount: string,
@@ -53,7 +57,11 @@ export interface IProduct {
 }
 export interface WishlistItem {
   id: string;
-  name: string;
+  name: {
+    en: string;
+    ar: string;
+    he: string;
+  };
   price: number;
   image: string;
   slug: string;

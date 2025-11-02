@@ -20,6 +20,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/contexts/CartContext";
 import { useGetAdresses, usePostCheckout } from "@/hooks/fetch-hooks";
+import { useName } from "@/hooks/use-name";
 import { checkoutSchema } from "@/schemas";
 import { IAdrress } from "@/types/Index";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -42,7 +43,7 @@ const Checkout = () => {
   const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">("delivery");
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [paymentType, setpaymentType] = useState<"cash" | "visa">("cash");
-
+  const { getName } = useName();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -312,12 +313,12 @@ const Checkout = () => {
                     <div key={item.id} className="flex gap-3 items-center">
                       <Image
                         src={item.image}
-                        alt={item.name}
+                        alt={getName(item.name)}
                         loading="lazy"
                         className="w-16 h-16 rounded-lg object-cover bg-muted"
                       />
                       <div className="flex-1 min-w-0" >
-                        <h4 className="font-semibold text-sm truncate">{item.name}</h4>
+                        <h4 className="font-semibold text-sm truncate">{getName(item.name)}</h4>
                         <div className="flex gap-2 items-center ">
                           <p className="font-semibold">₪{item.price}</p>
 

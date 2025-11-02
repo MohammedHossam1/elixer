@@ -10,8 +10,9 @@ import { ArrowLeft, Heart, Minus, Plus, ShoppingBag, Star } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
-import { Helmet } from "react-helmet-async"; // ← تأكد إنه مستورد
-const SITE_URL = "https://elixir.com"; // ← غيّرها لرابط موقعك الحقيقي
+import { Helmet } from "react-helmet-async";
+import { useName } from "@/hooks/use-name";
+const SITE_URL = import.meta.env.VITE_SITE_URL || "https://elixir.com"; 
 const SITE_NAME = "ELIXIR";
 
 const ProductDetail = () => {
@@ -33,7 +34,7 @@ const ProductDetail = () => {
     ...(Array.isArray(product.attachments) ? product.attachments : []),
   ];
   const { addToCart } = useAddToCart();
-
+  const { getName } = useName();
   const [selectedImage, setSelectedImage] = useState(0);
 
 
@@ -82,14 +83,14 @@ const ProductDetail = () => {
     <div className="min-h-screen bg-background max-w-6xl mx-auto ">
       {/* 🧠 SEO / Meta */}
       <Helmet>
-        <title>{`${product?.name} | ${SITE_NAME}`}</title>
+        <title>{`${getName(product?.name)} | ${SITE_NAME}`}</title>
         <meta name="description" content={product?.description?.slice(0, 160)} />
         <link rel="canonical" href={fullProductURL} />
 
         {/* Open Graph (Facebook / WhatsApp) */}
         <meta property="og:type" content="product" />
         <meta property="og:site_name" content={SITE_NAME} />
-        <meta property="og:title" content={`${product?.name} | ${SITE_NAME}`} />
+        <meta property="og:title" content={`${getName(product?.name)} | ${SITE_NAME}`} />
         <meta property="og:description" content={product?.description?.slice(0, 160)} />
         <meta property="og:image" content={product?.image} />
         <meta property="og:url" content={fullProductURL} />
@@ -97,7 +98,7 @@ const ProductDetail = () => {
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${product?.name} | ${SITE_NAME}`} />
+        <meta name="twitter:title" content={`${getName(product?.name)} | ${SITE_NAME}`} />
         <meta name="twitter:description" content={product?.description?.slice(0, 160)} />
         <meta name="twitter:image" content={product?.image} />
 
@@ -106,7 +107,7 @@ const ProductDetail = () => {
           {JSON.stringify({
             "@context": "https://schema.org/",
             "@type": "Product",
-            name: product?.name,
+            name: getName(product?.name),
             image: galleryImages.map((img) => img.file_path),
             description:
               product?.description ||
@@ -153,7 +154,8 @@ const ProductDetail = () => {
             <div className=" overflow-hidden h-[500px]  w-full rounded-xl  bg-gradient-to-br from-muted/20 to-muted/5">
               <Image
                 src={galleryImages[selectedImage]?.file_path}
-                alt={product.name}
+                alt={getName(product.name)}
+
                 key={galleryImages[selectedImage]?.file_path}
                 className="w-full h-full object-contain bg-accent"
               />
@@ -192,7 +194,7 @@ const ProductDetail = () => {
             <div className="flex gap-6 items-center ">
               {/* Name */}
               <h1 className="text-3xl font-bold text-foreground">
-                {product.name}
+                {getName(product.name)}
               </h1>
               {/* Rating */}
               <div className="flex items-center gap-3">
@@ -224,6 +226,9 @@ const ProductDetail = () => {
             <p className="text-muted-foreground leading-relaxed">
               {product.description}
             </p>
+            <p className="text-muted-foreground leading-relaxed">
+              <span>{t("quantity")}:</span>{product.quantity}
+            </p>
             {/* Quantity & Actions */}
             <div className="space-y-4">
               <div className="flex items-center gap-4">
@@ -254,6 +259,8 @@ const ProductDetail = () => {
               <div className="flex gap-3">
                 <Button
                   onClick={handleAddToCart}
+                  disabled={product.quantity === 0}
+
                   className="flex-1 btn-gradient text-white hover:shadow-glow"
                   size="lg"
                 >
