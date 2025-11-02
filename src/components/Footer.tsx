@@ -1,6 +1,6 @@
 import { footerLinks } from "@/data/Index";
 import { ISettings } from "@/types/Index";
-import { Heart, Mail, MapPin, Phone } from "lucide-react";
+import { Heart, Mail, MapPin, Phone, Facebook, Instagram, Twitter } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import ScrollToTop from "./ScrollToTop";
@@ -40,6 +40,25 @@ const Footer = ({ data }: { data: ISettings }) => {
                 <Mail className="h-4 w-4 text-rose-gold flex-shrink-0" />
                 <span className="text-muted-foreground">{data?.contact.email}</span>
               </div>}
+            </div>
+
+            {/* Social Media */}
+            <div className="flex items-center gap-3">
+              {data?.social_media?.facebook && (
+                <Link to={data.social_media.facebook} target="_blank">
+                  <Facebook className="h-5 w-5 text-muted-foreground hover:text-primary transition-colors duration-200" />
+                </Link>
+              )}
+              {data?.social_media?.instagram && (
+                <Link to={data.social_media.instagram} target="_blank">
+                  <Instagram className="h-5 w-5 text-muted-foreground hover:text-primary transition-colors duration-200" />
+                </Link>
+              )}
+              {data?.social_media?.twitter && (
+                <Link to={data.social_media.twitter} target="_blank">
+                  <Twitter className="h-5 w-5 text-muted-foreground hover:text-primary transition-colors duration-200" />
+                </Link>
+              )}
             </div>
           </div>
 

@@ -1,18 +1,21 @@
 import { useGetHomePage } from "@/hooks/fetch-hooks";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 type slugTpe = "privacy" | "terms" | "faq" | "disclaimer";
 
 const FooterLegalPage = () => {
+    const { i18n, t } = useTranslation();
+    const lang = i18n.language;
     const { slug } = useParams<{ slug: slugTpe }>();
-    const { data } = useGetHomePage("en");
+    const { data } = useGetHomePage(lang);
 
     // Map slug to translated title and content key
     const slugTitleMap: Record<slugTpe, string> = {
-        privacy: "Privacy policy",
-        terms: "Terms and conditions",
-        faq: "FAQ",
-        disclaimer: "Disclaimer",
+        privacy: "privacy",
+        terms: "terms",
+        faq: "faq",
+        disclaimer: "disclaimer",
     };
 
     let finalData = "";
@@ -26,7 +29,7 @@ const FooterLegalPage = () => {
         finalData = data?.data?.settings?.legal_documents?.disclaimer;
     }
 
-    const pageTitle = slug && slugTitleMap[slug] ? slugTitleMap[slug] : "Privacy policy";
+    const pageTitle = slug && slugTitleMap[slug as slugTpe] ? t(slugTitleMap[slug as slugTpe]) : t("privacy");
 
     return (
         <section className="container mx-auto px-2   lg:px-8 py-32 min-h-[calc(100dvh)] ">
