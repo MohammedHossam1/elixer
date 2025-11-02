@@ -25,9 +25,9 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
   const [slug, setSlug] = useState<string>("");
   const { getName } = useName();
   const { refetch, isLoading } = useGetSingleProduct(slug, i18n.language, false);
-  const handleRemoveItem = (id: string, name: string) => {
+  const handleRemoveItem = (id: string) => {
     removeItem(id);
-    toast.error(`${name} has been removed from your cart.`, { duration: 3000 });
+    toast.error(`${t("removedFromCart")}.`, { duration: 3000 });
   };
 
   const handleQuantityChange = async (item: Partial<IProduct>, newQuantity: number) => {

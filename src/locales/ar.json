@@ -261,6 +261,7 @@
   "addedToWishlist": "تمت الإضافة إلى المفضلة",
   "addedToWishlistDesc": "تمت إضافة المنتج إلى قائمة المفضلة.",
   "removedFromWishlist": "تمت الإزالة من المفضلة",
+  "removedFromCart": "تمت الإزالة من السله",
   "removedFromWishlistDesc": "تمت إزالة المنتج من قائمة المفضلة.",
   "selectAddress": "اختر العنوان",
   "validation": {

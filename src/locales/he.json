@@ -260,6 +260,7 @@
   "addedToWishlistDesc": "נוסף לרשימת המשאלות שלך.",
   "removedFromWishlist": "הוסר מרשימת המשאלות",
   "removedFromWishlistDesc": "הוסר מרשימת המשאלות שלך.",
+  "removedFromCart": "הוסר מהעגלה",
   "selectAddress": "בחרי כתובת",
   "validation": {
     "firstNameMin": "השם הפרטי חייב להיות לפחות 2 תווים",

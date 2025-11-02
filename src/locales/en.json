@@ -260,6 +260,7 @@
   "addedToWishlistDesc": "has been added to your wishlist.",
   "removedFromWishlist": "Removed from wishlist",
   "removedFromWishlistDesc": "has been removed from your wishlist.",
+  "removedFromCart": "Removed from cart",
   "selectAddress": "Select Address",
   "validation": {
     "firstNameMin": "First name must be at least 2 characters",
