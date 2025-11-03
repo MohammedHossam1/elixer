@@ -32,7 +32,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
 
   const handleQuantityChange = async (item: Partial<IProduct>, newQuantity: number) => {
     if (newQuantity < 1) {
-      handleRemoveItem(item.id, getName(item.name));
+      handleRemoveItem(item.id);
       return;
     }
     if (!item.slug) return;
@@ -96,21 +96,24 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
               <div className="space-y-4 py-2">
                 {items.map((item) => (
                   <div key={item.id} className="flex gap-4 p-4 bg-muted/30 rounded-lg">
-                    <Image
-                      src={item.image}
-                      alt={getName(item.name)}
-                      className="w-16 h-16 rounded-lg object-cover bg-muted"
-                    />
+                    <Link to={`/product/${item.slug}`} className="block">
+
+                      <Image
+                        src={item.image}
+                        alt={getName(item.name)}
+                        className="w-16 h-16 rounded-lg object-cover bg-muted"
+                      />
+                    </Link>
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-sm truncate">{getName(item.name)}</h4>
+                      <Link to={`/product/${item.slug}`}  className="font-semibold text-sm truncate  block">{getName(item.name)}</Link>
                       <div className="flex items-center gap-2">
 
-                        {item.price_after_discount && <p className="text-sm text-muted-foreground mb-2">
-                          ₪{item.price_after_discount}
+                        {item.price_after_discount && Number(item.price_after_discount) < Number(item.price) && <p className="text-sm text-muted-foreground mb-2">
+                          ₪ {item.price_after_discount}
                         </p>
                         }
-                        <p className={`text-sm text-muted-foreground mb-2 ${item.price_after_discount && 'line-through'}`}>
-                          ₪{Number(item.price).toFixed(2)}
+                        <p className={`text-sm text-muted-foreground mb-2 ${item.price_after_discount && Number(item.price_after_discount) < Number(item.price) && 'line-through'}`}>
+                          ₪ {Number(item.price).toFixed(2)}
                         </p>
                         <span className='text-sm text-muted-foreground mb-2'>{t("each")}</span>
                       </div>
@@ -145,7 +148,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
                         size="icon"
                         variant="ghost"
                         className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                        onClick={() => handleRemoveItem(item.id, getName(item.name))}
+                        onClick={() => handleRemoveItem(item.id)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

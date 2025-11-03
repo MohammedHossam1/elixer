@@ -12,6 +12,7 @@ import { WishlistProvider } from "./contexts/WishlistContext";
 import FooterLegalPage from "./pages/FooterLegalPage";
 import OurStory from "./pages/OurStory";
 import Products from "./pages/Products";
+import SuccessOrdering from './pages/SuccessOrdering';
 
 // 👇 Lazy imports for pages
 const Index = lazy(() => import("./pages/Index"));
@@ -49,6 +50,7 @@ const App = () => (
                   <Route path="contact" element={<ContactUs />} />
                   <Route path="/our-story" element={<OurStory />} />
                   <Route path="/products" element={<Products />} />
+                  <Route path="/success-ordering" element={<SuccessOrdering />} />
                   <Route path="/legals/:slug" element={<FooterLegalPage />} />
                   <Route path="faq" element={<FAQ />} />
                   <Route path="*" element={<NotFound />} />

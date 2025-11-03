@@ -24,7 +24,7 @@ import { useName } from "@/hooks/use-name";
 import { checkoutSchema } from "@/schemas";
 import { IAdrress } from "@/types/Index";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, CheckCircle, Shield, Truck } from "lucide-react";
+import { ArrowLeft, Shield, Truck } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -85,26 +85,7 @@ const Checkout = () => {
   };
 
   if (orderPlaced) {
-    return (
-      <div className="min-h-screen bg-background py-32">
-        <main className="container mx-auto px-2 lg:px-6  py-16">
-          <div className="max-w-md mx-auto text-center space-y-6">
-            <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
-              <CheckCircle className="h-8 w-8 text-white" />
-            </div>
-            <h1 className="text-3xl font-bold">{t("orderConfirmed")}</h1>
-            <p className="text-muted-foreground">
-              {t("orderConfirmedDescription")}
-            </p>
-            <div className="space-y-3">
-              <Button asChild className="w-full btn-gradient text-white">
-                <Link to="/shop">{t("continueShopping")}</Link>
-              </Button>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
+    window.location.href = "/success-ordering";
   }
 
   return (
@@ -300,7 +281,6 @@ const Checkout = () => {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-
             <CouponCheck setCoupon={setCoupon} />
             <Card className="card-elegant sticky top-20">
               <CardHeader>
@@ -310,7 +290,7 @@ const Checkout = () => {
                 {/* Cart Items */}
                 <div className="space-y-3  max-h-[400px] overflow-y-auto">
                   {items.map((item) => (
-                    <div key={item.id} className="flex gap-3 items-center">
+                    <Link to={`/product/${item.slug}`} key={item.id} className="flex gap-3 items-center">
                       <Image
                         src={item.image}
                         alt={getName(item.name)}
@@ -327,7 +307,7 @@ const Checkout = () => {
                           </p>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
 
