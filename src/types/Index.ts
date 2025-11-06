@@ -256,6 +256,11 @@ export interface IResult {
   }[]
 }
 
+export type IStory = {
+  title: boolean
+  description: string
+  image: string
+}
 export type HomePageData = {
   settings: ISettings
   categories: Category[];
@@ -267,6 +272,7 @@ export type HomePageData = {
   how_we_works: IWhyChooseUs[];
   top_products: IProduct[];
   real_results: IResult[];
+  our_story: IStory;
   appointment_types: string[];
   customer_rates: ITestimonial[];
   why_choose_us: IWhyChooseUs[];
