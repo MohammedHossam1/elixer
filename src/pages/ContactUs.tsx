@@ -72,7 +72,7 @@ const ContactUs = () => {
       icon: MapPin,
       title: t('contact.address'),
       content: contactData.address,
-      link: null,
+      link: contactData.address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contactData.address)}` : null,
     },
   ];
 

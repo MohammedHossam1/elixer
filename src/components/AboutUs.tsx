@@ -8,7 +8,7 @@ const AboutUs = ({ data }: { data: IAbout }) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language
   return (
-    <section className="py-10 lg:py-12 bg-gradient-hero overflow-x-hidden">
+    <section className="py-10 lg:py-12  overflow-x-hidden">
       <div className="container mx-auto px-2 lg:px-6 ">
         {/* Header */}
         <div className="text-center mb-12 lg:mb-16">

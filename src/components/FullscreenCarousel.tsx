@@ -118,7 +118,7 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
       </button>
 
       {/* Dots Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+      <div className="absolute bottom-20  left-1/2 -translate-x-1/2 flex gap-3 z-20">
         {finalData.map((_, index) => (
           <button
             key={index}
@@ -131,6 +131,22 @@ const FullscreenCarousel = ({ data }: { data: IHeroSlider[] }) => {
         ))}
       </div>
 
+      {/* Wave Shape at Bottom */}
+      <div className="absolute -bottom-1  left-0 w-full z-10">
+        <svg
+          className="w-full h-auto block"
+          viewBox="0 0 1440 120"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,96L48,90.7C96,85,192,75,288,69.3C384,64,480,64,576,69.3C672,75,768,85,864,85.3C960,85,1056,75,1152,69.3C1248,64,1344,64,1392,64L1440,64L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"
+            fill="white"
+            className="transition-all duration-1000"
+          />
+        </svg>
+      </div>
 
     </section>
   );

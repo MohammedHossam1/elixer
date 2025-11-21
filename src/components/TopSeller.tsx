@@ -36,7 +36,7 @@ const TopSeller = ({ data }: { data: IProduct[] }) => {
   const isArOrHe = i18n.language === 'ar' || i18n.language === 'he';
 
   return (
-    <section className="py-10 lg:py-12 bg-backgroun overflow-x-hiddend">
+    <section className="py-10 lg:py-12 bg-gradient-hero overflow-x-hiddend">
       <div className="container mx-auto px-2 lg:px-6 ">
         {/* Header */}
         <div className="text-center mb-12 lg:mb-16">
@@ -58,17 +58,17 @@ const TopSeller = ({ data }: { data: IProduct[] }) => {
             {data.map((item) => (
               <CarouselItem
                 key={item.id}
-                className=" basis-1/3 pt-10 lg:py-10"
+                className=" basis-1/3  pt-10 lg:py-10"
               >
                 <Link to={`/product/${item.slug}`} className="group text-center cursor-pointer transition-all duration-300 hover:scale-105">
                   {/* Circle Image */}
                   <div className="relative mb-6">
-                    <div className="size-28 sm:w-40 sm:h-40 md:w-60 md:h-60 lg:w-80 lg:h-80 mx-auto rounded-full bg-gradient-to-br from-muted/30 to-muted/60 p-6 sm:p-8 transition-all duration-300 group-hover:shadow-elegant">
+                    <div className="size-28 sm:w-40 sm:h-40 md:w-60 md:h-60 lg:w-80 lg:h-80 mx-auto rounded-full border bg-gradient-to-br from-muted/30 to-muted/60 p-6 sm:p-8 transition-all duration-300 group-hover:shadow-elegant">
                       <div className="w-full h-full flex items-center justify-center">
                         <Image
                           src={item.image}
                           alt={getName(item.name)}
-                          className="w-full h-full !object-contain rounded-full transition-all duration-300 group-hover:scale-110"
+                          className="w-full h-full  !object-contain rounded-full transition-all duration-300 group-hover:scale-110"
                         />
                       </div>
                     </div>
