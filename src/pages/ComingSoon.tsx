@@ -109,58 +109,58 @@ const ComingSoon = () => {
         </h2>
 
         {/* Subtitle */}
-        <p className={`text-xl sm:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto ${isArabic ? "font-almarai" : ""}`}>
+        <p className={`text-lg sm:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto ${isArabic ? "font-almarai" : ""}`}>
           {t("comingSoon.subtitle")}
         </p>
 
         {/* Countdown Timer */}
-        <div className="mb-12">
+        <div className="mb-6 sm:mb-12">
           <div className="flex items-center justify-center gap-4 sm:gap-6 mb-6">
-            <Clock className="text-rose-gold w-6 h-6 sm:w-8 sm:h-8" />
+            <Clock className=" w-6 h-6 sm:w-8 sm:h-8" />
             <p className={`text-lg sm:text-xl font-semibold text-foreground ${isArabic ? "font-almarai" : ""}`}>
               {t("comingSoon.launchingAt")}
             </p>
           </div>
 
           <div
-            className={`flex gap-4 sm:gap-6 lg:gap-8 justify-center ${isRTL ? "flex-row-reverse" : ""}`}
+            className={`flex gap-2 sm:gap-6 max-w-6xl mx-auto lg:gap-6 justify-center ${isRTL ? "flex-row-reverse" : ""}`}
           >
             {/* Days */}
-            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-elegant border border-border min-w-[80px] sm:min-w-[100px]">
-              <div className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-gold mb-2 ${isArabic ? "font-almarai" : ""}`}>
+            <div className="bg-white flex-1 rounded-2xl py-2 sm:p-6 shadow-elegant border border-border  sm:min-w-[100px]">
+              <div className={`text-2xl sm:text-4xl lg:text-5xl font-bold text-rose-gold lg:mb-2 ${isArabic ? "font-almarai" : ""}`}>
                 {formatTime(timeLeft.days)}
               </div>
-              <div className={`text-sm sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
+              <div className={`text-xs sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
                 {t("comingSoon.days")}
               </div>
             </div>
 
             {/* Hours */}
-            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-elegant border border-border min-w-[80px] sm:min-w-[100px]">
-              <div className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-gold mb-2 ${isArabic ? "font-almarai" : ""}`}>
+            <div className="bg-white flex-1 rounded-2xl py-2 sm:p-6 shadow-elegant border border-border  sm:min-w-[100px]">
+              <div className={`text-2xl sm:text-4xl lg:text-5xl font-bold text-rose-gold lg:mb-2 ${isArabic ? "font-almarai" : ""}`}>
                 {formatTime(timeLeft.hours)}
               </div>
-              <div className={`text-sm sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
+              <div className={`text-xs sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
                 {t("comingSoon.hours")}
               </div>
             </div>
 
             {/* Minutes */}
-            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-elegant border border-border min-w-[80px] sm:min-w-[100px]">
-              <div className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-gold mb-2 ${isArabic ? "font-almarai" : ""}`}>
+            <div className="bg-white flex-1 rounded-2xl py-2 sm:p-6 shadow-elegant border border-border  sm:min-w-[100px]">
+              <div className={`text-2xl sm:text-4xl lg:text-5xl font-bold text-rose-gold lg:mb-2 ${isArabic ? "font-almarai" : ""}`}>
                 {formatTime(timeLeft.minutes)}
               </div>
-              <div className={`text-sm sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
+              <div className={`text-xs sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
                 {t("comingSoon.minutes")}
               </div>
             </div>
 
             {/* Seconds */}
-            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-elegant border border-border min-w-[80px] sm:min-w-[100px]">
-              <div className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-gold mb-2 ${isArabic ? "font-almarai" : ""}`}>
+            <div className="bg-white flex-1 rounded-2xl py-2 sm:p-6 shadow-elegant border border-border  sm:min-w-[100px]">
+              <div className={`text-2xl sm:text-4xl lg:text-5xl font-bold text-rose-gold lg:mb-2 ${isArabic ? "font-almarai" : ""}`}>
                 {formatTime(timeLeft.seconds)}
               </div>
-              <div className={`text-sm sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
+              <div className={`text-xs sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
                 {t("comingSoon.seconds")}
               </div>
             </div>
@@ -168,7 +168,7 @@ const ComingSoon = () => {
         </div>
 
         {/* Footer Message */}
-        <p className={`mt-12  text-sm ${isArabic ? "font-almarai" : ""}`}>
+        <p className={`mt-12  text-xs ${isArabic ? "font-almarai" : ""}`}>
           {t("comingSoon.footer")}
         </p>
       </div>
