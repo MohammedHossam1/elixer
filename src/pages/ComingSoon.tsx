@@ -8,6 +8,7 @@ const ComingSoon = () => {
   const isRTL = i18n.language === "ar" || i18n.language === "he";
   const isArabic = i18n.language === "ar";
   const [timeLeft, setTimeLeft] = useState({
+    days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0,
@@ -24,19 +25,45 @@ const ComingSoon = () => {
   useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
-      const today6PM = new Date();
-      today6PM.setHours(18, 0, 0, 0); // 6 PM today
+      const nextThursday10PM = new Date();
+      
+      // Find next Thursday at 10 PM
+      const currentDay = now.getDay(); // 0 = Sunday, 4 = Thursday
+      let daysUntilThursday;
+      
+      if (currentDay < 4) {
+        // If today is before Thursday, get days until this Thursday
+        daysUntilThursday = 4 - currentDay;
+      } else if (currentDay === 4) {
+        // If today is Thursday, check if it's before 10 PM
+        if (now.getHours() < 22 || (now.getHours() === 22 && now.getMinutes() === 0 && now.getSeconds() === 0)) {
+          // It's Thursday but before 10 PM, use today
+          daysUntilThursday = 0;
+        } else {
+          // It's Thursday but after 10 PM, use next Thursday
+          daysUntilThursday = 7;
+        }
+      } else {
+        // If today is after Thursday, get next week's Thursday
+        daysUntilThursday = 4 - currentDay + 7;
+      }
+      
+      nextThursday10PM.setDate(now.getDate() + daysUntilThursday);
+      nextThursday10PM.setHours(22, 0, 0, 0); // 10 PM
+      nextThursday10PM.setMinutes(0, 0, 0);
+      nextThursday10PM.setSeconds(0, 0);
 
-      const difference = today6PM.getTime() - now.getTime();
+      const difference = nextThursday10PM.getTime() - now.getTime();
 
       if (difference > 0) {
-        const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((difference / 1000 / 60) % 60);
-        const seconds = Math.floor((difference / 1000) % 60);
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-        setTimeLeft({ hours, minutes, seconds });
+        setTimeLeft({ days, hours, minutes, seconds });
       } else {
-        setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         // Reload page when time is up
         window.location.href = "/";
       }
@@ -98,6 +125,16 @@ const ComingSoon = () => {
           <div
             className={`flex gap-4 sm:gap-6 lg:gap-8 justify-center ${isRTL ? "flex-row-reverse" : ""}`}
           >
+            {/* Days */}
+            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-elegant border border-border min-w-[80px] sm:min-w-[100px]">
+              <div className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-gold mb-2 ${isArabic ? "font-almarai" : ""}`}>
+                {formatTime(timeLeft.days)}
+              </div>
+              <div className={`text-sm sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
+                {t("comingSoon.days")}
+              </div>
+            </div>
+
             {/* Hours */}
             <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-elegant border border-border min-w-[80px] sm:min-w-[100px]">
               <div className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-gold mb-2 ${isArabic ? "font-almarai" : ""}`}>
