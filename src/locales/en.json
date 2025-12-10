@@ -327,5 +327,20 @@
     "chapter1Paragraph1": "In 2020, our founder discovered the transformative power of combining natural ingredients with modern science. Frustrated by products filled with harsh chemicals and empty promises, she embarked on a mission to create something different.",
     "chapter1Paragraph2": "What started in a small laboratory with a handful of formulations has grown into a movement. A movement that believes skincare should be effective, sustainable, and accessible to everyone who dreams of healthy, radiant skin.",
     "chapter1ImageAlt": "Our founder's journey"
+  },
+  "comingSoon": {
+    "title": "Coming Soon | ELIXIR",
+    "description": "We're launching soon! Stay tuned for our premium beauty products.",
+    "heading": "We're Coming Soon",
+    "subtitle": "Something beautiful is on the way. Get ready to discover your natural beauty with our premium cosmetics collection.",
+    "launchingAt": "Launching Today at 6:00 PM",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "notifyMe": "Get notified when we launch",
+    "emailPlaceholder": "Enter your email address",
+    "notify": "Notify Me",
+    "emailSuccess": "Thank you! We'll notify you when we launch.",
+    "footer": "We're crafting something special for you. Stay tuned!"
   }
 }

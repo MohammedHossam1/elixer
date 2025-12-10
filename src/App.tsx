@@ -13,6 +13,7 @@ import FooterLegalPage from "./pages/FooterLegalPage";
 import OurStory from "./pages/OurStory";
 import Products from "./pages/Products";
 import SuccessOrdering from './pages/SuccessOrdering';
+import { useComingSoon } from "./hooks/useComingSoon";
 
 // 👇 Lazy imports for pages
 const Index = lazy(() => import("./pages/Index"));
@@ -22,6 +23,7 @@ const Checkout = lazy(() => import("./pages/Checkout"));
 const Shop = lazy(() => import("./pages/Shop"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
 const FAQ = lazy(() => import("./pages/FAQ"));
+const ComingSoon = lazy(() => import("./pages/ComingSoon"));
 // Query Client
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,33 +33,48 @@ const queryClient = new QueryClient({
     } as any,
   },
 });
+const AppContent = () => {
+  const showComingSoon = useComingSoon();
+
+  if (showComingSoon) {
+    return (
+      <Suspense fallback={<Loader />}>
+        <ComingSoon />
+      </Suspense>
+    );
+  }
+
+  return (
+    <BrowserRouter>
+      <StartPageTop />
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Index />} />
+            <Route path="product/:slug" element={<ProductDetail />} />
+            <Route path="checkout" element={<Checkout />} />
+            <Route path="shop" element={<Shop />} />
+            <Route path="contact" element={<ContactUs />} />
+            <Route path="/our-story" element={<OurStory />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/success-ordering" element={<SuccessOrdering />} />
+            <Route path="/legals/:slug" element={<FooterLegalPage />} />
+            <Route path="faq" element={<FAQ />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <WishlistProvider>
         <CartProvider>
-          
           <Toaster />
-          <BrowserRouter>
-            <StartPageTop />
-            <Suspense fallback={<Loader />}>
-              <Routes>
-                <Route path="/" element={<Layout />}>
-                  <Route index element={<Index />} />
-                  <Route path="product/:slug" element={<ProductDetail />} />
-                  <Route path="checkout" element={<Checkout />} />
-                  <Route path="shop" element={<Shop />} />
-                  <Route path="contact" element={<ContactUs />} />
-                  <Route path="/our-story" element={<OurStory />} />
-                  <Route path="/products" element={<Products />} />
-                  <Route path="/success-ordering" element={<SuccessOrdering />} />
-                  <Route path="/legals/:slug" element={<FooterLegalPage />} />
-                  <Route path="faq" element={<FAQ />} />
-                  <Route path="*" element={<NotFound />} />
-                </Route>
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
+          <AppContent />
         </CartProvider>
       </WishlistProvider>
     </TooltipProvider>

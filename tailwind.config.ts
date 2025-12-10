@@ -17,6 +17,7 @@ export default {
         // 'script': ['Dancing Script', 'cursive'],
         'script': ['"Caveat"', 'cursive'], // خليه Caveat
         'inter': ["Roboto Condensed", 'sans-serif'],
+        'almarai': ['Almarai', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
