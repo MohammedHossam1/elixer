@@ -3,7 +3,6 @@ export const footerLinks = {
     "customerTitle": [
         { name: "contactUs", href: "/contact" },
         { name: "faq", href: "/faq" },
-        { name: "shipping", href: "/shipping" },
         { name: "ourStory", href: "/our-story" },
     ],
     "legals": [

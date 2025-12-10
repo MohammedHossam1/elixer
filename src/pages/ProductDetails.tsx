@@ -214,11 +214,11 @@ const ProductDetail = () => {
             {/* Price */}
             <div className="flex items-center gap-2">
               <span className="text-base lg:text-lg font-bold text-foreground">
-                ${((product.price - (product.price * Number(product.discount) / 100))).toFixed(2)}
+                ₪{((product.price - (product.price * Number(product.discount) / 100))).toFixed(2)}
               </span>
               {product.price && (
                 <span className="text-sm text-muted-foreground line-through">
-                  ${Number(product.price).toFixed(2)}
+                  ₪{Number(product.price).toFixed(2)}
                 </span>
               )}
             </div>
@@ -265,7 +265,7 @@ const ProductDetail = () => {
                   size="lg"
                 >
                   <ShoppingBag className="h-5 w-5 mr-2" />
-                  {t("addToCart")} - ${(Number(product.price) * quantity).toFixed(2)}
+                  {t("addToCart")} - ₪{(Number(product.price) * quantity).toFixed(2)}
                 </Button>
                 <Button
                   variant="outline"
