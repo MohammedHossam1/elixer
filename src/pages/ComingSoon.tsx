@@ -1,4 +1,4 @@
-import { Clock, Facebook, Instagram, Mail } from "lucide-react";
+import { Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
@@ -70,10 +70,10 @@ const ComingSoon = () => {
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Logo/Brand */}
         <div className="mb-8">
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground mb-4 font-script">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-primary mb-4 !font-script">
             ELIXIR
           </h1>
-          <div className="w-32 h-1 bg-rose-gold mx-auto mt-4 rounded-full" />
+          <div className="w-32 h-1 bg-primary mx-auto mt-4 rounded-full" />
         </div>
 
         {/* Main Heading */}
@@ -130,52 +130,13 @@ const ComingSoon = () => {
           </div>
         </div>
 
-        {/* Social Media */}
-        <div className="flex gap-6 justify-center items-center">
-          <a
-            href="#"
-            className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-card border border-border hover:bg-muted transition-colors"
-            aria-label="Facebook"
-          >
-            <Facebook className="text-rose-gold w-5 h-5" />
-          </a>
-          <a
-            href="#"
-            className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-card border border-border hover:bg-muted transition-colors"
-            aria-label="Instagram"
-          >
-            <Instagram className="text-rose-gold w-5 h-5" />
-          </a>
-          <a
-            href="#"
-            className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-card border border-border hover:bg-muted transition-colors"
-            aria-label="Email"
-          >
-            <Mail className="text-rose-gold w-5 h-5" />
-          </a>
-        </div>
-
         {/* Footer Message */}
-        <p className={`mt-12 text-muted-foreground text-sm ${isArabic ? "font-almarai" : ""}`}>
+        <p className={`mt-12  text-sm ${isArabic ? "font-almarai" : ""}`}>
           {t("comingSoon.footer")}
         </p>
       </div>
 
-      {/* Bottom Wave */}
-      <div className="absolute bottom-0 left-0 w-full z-0">
-        <svg
-          className="w-full h-auto block"
-          viewBox="0 0 1440 120"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0,96L48,90.7C96,85,192,75,288,69.3C384,64,480,64,576,69.3C672,75,768,85,864,85.3C960,85,1056,75,1152,69.3C1248,64,1344,64,1392,64L1440,64L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"
-            fill="white"
-          />
-        </svg>
-      </div>
+    
     </div>
   );
 };
