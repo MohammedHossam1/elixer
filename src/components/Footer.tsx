@@ -93,7 +93,7 @@ const Footer = ({ data }: { data: ISettings }) => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-1 text-sm text-muted-foreground">
               {t('footer.madeWith')}  <Heart className="h-4 w-4 text-rose-gold fill-rose-gold" />{t('footer.by')}
-              <Link to="https://qadi-tech.com/home" target="_blank">Qadi-tech</Link>
+              <Link to="https://qadi-tech.com" target="_blank">Qadi-tech</Link>
             </div>
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} Elixir . {t('footer.allRightsReserved')}

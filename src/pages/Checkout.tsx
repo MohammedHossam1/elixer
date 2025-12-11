@@ -25,7 +25,7 @@ import { checkoutSchema } from "@/schemas";
 import { IAdrress } from "@/types/Index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, Shield, Truck } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -53,6 +53,26 @@ const Checkout = () => {
   });
   const { register, handleSubmit, formState: { errors } } = form;
   const { mutateAsync, isPending } = usePostCheckout();
+
+  // Show toast for form errors - only for read_conditions
+  useEffect(() => {
+    // Only show toast for read_conditions error
+    const errorEntries = Object.entries(errors).filter(
+      ([fieldName, error]) => error?.message && fieldName === "read_conditions"
+    );
+    
+    if (errorEntries.length > 0) {
+      // Show toast for read_conditions error only
+      errorEntries.forEach(([fieldName, error]) => {
+        if (error?.message) {
+          toast.error(error.message, {
+            duration: 4000,
+            id: `error-${fieldName}`, // Use unique ID to prevent duplicates
+          });
+        }
+      });
+    }
+  }, [errors]);
 
   const handlePlaceOrder = async (data: z.infer<typeof schema>) => {
     try {
