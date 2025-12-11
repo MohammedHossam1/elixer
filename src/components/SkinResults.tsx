@@ -8,7 +8,7 @@ import Image from "./shared/Image";
 
 
 const SkinResults = ({ data }: { data: IResult[] }) => {
-  const { t , i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
   if (!data) return null
   return (
@@ -93,13 +93,14 @@ const SkinResults = ({ data }: { data: IResult[] }) => {
                   <h4 className="font-semibold text-foreground">{t('skinResults.productsUsed')}</h4>
                   <div className="flex flex-wrap gap-2">
                     {result.products.map((product, productIndex) => (
-                      <Badge
-                        key={productIndex}
-                        variant="secondary"
-                        className="px-3 py-1 text-xs bg-primary/10 text-primary hover:bg-primary/20"
-                      >
-                        {product.name}
-                      </Badge>
+                      <Link to={`/product/${product.slug}`} key={productIndex}>
+                        <Badge
+                          variant="secondary"
+                          className="px-3 py-1 text-xs bg-primary/10 text-primary hover:bg-primary/20"
+                        >
+                          {product.name}
+                        </Badge>
+                      </Link>
                     ))}
                   </div>
                 </div>
