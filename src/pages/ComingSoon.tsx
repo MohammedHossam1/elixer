@@ -13,6 +13,7 @@ const ComingSoon = () => {
     minutes: 0,
     seconds: 0,
   });
+  const [showCountdown, setShowCountdown] = useState(true);
 
   // Set HTML lang and dir attributes
   useEffect(() => {
@@ -25,35 +26,23 @@ const ComingSoon = () => {
   useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
-      const nextSaturday10AM = new Date();
+      const today1030AM = new Date();
       
-      // Find next Saturday at 10 AM
-      const currentDay = now.getDay(); // 0 = Sunday, 6 = Saturday
-      let daysUntilSaturday;
-      
-      if (currentDay < 6) {
-        // If today is before Saturday, get days until this Saturday
-        daysUntilSaturday = 6 - currentDay;
-      } else if (currentDay === 6) {
-        // If today is Saturday, check if it's before 10 AM
-        if (now.getHours() < 10 || (now.getHours() === 10 && now.getMinutes() === 0 && now.getSeconds() === 0)) {
-          // It's Saturday but before 10 AM, use today
-          daysUntilSaturday = 0;
-        } else {
-          // It's Saturday but after 10 AM, use next Saturday
-          daysUntilSaturday = 7;
-        }
-      } else {
-        // If today is after Saturday (Sunday), get next week's Saturday
-        daysUntilSaturday = 6 - currentDay + 7;
-      }
-      
-      nextSaturday10AM.setDate(now.getDate() + daysUntilSaturday);
-      nextSaturday10AM.setHours(10, 0, 0, 0); // 10 AM
-      nextSaturday10AM.setMinutes(0, 0, 0);
-      nextSaturday10AM.setSeconds(0, 0);
+      // Set to today at 10:30 AM
+      today1030AM.setHours(11, 0, 0, 0);
 
-      const difference = nextSaturday10AM.getTime() - now.getTime();
+      // Check if countdown should be hidden (10:40 AM = 10:30 + 10 minutes)
+      const today1040AM = new Date();
+      today1040AM.setHours(10, 40, 0, 0);
+      
+      if (now >= today1040AM) {
+        setShowCountdown(false);
+        return;
+      }
+
+      setShowCountdown(true);
+
+      const difference = today1030AM.getTime() - now.getTime();
 
       if (difference > 0) {
         const days = Math.floor(difference / (1000 * 60 * 60 * 24));
@@ -114,58 +103,60 @@ const ComingSoon = () => {
         </p>
 
         {/* Countdown Timer */}
-        <div className="mb-6 sm:mb-12">
-          <div className="flex items-center justify-center gap-4 sm:gap-6 mb-6">
-            <Clock className=" w-6 h-6 sm:w-8 sm:h-8" />
-            <p className={`text-lg sm:text-xl font-semibold text-foreground ${isArabic ? "font-almarai" : ""}`}>
-              {t("comingSoon.launchingAt")}
-            </p>
+        {showCountdown && (
+          <div className="mb-6 sm:mb-12">
+            <div className="flex items-center justify-center gap-4 sm:gap-6 mb-6">
+              <Clock className=" w-6 h-6 sm:w-8 sm:h-8" />
+              <p className={`text-lg sm:text-xl font-semibold text-foreground ${isArabic ? "font-almarai" : ""}`}>
+                {t("comingSoon.launchingAt")}
+              </p>
+            </div>
+
+            <div
+              className={`flex gap-2 sm:gap-6 max-w-6xl mx-auto lg:gap-6 justify-center ${isRTL ? "flex-row-reverse" : ""}`}
+            >
+              {/* Days */}
+              <div className="bg-white flex-1 rounded-2xl py-2 sm:p-6 shadow-elegant border border-border  sm:min-w-[100px]">
+                <div className={`text-2xl sm:text-4xl lg:text-5xl font-bold text-rose-gold lg:mb-2 ${isArabic ? "font-almarai" : ""}`}>
+                  {formatTime(timeLeft.days)}
+                </div>
+                <div className={`text-xs sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
+                  {t("comingSoon.days")}
+                </div>
+              </div>
+
+              {/* Hours */}
+              <div className="bg-white flex-1 rounded-2xl py-2 sm:p-6 shadow-elegant border border-border  sm:min-w-[100px]">
+                <div className={`text-2xl sm:text-4xl lg:text-5xl font-bold text-rose-gold lg:mb-2 ${isArabic ? "font-almarai" : ""}`}>
+                  {formatTime(timeLeft.hours)}
+                </div>
+                <div className={`text-xs sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
+                  {t("comingSoon.hours")}
+                </div>
+              </div>
+
+              {/* Minutes */}
+              <div className="bg-white flex-1 rounded-2xl py-2 sm:p-6 shadow-elegant border border-border  sm:min-w-[100px]">
+                <div className={`text-2xl sm:text-4xl lg:text-5xl font-bold text-rose-gold lg:mb-2 ${isArabic ? "font-almarai" : ""}`}>
+                  {formatTime(timeLeft.minutes)}
+                </div>
+                <div className={`text-xs sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
+                  {t("comingSoon.minutes")}
+                </div>
+              </div>
+
+              {/* Seconds */}
+              <div className="bg-white flex-1 rounded-2xl py-2 sm:p-6 shadow-elegant border border-border  sm:min-w-[100px]">
+                <div className={`text-2xl sm:text-4xl lg:text-5xl font-bold text-rose-gold lg:mb-2 ${isArabic ? "font-almarai" : ""}`}>
+                  {formatTime(timeLeft.seconds)}
+                </div>
+                <div className={`text-xs sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
+                  {t("comingSoon.seconds")}
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div
-            className={`flex gap-2 sm:gap-6 max-w-6xl mx-auto lg:gap-6 justify-center ${isRTL ? "flex-row-reverse" : ""}`}
-          >
-            {/* Days */}
-            <div className="bg-white flex-1 rounded-2xl py-2 sm:p-6 shadow-elegant border border-border  sm:min-w-[100px]">
-              <div className={`text-2xl sm:text-4xl lg:text-5xl font-bold text-rose-gold lg:mb-2 ${isArabic ? "font-almarai" : ""}`}>
-                {formatTime(timeLeft.days)}
-              </div>
-              <div className={`text-xs sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
-                {t("comingSoon.days")}
-              </div>
-            </div>
-
-            {/* Hours */}
-            <div className="bg-white flex-1 rounded-2xl py-2 sm:p-6 shadow-elegant border border-border  sm:min-w-[100px]">
-              <div className={`text-2xl sm:text-4xl lg:text-5xl font-bold text-rose-gold lg:mb-2 ${isArabic ? "font-almarai" : ""}`}>
-                {formatTime(timeLeft.hours)}
-              </div>
-              <div className={`text-xs sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
-                {t("comingSoon.hours")}
-              </div>
-            </div>
-
-            {/* Minutes */}
-            <div className="bg-white flex-1 rounded-2xl py-2 sm:p-6 shadow-elegant border border-border  sm:min-w-[100px]">
-              <div className={`text-2xl sm:text-4xl lg:text-5xl font-bold text-rose-gold lg:mb-2 ${isArabic ? "font-almarai" : ""}`}>
-                {formatTime(timeLeft.minutes)}
-              </div>
-              <div className={`text-xs sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
-                {t("comingSoon.minutes")}
-              </div>
-            </div>
-
-            {/* Seconds */}
-            <div className="bg-white flex-1 rounded-2xl py-2 sm:p-6 shadow-elegant border border-border  sm:min-w-[100px]">
-              <div className={`text-2xl sm:text-4xl lg:text-5xl font-bold text-rose-gold lg:mb-2 ${isArabic ? "font-almarai" : ""}`}>
-                {formatTime(timeLeft.seconds)}
-              </div>
-              <div className={`text-xs sm:text-base text-muted-foreground uppercase tracking-wide ${isArabic ? "font-almarai" : ""}`}>
-                {t("comingSoon.seconds")}
-              </div>
-            </div>
-          </div>
-        </div>
+        )}
 
         {/* Footer Message */}
         <p className={`mt-12  text-xs ${isArabic ? "font-almarai" : ""}`}>

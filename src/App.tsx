@@ -36,13 +36,13 @@ const queryClient = new QueryClient({
 const AppContent = () => {
   const showComingSoon = useComingSoon();
 
-  // if (showComingSoon) {
-  //   return (
-  //     <Suspense fallback={<Loader />}>
-  //       <ComingSoon />
-  //     </Suspense>
-  //   );
-  // }
+  if (showComingSoon) {
+    return (
+      <Suspense fallback={<Loader />}>
+        <ComingSoon />
+      </Suspense>
+    );
+  }
 
   return (
     <BrowserRouter>
