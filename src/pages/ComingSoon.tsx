@@ -33,7 +33,7 @@ const ComingSoon = () => {
 
       // Check if countdown should be hidden (10:40 AM = 10:30 + 10 minutes)
       const today1040AM = new Date();
-      today1040AM.setHours(10, 40, 0, 0);
+      today1040AM.setHours(11, 0, 0, 0);
       
       if (now >= today1040AM) {
         setShowCountdown(false);
