@@ -15,7 +15,7 @@ export const checkoutSchema = (t: any) =>
       email: z
         .string()
         .trim()
-        .email({ message: t("validation.emailInvalid") }),
+        .optional(),
       phone: z
         .string()
         .trim()

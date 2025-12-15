@@ -34,7 +34,7 @@ const Footer = ({ data }: { data: ISettings }) => {
               </div>}
               {data?.contact.mobile && <div className="flex items-center gap-3 text-sm">
                 <Phone className="h-4 w-4 text-rose-gold flex-shrink-0" />
-                <span className="text-muted-foreground">{data?.contact.mobile}</span>
+                <span dir="ltr" className="text-muted-foreground">{data?.contact.mobile}</span>
               </div>}
               {data?.contact.email && <div className="flex items-center gap-3 text-sm">
                 <Mail className="h-4 w-4 text-rose-gold flex-shrink-0" />
