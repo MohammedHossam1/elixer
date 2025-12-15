@@ -13,7 +13,7 @@ export const useComingSoon = () => {
       const today1030AM = new Date();
       
       // Set to today at 10:30 AM
-      today1030AM.setHours(11, 0, 0, 0);
+      today1030AM.setHours(10, 57, 0, 0);
 
       // If current time is before today 10:30 AM, show coming soon
       setShowComingSoon(now < today1030AM);
