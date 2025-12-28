@@ -50,6 +50,7 @@ const FilteredProductsCategories = ({
                                 <TabsTrigger
                                     value={String(category.id)}
                                     className="text-xs sm:text-sm border min-w-[100px] font-medium data-[state=active]:bg-primary hover:bg-primary hover:text-white data-[state=active]:text-white px-2 py-3 sm:px-4"
+                                    aria-label={category.name}
                                 >
                                     {category.name}
                                 </TabsTrigger>
@@ -66,7 +67,7 @@ const FilteredProductsCategories = ({
                     <TabsContent key={category.id} value={String(category.id)} className="mt-8">
                         {getFilteredProducts(String(category.id)).length > 0 ? <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 lg:gap-4">
                             {getFilteredProducts(String(category.id)).map((product, ind) => (
-                                <ProductCard key={ind} {...product} />
+                                <ProductCard key={ind} {...product} aria-label={product.name} />
                             ))}
                         </div> : <p className="text-muted-foreground text-center mx-auto pb-10  w-fit text-sm">{t("noProducts")}</p>}
                     </TabsContent>
