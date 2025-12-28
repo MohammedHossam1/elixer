@@ -58,6 +58,7 @@ const SearchComponent = ({ setIsOpen }: { setIsOpen?: (isOpen: boolean) => void 
                   setFilteredResults([]);
                 }}
                 className="absolute end-1 text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Close Search"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -134,6 +135,7 @@ const SearchComponent = ({ setIsOpen }: { setIsOpen?: (isOpen: boolean) => void 
                 size="icon"
                 className="hover:!bg-primary/40"
                 onClick={() => setIsSearchOpen(true)}
+                aria-label="Search"
               >
                 <Search className="h-4 w-4" />
               </Button>

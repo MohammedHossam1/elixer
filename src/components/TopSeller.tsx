@@ -67,8 +67,9 @@ const TopSeller = ({ data }: { data: IProduct[] }) => {
                       <div className="w-full h-full flex items-center justify-center">
                         <Image
                           src={item.image}
-                          alt={getName(item.name)}
+                          alt={getName(item.name)||"product image"}
                           className="w-full h-full  !object-contain rounded-full transition-all duration-300 group-hover:scale-110"
+                          aria-label={getName(item.name) || "product image"}
                         />
                       </div>
                     </div>
@@ -98,6 +99,7 @@ const TopSeller = ({ data }: { data: IProduct[] }) => {
               onClick={() => api?.scrollTo(index)}
               className={`w-3 h-3 rounded-full transition-colors ${current === index ? "bg-primary" : "bg-muted"
                 }`}
+              aria-label={`Go to slide ${index + 1}`}
             />
           ))}
         </div>
@@ -112,6 +114,7 @@ const TopSeller = ({ data }: { data: IProduct[] }) => {
               size="lg"
               variant="outline"
               className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-6 text-base font-semibold"
+              aria-label="Shop Collection"
             >
               {t("topSeller.bottom.cta")}
             </Button>

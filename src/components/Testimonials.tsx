@@ -58,6 +58,7 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
                     onClick={() => setCurrentTestimonial(index)}
                     key={index}
                     className="aspect-square rounded-lg overflow-hidden bg-muted hover:transform hover:scale-105 transition-all duration-300 cursor-pointer"
+                    aria-label={`Go to testimonial ${index + 1}`}
                   >
                     <Image
                       fallbackSrc={fallbackImg}
@@ -131,6 +132,7 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
                   variant="ghost"
                   onClick={prevTestimonial}
                   className="flex items-center space-x-1 sm:space-x-2 text-muted-foreground hover:text-foreground"
+                  aria-label="Previous Testimonial"
                 >
                   <ChevronLeft
                     className={`w-4 h-4 sm:w-5 sm:h-5 ${lang != "en" && "rotate-180"}`}
@@ -150,7 +152,8 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
                           ? "bg-primary"
                           : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
                       }`}
-                    />
+                      aria-label={`Go to testimonial ${index + 1}`}
+                      />
                   ))}
                 </div>
 
@@ -158,6 +161,7 @@ const Testimonials = ({ data }: { data: ITestimonial[] }) => {
                   variant="ghost"
                   onClick={nextTestimonial}
                   className="flex items-center space-x-1 sm:space-x-2 text-muted-foreground hover:text-foreground"
+                  aria-label="Next Testimonial"
                 >
                   <span className="font-semibold text-sm sm:text-base">
                     {t("testimonials.next")}

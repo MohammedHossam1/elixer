@@ -30,7 +30,7 @@ const BeforeAfterComparison = ({ data }: { data: ICompare }) => {
         <div className="max-w-4xl mx-auto">
           <div className="rounded-2xl shadow-elegant overflow-hidden relative">
             <div className="absolute  z-10 shadow-lg top-5 text-xs md:text-sm right-5 bg-primary/80 text-white px-4 py-2 rounded">
-              <h4>{t('beforeAfterComparison.before')}</h4>
+              <h3>{t('beforeAfterComparison.before')}</h3>
             </div>
             <div className="absolute  z-10 shadow-lg top-5 text-xs md:text-sm  left-5 bg-primary/80 text-white px-4 py-2 rounded">
               <h4>{t('beforeAfterComparison.after')}</h4>

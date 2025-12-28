@@ -45,17 +45,19 @@ const Footer = ({ data }: { data: ISettings }) => {
             {/* Social Media */}
             <div className="flex items-center gap-3">
               {data?.social_media?.facebook && (
-                <Link to={data.social_media.facebook} target="_blank">
+                <Link to={data.social_media.facebook} 
+                aria-label="Facebook"
+                target="_blank">
                   <Facebook className="h-5 w-5 text-muted-foreground hover:text-primary transition-colors duration-200" />
                 </Link>
               )}
               {data?.social_media?.instagram && (
-                <Link to={data.social_media.instagram} target="_blank">
+                <Link to={data.social_media.instagram} aria-label="Instagram" target="_blank">
                   <Instagram className="h-5 w-5 text-muted-foreground hover:text-primary transition-colors duration-200" />
                 </Link>
               )}
               {data?.social_media?.twitter && (
-                <Link to={data.social_media.twitter} target="_blank">
+                <Link to={data.social_media.twitter} aria-label="Twitter" target="_blank">
                   <Twitter className="h-5 w-5 text-muted-foreground hover:text-primary transition-colors duration-200" />
                 </Link>
               )}
@@ -66,13 +68,14 @@ const Footer = ({ data }: { data: ISettings }) => {
             {/* Footer Links */}
             {Object.entries(footerLinks).map(([title, links]) => (
               <div key={title} className="">
-                <h4 className="font-semibold text-lg text-foreground">{t(title)}</h4>
+                <h3 className="font-semibold text-lg text-foreground">{t(title)}</h3>
                 <ul className="space-y-3 mt-4">
                   {links.map((link) => (
                     <li key={link.name}>
                       <a
                         href={link.href}
                         className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                        aria-label={t(link.name)}
                       >
                         {t(link.name)}
                       </a>
@@ -93,7 +96,7 @@ const Footer = ({ data }: { data: ISettings }) => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-1 text-sm text-muted-foreground">
               {t('footer.madeWith')}  <Heart className="h-4 w-4 text-rose-gold fill-rose-gold" />{t('footer.by')}
-              <Link to="https://qadi-tech.com" target="_blank">Qadi-tech</Link>
+              <Link to="https://qadi-tech.com" target="_blank" aria-label="Qadi-tech">Qadi-tech</Link>
             </div>
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} Elixir . {t('footer.allRightsReserved')}

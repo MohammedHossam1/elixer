@@ -172,6 +172,7 @@ const Header = ({ data: settings }: { data: ISettings }) => {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Language Switcher"
                   className="mx-1 hover:!bg-primary/40"
                 >
                   {i18n.language?.toUpperCase?.() || "EN"}
@@ -195,6 +196,7 @@ const Header = ({ data: settings }: { data: ISettings }) => {
               <Button
                 variant="ghost"
                 size="icon"
+                aria-label="Wishlist"
                 className="relative hover:!bg-primary/40"
               >
                 <Heart className="h-5 w-5 text-foreground/70 hover:text-primary transition-colors" />
@@ -211,6 +213,7 @@ const Header = ({ data: settings }: { data: ISettings }) => {
               <Button
                 variant="ghost"
                 size="icon"
+                aria-label="Shopping Cart"
                 className="relative hover:!bg-primary/40"
               >
                 <ShoppingBag className="h-5 w-5 text-foreground/70 hover:text-primary transition-colors" />

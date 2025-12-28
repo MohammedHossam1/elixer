@@ -68,6 +68,7 @@ const ProductCard = ({
       <button
         className={`absolute rounded-xl p-2 flex items-center justify-center top-3 end-3 z-50 w-8 h-8 bg-white/80 hover:bg-white transition-all duration-300 ${isHovered ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
           }`}
+        aria-label="Wishlist"
         onClick={handleToggleWishlist}
       >
         <Heart
