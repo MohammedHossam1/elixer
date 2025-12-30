@@ -272,7 +272,14 @@ const Checkout = () => {
                             htmlFor="read_conditions"
                             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                           >
-                            {t("readConditions")}
+                              {t("iAgreeToThe")}{" "}
+                            <Link to="/legals/terms" className="text-blue-500 hover:text-blue-700 underline">
+                              {t("terms")}
+                            </Link>
+                            {" "}{t("and")}{" "}
+                            <Link to="/legals/privacy" className="text-blue-500 hover:text-blue-700 underline">
+                              {t("privacy")}
+                            </Link>
                           </label>
                         </div>
                         {errors.read_conditions && (

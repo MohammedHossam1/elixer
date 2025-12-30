@@ -316,6 +316,8 @@
   "coupon": "Coupon",
   "readConditions": "I have read and accept the terms and conditions.",
   "pleaseAcceptConditions": "Please accept the terms and conditions.",
+  "iAgreeToThe": "I agree to the",
+  "and": "and",
   "home": {
     "title": "ELIXIR | Skincare & Beauty Products",
     "description": "Premium skincare and beauty products for all skin types."
