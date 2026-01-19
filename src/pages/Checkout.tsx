@@ -41,7 +41,7 @@ const Checkout = () => {
   const { data } = useGetAdresses(i18n.language);
   const schema = checkoutSchema(t);
   const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">("delivery");
-  const [orderPlaced, setOrderPlaced] = useState(false);
+  // const [orderPlaced, setOrderPlaced] = useState(false);
   const [paymentType, setpaymentType] = useState<"cash" | "visa">("cash");
   const { getName } = useName();
   const form = useForm<z.infer<typeof schema>>({
@@ -60,7 +60,7 @@ const Checkout = () => {
     const errorEntries = Object.entries(errors).filter(
       ([fieldName, error]) => error?.message && fieldName === "read_conditions"
     );
-    
+
     if (errorEntries.length > 0) {
       // Show toast for read_conditions error only
       errorEntries.forEach(([fieldName, error]) => {
@@ -93,9 +93,18 @@ const Checkout = () => {
         formData.append(`item[${index}][product_id]`, item.id);
         formData.append(`item[${index}][quantity]`, item.quantity);
       });
-      await mutateAsync(formData);
+      await mutateAsync(formData, {
+        onSuccess: (data) => {
+          if (paymentType === "cash") {
+            window.location.href = "/success-ordering";
+          } else {
+            sessionStorage.setItem("paymentIframe", data.data?.payment_url);
+            window.location.href = `/payment`;
+          }
+        }
+      });
       toast.success(t("orderPlacedDesc"), { duration: 3000 });
-      setOrderPlaced(true);
+      // setOrderPlaced(true);
       scrollTo(0, 0);
       clearCart()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -104,9 +113,6 @@ const Checkout = () => {
     }
   };
 
-  if (orderPlaced) {
-    window.location.href = "/success-ordering";
-  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -251,7 +257,7 @@ const Checkout = () => {
                         <Label htmlFor="cash">{t("cash")}</Label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="visa" disabled id="visa" />
+                        <RadioGroupItem value="visa" id="visa" />
                         <Label htmlFor="visa">{t("visa")}</Label>
                       </div>
                     </RadioGroup>
@@ -272,7 +278,7 @@ const Checkout = () => {
                             htmlFor="read_conditions"
                             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                           >
-                              {t("iAgreeToThe")}{" "}
+                            {t("iAgreeToThe")}{" "}
                             <Link to="/legals/terms" className="text-blue-500 hover:text-blue-700 underline">
                               {t("terms")}
                             </Link>

@@ -155,10 +155,32 @@ export const usePostContact = () => {
     },
   });
 };
+interface CheckoutResponse {
+  address: string;
+  coupon_code: string | null;
+  delivery_fee: number;
+  discount: number;
+  email: string;
+  first_name: string;
+  id: number;
+  items: any[];
+  last_name: string;
+  payment_id: number;
+  payment_method: string;
+  payment_status: string
+  payment_url: string
+  phone: string
+  read_conditions: boolean
+  region_id: string
+  status: string
+  sub_total: number
+  total_price_after_discount: number
+  total_price_before_discount: number
+}
 export const usePostCheckout = () => {
   return useMutation({
-    mutationFn: async (data: any) => {
-      return fetcher({
+    mutationFn: async (data: FormData) => {
+      return fetcher<CheckoutResponse>({
         url: "/orders/checkout",
         method: "POST",
         body: data,

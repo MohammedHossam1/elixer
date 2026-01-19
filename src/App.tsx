@@ -13,6 +13,7 @@ import FooterLegalPage from "./pages/FooterLegalPage";
 import OurStory from "./pages/OurStory";
 import Products from "./pages/Products";
 import SuccessOrdering from './pages/SuccessOrdering';
+import Payment from './pages/Payment';
 
 // 👇 Lazy imports for pages
 const Index = lazy(() => import("./pages/Index"));
@@ -48,6 +49,7 @@ const AppContent = () => {
             <Route path="/our-story" element={<OurStory />} />
             <Route path="/products" element={<Products />} />
             <Route path="/success-ordering" element={<SuccessOrdering />} />
+            <Route path="/payment" element={<Payment />} />
             <Route path="/legals/:slug" element={<FooterLegalPage />} />
             <Route path="faq" element={<FAQ />} />
             <Route path="*" element={<NotFound />} />
