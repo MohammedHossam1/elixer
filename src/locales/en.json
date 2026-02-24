@@ -83,6 +83,12 @@
     "missionTitle": "Our Mission",
     "missionBody": "To deliver professional-grade skincare solutions that transform skin health, providing visible results through scientifically-backed formulas and personalized care routines."
   },
+  "banner": {
+    "title": "Special Offer",
+    "description1": "Order for ",
+    "description2": "₪ 500",
+    "description3": "or more ... delivery is on us"
+  },
   "topSeller": {
     "headingScript": "Best Seller",
     "headingMain": "TOP Products",
