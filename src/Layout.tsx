@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom';
 import Footer from './components/Footer';
 import Header from './components/Header/Index';
 import { useGetHomePage } from './hooks/fetch-hooks';
+import AnnouncementBar from "./components/AnnouncementBar";
 
 const Layout = () => {
     const { i18n } = useTranslation();
@@ -15,15 +16,17 @@ const Layout = () => {
         document.documentElement.dir = (i18n.language === 'ar' || i18n.language === 'he' || i18n.language.startsWith('ar') || i18n.language.startsWith('he')) ? 'rtl' : 'ltr';
         document.documentElement.classList.toggle('lang-ar', isAr);
     }, [i18n.language])
-  
+
     return (
         <div>
-            <motion.div initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }}>
+            <motion.div className={"fixed inset-x-0 z-40"} initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }}>
+                <AnnouncementBar data={data?.data?.news} />
                 <Header data={data?.data?.settings} />
             </motion.div>
+
             <Outlet />
             <Footer data={data?.data?.settings} />
-           
+
         </div>
     )
 }

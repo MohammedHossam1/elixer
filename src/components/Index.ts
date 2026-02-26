@@ -1,4 +1,3 @@
-import { INews } from "@/components/AnnouncementBar";
 
 export type Lang = "ar" | "he";
 
@@ -233,9 +232,8 @@ export interface ISettings {
     terms_conditions: string;
     faq: string;
     disclaimer: string;
-  }
-  free_shipping_threshold: number
-
+  },
+  free_shipping_threshold: string
 
 }
 export interface IContact {
@@ -281,7 +279,6 @@ export type HomePageData = {
   customer_rates: ITestimonial[];
   why_choose_us: IWhyChooseUs[];
   articles: TArticle[]
-  news: INews[]
 };
 export interface appointmentType {
   id: number,

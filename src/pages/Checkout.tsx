@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/contexts/CartContext";
-import { useGetAdresses, usePostCheckout } from "@/hooks/fetch-hooks";
+import { useGetAdresses, useGetHomePage, usePostCheckout } from "@/hooks/fetch-hooks";
 import { useName } from "@/hooks/use-name";
 import { checkoutSchema } from "@/schemas";
 import { IAdrress } from "@/types/Index";
@@ -33,11 +33,14 @@ import { Link } from "react-router-dom";
 import z from "zod";
 const Checkout = () => {
   const { t, i18n } = useTranslation();
+  const { data: homeData } = useGetHomePage(i18n.language)
+  const settings = homeData?.data?.settings
   const { clearCart, items } = useCart();
   const [coupon, setCoupon] = useState<{ code: string, discount: number }>(null);
   const [cityPrice, setCityPrice] = useState<number>(0);
   const subtotal = items.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
-  const total = subtotal + cityPrice - ((coupon?.discount / 100 || 0) * subtotal || 0);
+  const isFreeShipping = settings?.free_shipping_threshold <= subtotal
+  const total = isFreeShipping ? subtotal : subtotal + cityPrice - ((coupon?.discount / 100 || 0) * subtotal || 0);
   const { data } = useGetAdresses(i18n.language);
   const schema = checkoutSchema(t);
   const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">("delivery");
@@ -354,7 +357,7 @@ const Checkout = () => {
 
                   <div className="flex justify-between">
                     <span>{t("shipping")}</span>
-                    <span>₪{cityPrice.toFixed(2)}</span>
+                    <span>₪{isFreeShipping ? "free" : cityPrice.toFixed(2)}</span>
                   </div>
                   {coupon?.discount > 0 &&
                     <div className="flex justify-between">
