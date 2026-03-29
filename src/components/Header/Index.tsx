@@ -27,8 +27,6 @@ import CartDrawer from "../CartDrawer";
 import WishlistDrawer from "../WishlistDrawer";
 import Image from "../shared/Image";
 import SearchComponent from "./Search";
-import lanternSvg from "@/assets/lantern.svg";
-import crescentSvg from "@/assets/crescent.svg";
 
 const Header = ({ data: settings }: { data: ISettings }) => {
   const { totalItems } = useCart();
@@ -151,27 +149,27 @@ const Header = ({ data: settings }: { data: ISettings }) => {
             ))}
           </nav>
           {/* Content */}
-          <div className="absolute inset-x-0 top-full flex  items-center justify-between px-5 md:px-7 pb-2">
+          {/* <div className="absolute inset-x-0 top-full flex  items-center justify-between px-5 md:px-7 pb-2">
             {/* Lantern - Left side hanging down */}
-            <div className="flex flex-col items-center animate-swing origin-top">
+            {/* <div className="flex flex-col items-center animate-swing origin-top">
               <div className="w-px h-4 bg-primary/40" />
               <img
                 src={lanternSvg}
                 alt="فانوس رمضان"
                 className="w-8 md:w-10 h-auto glow-gold"
               />
-            </div>
+            </div> */}
 
             {/* Crescent - Right side hanging down */}
-            <div className="flex flex-col items-center animate-swing origin-top" style={{ animationDelay: "0.5s" }}>
+            {/* <div className="flex flex-col items-center animate-swing origin-top" style={{ animationDelay: "0.5s" }}>
               <div className="w-px h-4 bg-primary/40" />
               <img
                 src={crescentSvg}
                 alt="هلال رمضان"
                 className="w-8 md:w-10 h-auto glow-gold"
               />
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
           {/* Logo */}
           <Link to="/" className="">
             <Image

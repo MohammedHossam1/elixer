@@ -1,11 +1,11 @@
+import { ISettings } from "@/types/Index";
 import { useTranslation } from "react-i18next";
 import Image from "./shared/Image";
-import bannerImg from "@/assets/banner.png"
-const Banner = () => {
+const Banner = ({data}: {data: ISettings}) => {
     const { t } = useTranslation();
 
     return (
-        <section className="relative overflow-hidden py-4 lg:py-1">
+        <section className="relative overflow-hidden py-4 lg:py-8">
             {/* Gradient Background */}
             <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/60 to-primary/80" />
 
@@ -27,7 +27,8 @@ const Banner = () => {
                         </p>
 
                 </div>
-                <Image src={bannerImg} alt="banner" className="w-1/3 lg:w-1/4 relative  z-[10]" />
+                {/* <Image src={bannerImg} alt="banner" className="w-1/3 lg:w-1/4 relative  z-[10]" /> */}
+                <Image src={data?.logo} alt="banner" className="w-1/3 lg:w-1/4 relative  z-[10]" />
             </div>
         </section>
     );

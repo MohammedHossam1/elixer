@@ -1,12 +1,11 @@
+import Banner from "@/components/Banner";
 import { FadeInSection } from "@/components/FadeSection";
 import FullscreenCarousel from "@/components/FullscreenCarousel";
 import Loader from "@/components/Loader";
 import { useGetHomePage } from "@/hooks/fetch-hooks";
 import { Suspense, lazy } from "react";
-import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet-async";
-import Banner from "@/components/Banner";
-import FallingShapes from "@/components/FallingShapes";
+import { useTranslation } from "react-i18next";
 
 // 👇 Lazy imports
 const AboutUs = lazy(() => import("@/components/AboutUs"));
@@ -99,7 +98,7 @@ const Index = () => {
       {/* 🧩 Page Sections */}
       <Suspense fallback={<Loader />}>
         <main>
-          <FallingShapes />
+          {/* <FallingShapes /> */}
           <FadeInSection>
             <FullscreenCarousel data={data?.data?.sliders} />
           </FadeInSection>
@@ -107,7 +106,7 @@ const Index = () => {
             <AboutUs data={data?.data?.about_office} />
           </FadeInSection>
           <FadeInSection stop>
-            <Banner />
+            <Banner data={data?.data?.settings} />
           </FadeInSection>
           <FadeInSection>
             <TopCategories data={data?.data?.top_products} />

@@ -26,11 +26,7 @@ const AnnouncementBar = ({ data }: { data: INews[] }) => {
 
 
     if (announcements.length === 0) {
-        return (
-            <div className="bg-primary text-background py-2 text-center text-sm font-medium">
-                <p>משלוח חינם בהזמנות מעל ₪200 | 20% הנחה על ההזמנה הראשונה</p>
-            </div>
-        );
+        return null
     }
 
     const currentAnnouncement = announcements[currentIndex];
