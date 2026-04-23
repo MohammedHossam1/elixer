@@ -250,15 +250,15 @@ const Checkout = () => {
                   <div className=" flex gap-2 items-center ">
                     <Label>{t("paymentType")}{" : "}</Label>
                     <RadioGroup
-                      defaultValue="cash"
+                      defaultValue="visa"
                       onValueChange={(value: "cash" | "visa") => setpaymentType(value)}
                       className="flex gap-6"
                     >
 
-                      <div className="flex items-center space-x-2">
+                      {/* <div className="flex items-center space-x-2">
                         <RadioGroupItem value="cash" id="cash" />
                         <Label htmlFor="cash">{t("cash")}</Label>
-                      </div>
+                      </div> */}
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="visa" id="visa" />
                         <Label htmlFor="visa">{t("visa")}</Label>
