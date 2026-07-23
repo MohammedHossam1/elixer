@@ -38,9 +38,19 @@ const Checkout = () => {
   const { clearCart, items } = useCart();
   const [coupon, setCoupon] = useState<{ code: string, discount: number }>(null);
   const [cityPrice, setCityPrice] = useState<number>(0);
-  const subtotal = items.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
-  const isFreeShipping = settings?.free_shipping_threshold <= subtotal
-  const total = isFreeShipping ? subtotal : subtotal + cityPrice - ((coupon?.discount / 100 || 0) * subtotal || 0);
+  const originalSubtotal = items.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
+  const productDiscount = items.reduce((sum, item) => {
+    const originalPrice = Number(item.price);
+    const hasDiscount = item.price_after_discount && Number(item.price_after_discount) < originalPrice;
+    const currentPrice = hasDiscount ? Number(item.price_after_discount) : originalPrice;
+    return sum + (originalPrice - currentPrice) * item.quantity;
+  }, 0);
+  const subtotalAfterProductDiscount = originalSubtotal - productDiscount;
+
+  const isFreeShipping = settings?.free_shipping_threshold <= subtotalAfterProductDiscount;
+  const total = isFreeShipping
+    ? subtotalAfterProductDiscount - ((coupon?.discount / 100 || 0) * subtotalAfterProductDiscount || 0)
+    : subtotalAfterProductDiscount + cityPrice - ((coupon?.discount / 100 || 0) * subtotalAfterProductDiscount || 0);
   const { data } = useGetAdresses(i18n.language);
   const schema = checkoutSchema(t);
   const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">("delivery");
@@ -325,26 +335,37 @@ const Checkout = () => {
               <CardContent className="space-y-4">
                 {/* Cart Items */}
                 <div className="space-y-3  max-h-[400px] overflow-y-auto">
-                  {items.map((item) => (
-                    <Link to={`/product/${item.slug}`} key={item.id} className="flex gap-3 items-center">
-                      <Image
-                        src={item.image}
-                        alt={getName(item.name)}
-                        loading="lazy"
-                        className="w-16 h-16 rounded-lg object-cover bg-muted"
-                      />
-                      <div className="flex-1 min-w-0" >
-                        <h4 className="font-semibold text-sm truncate">{getName(item.name)}</h4>
-                        <div className="flex gap-2 items-center ">
-                          <p className="font-semibold">₪{item.price}</p>
+                  {items.map((item) => {
+                    const originalPrice = Number(item.price);
+                    const hasDiscount = item.price_after_discount && Number(item.price_after_discount) < originalPrice;
+                    return (
+                      <Link to={`/product/${item.slug}`} key={item.id} className="flex gap-3 items-center">
+                        <Image
+                          src={item.image}
+                          alt={getName(item.name)}
+                          loading="lazy"
+                          className="w-16 h-16 rounded-lg object-cover bg-muted"
+                        />
+                        <div className="flex-1 min-w-0" >
+                          <h4 className="font-semibold text-sm truncate">{getName(item.name)}</h4>
+                          <div className="flex gap-2 items-center ">
+                            {hasDiscount ? (
+                              <>
+                                <span className="font-semibold">₪{item.price_after_discount}</span>
+                                <span className="text-xs text-muted-foreground line-through">₪{originalPrice.toFixed(2)}</span>
+                              </>
+                            ) : (
+                              <span className="font-semibold">₪{originalPrice.toFixed(2)}</span>
+                            )}
 
-                          <p className="text-sm text-muted-foreground">
-                            {t("quantity")}: {item.quantity}
-                          </p>
+                            <span className="text-sm text-muted-foreground">
+                              {t("quantity")}: {item.quantity}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))}
+                      </Link>
+                    );
+                  })}
                 </div>
 
                 <Separator />
@@ -352,8 +373,15 @@ const Checkout = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span>{t("subtotal")}</span>
-                    <span>₪{subtotal.toFixed(2)}</span>
+                    <span>₪{originalSubtotal.toFixed(2)}</span>
                   </div>
+
+                  {productDiscount > 0 && (
+                    <div className="flex justify-between text-green-600">
+                      <span>{t("discount")}</span>
+                      <span>- ₪{productDiscount.toFixed(2)}</span>
+                    </div>
+                  )}
 
                   <div className="flex justify-between">
                     <span>{t("shipping")}</span>

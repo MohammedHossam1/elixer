@@ -18,13 +18,22 @@ interface CartDrawerProps {
 }
 
 const CartDrawer = ({ children }: CartDrawerProps) => {
-  const { items, removeItem, totalItems, totalPrice } = useCart();
+  const { items, removeItem, totalItems } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const { addToCart } = useAddToCart();
   const [slug, setSlug] = useState<string>("");
   const { getName } = useName();
   const { refetch, isLoading } = useGetSingleProduct(slug, i18n.language, false);
+  const originalSubtotal = items.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
+  const productDiscount = items.reduce((sum, item) => {
+    const originalPrice = Number(item.price);
+    const hasDiscount = item.price_after_discount && Number(item.price_after_discount) < originalPrice;
+    const currentPrice = hasDiscount ? Number(item.price_after_discount) : originalPrice;
+    return sum + (originalPrice - currentPrice) * item.quantity;
+  }, 0);
+  const finalTotal = originalSubtotal - productDiscount;
+
   const handleRemoveItem = (id: string) => {
     removeItem(id);
     toast.error(`${t("removedFromCart")}.`, { duration: 3000 });
@@ -94,70 +103,77 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
               </div>
             ) : (
               <div className="space-y-4 py-2">
-                {items.map((item) => (
-                  <div key={item.id} className="flex gap-4 p-4 bg-muted/30 rounded-lg">
-                    <Link to={`/product/${item.slug}`} className="block">
+                {items.map((item) => {
+                  const originalPrice = Number(item.price);
+                  const hasDiscount = item.price_after_discount && Number(item.price_after_discount) < originalPrice;
+                  const currentPrice = hasDiscount ? Number(item.price_after_discount) : originalPrice;
+                  const itemLineTotal = currentPrice * item.quantity;
+                  
+                  return (
+                    <div key={item.id} className="flex gap-4 p-4 bg-muted/30 rounded-lg">
+                      <Link to={`/product/${item.slug}`} className="block">
 
-                      <Image
-                        src={item.image}
-                        alt={getName(item.name)}
-                        className="w-16 h-16 rounded-lg object-cover bg-muted"
-                      />
-                    </Link>
-                    <div className="flex-1 min-w-0">
-                      <Link to={`/product/${item.slug}`}  className="font-semibold text-sm truncate  block">{getName(item.name)}</Link>
-                      <div className="flex items-center gap-2">
+                        <Image
+                          src={item.image}
+                          alt={getName(item.name)}
+                          className="w-16 h-16 rounded-lg object-cover bg-muted"
+                        />
+                      </Link>
+                      <div className="flex-1 min-w-0">
+                        <Link to={`/product/${item.slug}`}  className="font-semibold text-sm truncate  block">{getName(item.name)}</Link>
+                        <div className="flex items-center gap-2">
 
-                        {item.price_after_discount && Number(item.price_after_discount) < Number(item.price) && <p className="text-sm text-muted-foreground mb-2">
-                          ₪ {item.price_after_discount}
-                        </p>
-                        }
-                        <p className={`text-sm text-muted-foreground mb-2 ${item.price_after_discount && Number(item.price_after_discount) < Number(item.price) && 'line-through'}`}>
-                          ₪ {Number(item.price).toFixed(2)}
-                        </p>
-                        <span className='text-sm text-muted-foreground mb-2'>{t("each")}</span>
+                          {hasDiscount && <p className="text-sm text-muted-foreground mb-2">
+                            ₪ {item.price_after_discount}
+                          </p>
+                          }
+                          <p className={`text-sm text-muted-foreground mb-2 ${hasDiscount && 'line-through'}`}>
+                            ₪ {originalPrice.toFixed(2)}
+                          </p>
+                          <span className='text-sm text-muted-foreground mb-2'>{t("each")}</span>
+                        </div>
+
+                        {/* Quantity Controls */}
+                        <div className="flex items-center gap-2">
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            className="h-8 w-8"
+                            onClick={() => handleQuantityChange(item, item.quantity - 1)}
+                          >
+                            <Minus className="h-3 w-3" />
+
+                          </Button>
+                          <span className="w-8 text-center text-sm font-medium">
+                            {item.quantity}
+                          </span>
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            className="h-8 w-8"
+                            onClick={() => handleQuantityChange(item, item.quantity + 1)}
+                          >
+                            {isLoading && item.slug == slug ? <LoaderCircle className="h-3 w-3 animate-spin" /> : <Plus className="h-3 w-3" />}
+                          </Button>
+                        </div>
                       </div>
 
-                      {/* Quantity Controls */}
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-col items-end justify-between">
                         <Button
                           size="icon"
-                          variant="outline"
-                          className="h-8 w-8"
-                          onClick={() => handleQuantityChange(item, item.quantity - 1)}
+                          variant="ghost"
+                          className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                          onClick={() => handleRemoveItem(item.id)}
                         >
-                          <Minus className="h-3 w-3" />
-
+                          <Trash2 className="h-4 w-4" />
                         </Button>
-                        <span className="w-8 text-center text-sm font-medium">
-                          {item.quantity}
-                        </span>
-                        <Button
-                          size="icon"
-                          variant="outline"
-                          className="h-8 w-8"
-                          onClick={() => handleQuantityChange(item, item.quantity + 1)}
-                        >
-                          {isLoading && item.slug == slug ? <LoaderCircle className="h-3 w-3 animate-spin" /> : <Plus className="h-3 w-3" />}
-                        </Button>
+                        <p className="font-bold text-sm">
+                          ₪{itemLineTotal.toFixed(2)}
+                        </p>
                       </div>
                     </div>
-
-                    <div className="flex flex-col items-end justify-between">
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                        onClick={() => handleRemoveItem(item.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                      <p className="font-bold text-sm">
-                        ₪{(Number(item.price) * item.quantity).toFixed(2)}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
@@ -168,8 +184,14 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span>{t("subtotal")}</span>
-                  <span className="font-semibold">₪{totalPrice.toFixed(2)}</span>
+                  <span className="font-semibold">₪{originalSubtotal.toFixed(2)}</span>
                 </div>
+                {productDiscount > 0 && (
+                  <div className="flex justify-between text-green-600">
+                    <span>{t("discount")}</span>
+                    <span className="font-semibold">- ₪{productDiscount.toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-sm text-muted-foreground">
                   <span>{t("shipping")}</span>
                   <span> {t("calculated")}</span>
@@ -180,7 +202,7 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
 
               <div className="flex justify-between text-lg font-bold">
                 <span>{t("total")}</span>
-                <span>₪{totalPrice.toFixed(2)}</span>
+                <span>₪{finalTotal.toFixed(2)}</span>
               </div>
 
               <div className="space-y-2">
