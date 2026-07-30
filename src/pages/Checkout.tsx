@@ -55,7 +55,7 @@ const Checkout = () => {
   const schema = checkoutSchema(t);
   const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">("delivery");
   // const [orderPlaced, setOrderPlaced] = useState(false);
-  const [paymentType, setpaymentType] = useState<"cash" | "visa">("cash");
+  const [paymentType, setpaymentType] = useState<"cash" | "visa">("visa");
   const { getName } = useName();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
